@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_pow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 18:32:59 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 16:46:59 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/03/26 16:33:18 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/03/26 16:37:04 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(int n)
+long	ft_pow(int n, int p)
 {
-	int	i;
-	long	tmp;
-
-	i = 0;
-	tmp = n;
-	if (tmp < 0)
-	{
-		ft_putchar('-');
-		tmp = -tmp;
-	}
-	while (tmp / ft_pow(10, i) > 9)
-		i++;
-	while (i >= 0)
-	{
-		ft_putchar('0' + (char)(tmp / ft_pow(10, i)));
-		tmp = tmp % ft_pow(10, i);
-		i--;
-	}
+	if (p < 0)
+		return ((long)0);
+	else if (p == 0)
+		return ((long)1);
+	else
+		return ((long)(n * ft_pow(n, p - 1)));
 }

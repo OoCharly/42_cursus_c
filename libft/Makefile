@@ -6,7 +6,7 @@
 #    By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/26 21:32:36 by cdesvern          #+#    #+#              #
-#    Updated: 2016/02/26 21:32:42 by cdesvern         ###   ########.fr        #
+#*   Updated: 2016/03/26 16:35:58 by cdesvern         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS = ft_atoi.c ft_bzero.c ft_id.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	ft_strncmp.c ft_strncpy.c ft_strnequ.c ft_strnew.c ft_strnstr.c \
 	ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strsub.c ft_strtrim.c \
 	ft_tolower.c ft_toupper.c ft_lstnew.c ft_lstdel.c ft_lstdelone.c\
-	ft_lstadd.c ft_lstiter.c ft_lstmap.c
+	ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_pow.c
 
 OBJS = $(subst .c,.o,$(SRCS))
 
