@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 12:33:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 23:02:30 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/02/25 13:55:47 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/02/26 09:48:48 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+char	*ft_strrchr(const char *s, int c)
 {
-	size_t	i;
+	int	i;
+	int	mem;
 
 	i = 0;
-	while (i < n && *(src + i))
+	mem = -1;
+	while (*(s + i))
 	{
-		*(dst + i) = *(src + i);
+		if (*(s + i) == (char)c)
+			mem = i;
 		i++;
 	}
-	while (i < n)
-	{
-		*(dst + i) = '\0';
-		i++;
-	}
-	return (dst);
+	if (*(s + i) == (char)c)
+		return ((char*)(s + i));
+	if (mem < 0)
+		return (NULL);
+	else
+		return ((char*)(s + mem));
 }

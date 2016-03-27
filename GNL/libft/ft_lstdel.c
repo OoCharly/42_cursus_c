@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 12:33:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 23:02:30 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/02/26 20:29:11 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/02/26 21:33:45 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+void	ft_lstdel(t_list **alst, void (*del)(void*, size_t))
 {
-	size_t	i;
-
-	i = 0;
-	while (i < n && *(src + i))
+	if (alst)
 	{
-		*(dst + i) = *(src + i);
-		i++;
+		if ((*alst)->next)
+			ft_lstdel(&((*alst)->next), del);
+		(*del)((*alst)->content, (*alst)->content_size);
+		free(*alst);
+		*alst = NULL;
 	}
-	while (i < n)
-	{
-		*(dst + i) = '\0';
-		i++;
-	}
-	return (dst);
 }

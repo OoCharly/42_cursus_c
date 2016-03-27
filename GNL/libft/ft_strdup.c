@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 12:33:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 23:02:30 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/02/25 12:25:06 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/02/26 17:30:14 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+char	*ft_strdup(const char *s1)
 {
-	size_t	i;
+	size_t	len;
+	char	*s2;
 
-	i = 0;
-	while (i < n && *(src + i))
-	{
-		*(dst + i) = *(src + i);
-		i++;
-	}
-	while (i < n)
-	{
-		*(dst + i) = '\0';
-		i++;
-	}
-	return (dst);
+	len = ft_strlen(s1) + 1;
+	if (!(s2 = (char*)malloc(sizeof(char) * len)))
+		return (NULL);
+	ft_strcpy(s2, s1);
+	return (s2);
 }

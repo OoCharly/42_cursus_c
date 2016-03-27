@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 12:33:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 23:02:30 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/03/26 19:27:18 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/03/27 19:14:22 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+# include <stdlib.h>
+# include <unistd.h>
+# include "./libft/libft.h"
+
+# define BUFF_SIZE 32
+
+typedef struct		s_mem
 {
-	size_t	i;
+	char		*buff;
+	int			nb_nline;
+	int			last_read;
+	int			fd;
+	int			next_nl;
+}			t_mem;
 
-	i = 0;
-	while (i < n && *(src + i))
-	{
-		*(dst + i) = *(src + i);
-		i++;
-	}
-	while (i < n)
-	{
-		*(dst + i) = '\0';
-		i++;
-	}
-	return (dst);
-}
+int				get_next_line(const int fd, char **line);
+
+#endif

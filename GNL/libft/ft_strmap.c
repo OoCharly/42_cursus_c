@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 12:33:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 23:02:30 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/02/25 15:53:40 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/03/17 12:56:22 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+char	*ft_strmap(char const *s, char (*f)(char))
 {
-	size_t	i;
+	char	*dst;
+	int		i;
 
 	i = 0;
-	while (i < n && *(src + i))
+	dst = ft_strnew(ft_strlen(s));
+	if (!(s && f) || !dst)
+		return (NULL);
+	while (*(s + i))
 	{
-		*(dst + i) = *(src + i);
-		i++;
-	}
-	while (i < n)
-	{
-		*(dst + i) = '\0';
+		*(dst + i) = (*f)(*(s + i));
 		i++;
 	}
 	return (dst);

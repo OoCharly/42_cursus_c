@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 12:33:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 23:02:30 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/02/25 14:34:01 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/03/26 16:38:36 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+int	ft_atoi(const char *str)
 {
-	size_t	i;
+	int					sign;
+	unsigned long		out;
 
-	i = 0;
-	while (i < n && *(src + i))
+	if (!str)
+		return (0);
+	out = 0;
+	sign = 1;
+	while (ft_isspace(*str))
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		*(dst + i) = *(src + i);
-		i++;
+		sign = (*str == '-') ? -1 : 1;
+		str++;
 	}
-	while (i < n)
+	while (*str >= '0' && *str <= '9')
 	{
-		*(dst + i) = '\0';
-		i++;
+		out *= 10;
+		out += ((*str) - '0');
+		str++;
 	}
-	return (dst);
+	if (out > LONG_MAX && sign > 0)
+		return (-1);
+	if (out > LONG_MAX && sign < 0)
+		return (0);
+	return ((int)(out * sign));
 }

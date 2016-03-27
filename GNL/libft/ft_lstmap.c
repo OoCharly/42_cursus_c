@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 12:33:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 23:02:30 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/02/26 20:52:35 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/02/26 22:33:14 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	size_t	i;
+	t_list	*out;
+	t_list	*prev;
+	t_list	*tmp;
 
-	i = 0;
-	while (i < n && *(src + i))
+	if (lst == NULL)
+		return (NULL);
+	if (lst->next)
 	{
-		*(dst + i) = *(src + i);
-		i++;
+		prev = ft_lstmap(lst->next, f);
+		if (prev == NULL)
+			return (NULL);
 	}
-	while (i < n)
-	{
-		*(dst + i) = '\0';
-		i++;
-	}
-	return (dst);
+	tmp = ft_lstnew(NULL, 0);
+	if (tmp == NULL)
+		return (NULL);
+	tmp = (*f)(lst);
+	out = ft_lstnew(tmp->content, tmp->content_size);
+	if (out == NULL)
+		return (NULL);
+	ft_lstadd(&prev, out);
+	return (out);
 }

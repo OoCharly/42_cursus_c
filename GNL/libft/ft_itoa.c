@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 12:33:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 23:02:30 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/02/25 18:08:14 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/03/26 16:55:46 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+char					*ft_itoa(int n)
 {
-	size_t	i;
+	int		neg;
+	int		i;
+	long	ln;
+	char	*out;
 
+	neg = (n < 0) ? 1 : 0;
 	i = 0;
-	while (i < n && *(src + i))
-	{
-		*(dst + i) = *(src + i);
+	ln = n;
+	if (neg)
+		ln = -ln;
+	while (ln / ft_pow(10,i))
 		i++;
-	}
-	while (i < n)
-	{
-		*(dst + i) = '\0';
-		i++;
-	}
-	return (dst);
+	if (ln == 0)
+		i = 1;
+	out = ft_strnew((size_t)(i + neg));
+	if (out == NULL)
+		return (NULL);
+	if (neg)
+		out[0] = '-';
+	while (--i >= 0)
+		out[neg++] = (char)((ln / ft_pow(10,i)) % 10 + '0');
+	return (out);
 }
