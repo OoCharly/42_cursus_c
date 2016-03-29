@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:38:59 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 16:56:15 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/03/29 13:28:27 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	int	i;
+	int		i;
 	long	tmp;
 
 	i = 0;

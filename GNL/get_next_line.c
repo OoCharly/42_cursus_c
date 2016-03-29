@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 17:01:52 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/27 23:46:06 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/03/29 17:45:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*linencat(char *a, size_t size_a, t_mem *mem)
 {
 	char	*out;
 	size_t	i;
-	int	nline;
+	int		nline;
 
 	i = 0;
 	nline = 0;
@@ -68,7 +68,7 @@ char	*get_line(t_mem *mem, const int fd)
 	return ((out) ? out : NULL);
 }
 
-void	del_mem(t_list **lst, int fd)
+t_list	**del_mem(t_list **lst, int fd)
 {
 	t_list	*tmp;
 	t_list	*father;
@@ -87,22 +87,30 @@ void	del_mem(t_list **lst, int fd)
 	free(((t_mem*)tmp->content)->buff);
 	free(tmp->content);
 	free(tmp);
+	if ((*lst)->content == NULL)
+	{
+		free(*lst);
+		free(lst);
+		return (NULL);
+	}
+	return (lst);
 }
 
 t_mem	*get_mem(t_list **lst, int fd, t_list *mem)
 {
 	t_mem	*out;
-	
+
 	if (mem->content == NULL)
 	{
-		if (!(out = malloc(sizeof(t_mem))))
+		if (!(out = ft_memalloc(sizeof(t_mem))))
 			return (NULL);
-		if (!(out->buff = malloc(sizeof(char) * BUFF_SIZE)))
+		if (!(out->buff = ft_memalloc(sizeof(char) * BUFF_SIZE)))
 			return (NULL);
 		ft_lstadd(lst, ft_lstnew(out, sizeof(out)));
 		out->nb_nline = 0;
 		out->last_read = read(fd, out->buff, BUFF_SIZE);
 		out->fd = fd;
+		out->next_nl = 0;
 		if (out->last_read < 0)
 		{
 			del_mem(lst, fd);
@@ -119,11 +127,12 @@ t_mem	*get_mem(t_list **lst, int fd, t_list *mem)
 int		get_next_line(const int fd, char **line)
 {
 	static t_list	**lst;
-	t_mem		*mem;
+	t_mem			*mem;
 
 	if (lst == NULL)
 	{
 		lst = (t_list **)ft_memalloc(sizeof(t_list **));
+		printf("%p[%lu]\n", lst, sizeof(lst));
 		*lst = ft_lstnew(NULL, 0);
 	}
 	if (line == NULL || fd < 0 || lst == NULL)
@@ -133,13 +142,13 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 	if (mem->last_read == 0)
 	{
-		del_mem(lst, fd);
-		return(0);
+		lst = del_mem(lst, fd);
+		return (0);
 	}
 	if (mem->last_read != 0)
 		*line = get_line(mem, fd);
 	if (mem->last_read == 0)
-		del_mem(lst, fd);
+		lst = del_mem(lst, fd);
 	if (*line == NULL)
 		return (-1);
 	return (1);

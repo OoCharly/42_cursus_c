@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:08:14 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 16:55:46 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/03/29 13:29:08 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char					*ft_itoa(int n)
 	ln = n;
 	if (neg)
 		ln = -ln;
-	while (ln / ft_pow(10,i))
+	while (ln / ft_pow(10, i))
 		i++;
 	if (ln == 0)
 		i = 1;
@@ -34,6 +34,6 @@ char					*ft_itoa(int n)
 	if (neg)
 		out[0] = '-';
 	while (--i >= 0)
-		out[neg++] = (char)((ln / ft_pow(10,i)) % 10 + '0');
+		out[neg++] = (char)((ln / ft_pow(10, i)) % 10 + '0');
 	return (out);
 }

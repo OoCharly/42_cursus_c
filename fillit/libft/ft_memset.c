@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 11:12:45 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/02/25 20:17:45 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/03/26 18:15:27 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 void	*ft_memset(void *b, int c, size_t len)
 {
 	size_t	i;
+	t_byte	*tmp;
 
 	i = 0;
+	tmp = (t_byte*)b;
 	while (i < len)
 	{
-		*(t_byte*)b = (t_byte)c;
-		b++;
+		tmp[i] = (t_byte)c;
 		i++;
 	}
-	return (b - i);
+	return (b);
 }

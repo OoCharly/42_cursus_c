@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 19:27:18 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/27 19:14:22 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/03/29 16:49:47 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@
 # include <unistd.h>
 # include "./libft/libft.h"
 
+# include <stdio.h>
+
 # define BUFF_SIZE 32
 
 typedef struct		s_mem
 {
-	char		*buff;
-	int			nb_nline;
-	int			last_read;
-	int			fd;
-	int			next_nl;
-}			t_mem;
+	char			*buff;
+	int				nb_nline;
+	int				last_read;
+	int				fd;
+	int				next_nl;
+}					t_mem;
 
-int				get_next_line(const int fd, char **line);
+int					get_next_line(const int fd, char **line);
 
 #endif

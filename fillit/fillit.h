@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/04 18:52:27 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 14:08:32 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/03/29 13:40:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct	s_grid
 	char		**tab;
 	int			len;
 }				t_grid;
-
 
 int				usage(int ac);
 char			***ft_triplemalloc(int i_max);
