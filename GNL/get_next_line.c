@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 17:01:52 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/29 17:45:28 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/03/29 19:57:00 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,11 @@ t_mem	*get_mem(t_list **lst, int fd, t_list *mem)
 			return (NULL);
 		if (!(out->buff = ft_memalloc(sizeof(char) * BUFF_SIZE)))
 			return (NULL);
-		ft_lstadd(lst, ft_lstnew(out, sizeof(out)));
 		out->nb_nline = 0;
 		out->last_read = read(fd, out->buff, BUFF_SIZE);
 		out->fd = fd;
 		out->next_nl = 0;
+		ft_lstadd(lst, ft_create_node(out, sizeof(out)));
 		if (out->last_read < 0)
 		{
 			del_mem(lst, fd);
@@ -132,7 +132,6 @@ int		get_next_line(const int fd, char **line)
 	if (lst == NULL)
 	{
 		lst = (t_list **)ft_memalloc(sizeof(t_list **));
-		printf("%p[%lu]\n", lst, sizeof(lst));
 		*lst = ft_lstnew(NULL, 0);
 	}
 	if (line == NULL || fd < 0 || lst == NULL)

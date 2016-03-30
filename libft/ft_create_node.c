@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_create_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/26 20:18:42 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/29 19:49:02 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/03/29 19:46:49 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/03/29 19:54:34 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstnew(void const *content, size_t content_size)
+t_list	*ft_create_node(void *content, size_t content_size)
 {
 	t_list	*new;
 
@@ -25,9 +25,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 	}
 	else
 	{
-		if (!(new->content = malloc(sizeof(*content) * content_size)))
-			return (NULL);
-		new->content = ft_memcpy(new->content, content, content_size);
+		new->content = content;
 		new->content_size = content_size;
 	}
 	new->next = NULL;
