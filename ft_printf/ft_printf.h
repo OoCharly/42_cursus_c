@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 11:33:28 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/31 18:03:42 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/04 15:58:17 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,15 @@ typedef union		u_type
 	ssize_t				zs;
 	void				*p;
 }					t_type;
-/*
+
 typedef struct		s_flag
 {
-	unsigned int	u : 1;
-	unsigned int	l : 1;
-*/
+	char			alt : 1;
+	char			pad_0 : 1;
+	char			pad_right : 1;
+	char			sign_force : 1;
+	char			sign_blank : 1;
+}					t_flag;
+
+
 #endif

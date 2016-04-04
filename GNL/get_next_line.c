@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 17:01:52 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/29 19:57:00 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/04 17:01:40 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,15 +129,15 @@ int		get_next_line(const int fd, char **line)
 	static t_list	**lst;
 	t_mem			*mem;
 
+	if (line == NULL || fd < 0 || BUFF_SIZE < 1)
+		return (-1);
 	if (lst == NULL)
 	{
-		lst = (t_list **)ft_memalloc(sizeof(t_list **));
-		*lst = ft_lstnew(NULL, 0);
+		if (!(lst = (t_list **)ft_memalloc(sizeof(t_list **))))
+			return (-1);
+		*lst = ft_lstnew(NULL, 0)
 	}
-	if (line == NULL || fd < 0 || lst == NULL)
-		return (-1);
-	mem = get_mem(lst, fd, *lst);
-	if (mem == NULL)
+	if (!(mem = get_mem(lst, fd, *lst)))
 		return (-1);
 	if (mem->last_read == 0)
 	{

@@ -14,18 +14,20 @@ int		main(void)
 
 	char	*ptr;
 	char	lol;
-	unsigned long t;
+	int t;
 	unsigned long long llu;
 	long long 		ll;
 
-	t = -42;
+	t = 42;
 
 	llu = LONG_LONG_MAX + -LONG_LONG_MIN;
-	ll = (long long) llu;
+	ll = -1234567890123456;
 	lol = 'h';
 	ptr = &lol;
 	//test batard
-	printf("%#llu\n", llu);
+	printf("%o\n", t);
+	printf("%#llo\n", ll);
+	printf("%#-o\n", t);
 	
 	//ft_printf("\ntest option debut :\n\n");
 	printf("\033[32mref==>%+07d\n\033[0m", 33);
