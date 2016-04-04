@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa_base.c                                     :+:      :+:    :+:   */
+/*   ft_lstpnew.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/04 16:10:43 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/04 16:20:32 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/04/04 17:10:19 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/04/04 17:20:36 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_itoa_base(void *n, int base)
+t_list	**ft_lstpnew(void const *content, size_t content_size)
 {
-	long	tmp;
+	t_list	**out;
 
-	if (n < 0 && base == 10)
+	if (!(out = (t_list**)ft_memalloc(sizeof(t_list*))))
+		return (NULL);
+	if (!(*out = ft_lstnew(content, content_size)))
 	{
-		tmp = n;
-		tmp = -tmp;
+		free(out);
+		return (NULL);
 	}
-	else
-		
+	return (out);
+}

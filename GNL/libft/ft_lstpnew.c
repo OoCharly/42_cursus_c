@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_end.c                                    :+:      :+:    :+:   */
+/*   ft_lstpnew.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/31 11:05:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/04 17:18:22 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/04/04 17:10:19 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/04/04 17:20:36 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_end(t_list **alst, t_list *new)
+t_list	**ft_lstpnew(void const *content, size_t content_size)
 {
-	t_list	*tmp;
+	t_list	**out;
 
-	tmp = *alst;
-	if (alst && new)
+	if (!(out = (t_list**)ft_memalloc(sizeof(t_list*))))
+		return (NULL);
+	if (!(*out = ft_lstnew(content, content_size)))
 	{
-		if (tmp)
-		{
-			while (tmp->next)
-				tmp = tmp->next;
-			tmp->next = new;
-		}
-		else
-			*alst = new;
+		free(out);
+		return (NULL);
 	}
+	return (out);
 }
