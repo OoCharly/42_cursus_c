@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/04 18:52:27 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/29 13:40:28 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/04 10:34:50 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct	s_grid
 
 int				usage(int ac);
 char			***ft_triplemalloc(int i_max);
+void			free_grid(t_grid *grid);
+void			free_tetros(t_tetros *tetros);
 int				ft_pow(int nb, int power);
 
 int				read_fillit(int fd, char *buffi, t_tetros *tetros);
@@ -44,6 +46,8 @@ int				check_tetros(char *buff, int p,
 							t_tetros *tetros);
 int				get_cohesion(int p, t_tetros *tetros);
 
-void			ft_putstr(char *str);
+void			ft_putstr(char const *str);
+size_t			ft_strlen(const char *s);
+void			*ft_memalloc(size_t size);
 
 #endif

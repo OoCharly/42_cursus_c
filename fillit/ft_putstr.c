@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 16:29:51 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/02/26 20:06:31 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/02/25 18:30:27 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/03/30 09:43:15 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fillit.h"
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+void	ft_putstr(char const *s)
 {
-	char	*out;
-
-	out = ft_strnew(len);
-	if (s && out)
-	{
-		ft_strncpy(out, &s[start], len);
-		return (out);
-	}
-	else
-		return (NULL);
+	write(1, s, ft_strlen(s));
 }

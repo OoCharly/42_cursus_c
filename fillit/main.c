@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/04 18:27:31 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 14:08:26 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/04 13:58:18 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int		display(int opt, t_grid *grid)
 	if (opt == 0)
 	{
 		ft_putstr("error\n");
+		if (grid)
+			free_grid(grid);
 		return (0);
 	}
 	while (i < grid->len)
@@ -28,6 +30,7 @@ int		display(int opt, t_grid *grid)
 		write(1, "\n", 1);
 		i++;
 	}
+	free_grid(grid);
 	return (0);
 }
 
@@ -37,20 +40,20 @@ t_grid	*alloc_init_grid(void)
 	t_grid	*grid;
 
 	i = 0;
-	if (!(grid = malloc(sizeof(t_grid))))
+	if (!(grid = ft_memalloc(sizeof(t_grid))))
 		return (NULL);
-	if (!(grid->tab = (char**)malloc(sizeof(char*) * 105)))
+	if (!(grid->tab = (char**)ft_memalloc(sizeof(char*) * 52)))
 		return (NULL);
-	while (i < 105)
+	while (i < 52)
 	{
-		if (!(grid->tab[i] = (char*)malloc(sizeof(char) * 105)))
+		if (!(grid->tab[i] = (char*)ft_memalloc(sizeof(char) * 52)))
 			return (NULL);
 		i++;
 	}
 	i = 0;
-	while (i < 11025)
+	while (i < 2704)
 	{
-		grid->tab[i / 106][i % 106] = '.';
+		grid->tab[i / 53][i % 53] = '.';
 		i++;
 	}
 	return (grid);
@@ -111,6 +114,10 @@ int		main(int argc, char **argv)
 		return (display(valid, grid));
 	valid = tests(argv[1], buff, tetros);
 	if (valid)
+	{
 		solve(tetros, grid);
+		free_tetros(tetros);
+	}
+	free(tetros);
 	return (display(valid, grid));
 }

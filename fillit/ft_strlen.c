@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 18:31:28 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/02/25 18:32:41 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/02/25 12:22:50 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/03/30 09:44:58 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fillit.h"
 
-void	ft_putendl(char const *s)
+size_t	ft_strlen(const char *s)
 {
-	write(1, s, ft_strlen(s));
-	write(1, "\n", 1);
+	size_t	i;
+
+	i = 0;
+	while (*(s + i))
+		i++;
+	return (i);
 }

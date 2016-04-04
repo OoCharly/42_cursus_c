@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/04 18:36:33 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/26 14:08:29 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/04 13:58:20 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int		usage(int ac)
 {
-	if (ac == 0)
+	if (ac == 1)
 	{
 		ft_putstr("fillit: missing file operand\n");
 		return (0);
 	}
 	else
 	{
-		ft_putstr("fillit: too musch argument\n./fillit FILE\n");
+		ft_putstr("fillit: too much argument\n\t./fillit source_file\n");
 		return (0);
 	}
 }
