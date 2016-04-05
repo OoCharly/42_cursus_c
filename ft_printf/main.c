@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <locale.h>
 #include <limits.h>
+#include <stdint.h>
 //segfault if %s et arg = int
 int		main(void)
 {
@@ -15,19 +16,28 @@ int		main(void)
 	char	*ptr;
 	char	lol;
 	int t;
+	unsigned int	t2;
 	unsigned long long llu;
 	long long 		ll;
+	uintmax_t		a;
+	intmax_t		b;
 
-	t = 42;
+	b = -2000;
+	a = b;
+	b = a;
+	t = 1;
+	a = -t;
+	b = a;
+	t2 = UINT_MAX;
 
 	llu = LONG_LONG_MAX + -LONG_LONG_MIN;
 	ll = -1234567890123456;
 	lol = 'h';
 	ptr = &lol;
 	//test batard
-	printf("%o\n", t);
-	printf("%#llo\n", ll);
-	printf("%#-o\n", t);
+	printf("%ju\n", a);
+	printf("%jd\n", b);
+	printf("%#-o\n\n", t);
 	
 	//ft_printf("\ntest option debut :\n\n");
 	printf("\033[32mref==>%+07d\n\033[0m", 33);

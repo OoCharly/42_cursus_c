@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/04 17:13:43 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/05 16:12:10 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
-# define LONG_MAX 9223372036854775807
+# include <limits.h>
+# include <stdint.h>
 
 typedef	unsigned char	t_byte;
 typedef	struct			s_list
@@ -36,6 +37,8 @@ int						ft_isdigit(int c);
 int						ft_isprint(int c);
 int						ft_isspace(char c);
 char					*ft_itoa(int n);
+char					*ft_ntoa(intmax_t n);
+char					*ft_ntoa_base(uintmax_t nb, unsigned int base, int s);
 void					*ft_memalloc(size_t size);
 void					*ft_memccpy(void *dst, const void *src, int c,
 									size_t n);
@@ -91,7 +94,7 @@ t_list					**ft_lstpnew(void const *content, size_t content_size);
 void					ft_lstadd(t_list **alst, t_list *new);
 void					ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list					*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
-long					ft_pow(int n, int p);
 t_list					*ft_create_node(void *content, size_t content_size);
 
+uintmax_t				ft_pow(int n, int p);
 #endif

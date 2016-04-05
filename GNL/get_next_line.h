@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 19:27:18 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/29 16:49:47 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/05 17:22:31 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # include <stdio.h>
 
-# define BUFF_SIZE 32
+# define BUFF_SIZE 42
 
 typedef struct		s_mem
 {
