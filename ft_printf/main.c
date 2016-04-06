@@ -40,7 +40,7 @@ int		main(void)
 	printf("%#-o\n\n", t);
 	
 	//ft_printf("\ntest option debut :\n\n");
-	printf("\033[32mref==>%+07d\n\033[0m", 33);
+	printf("\033[32mref==>%07d\n\033[0m", 33);
 	printf("\033[32mref==>%+.1d\n\033[0m", 33);
 	printf("resultat de ma fonction : \n");
 	//ft_printf("\033[33mmoi==>\033[0m%+07d\n", 33);
@@ -50,6 +50,7 @@ int		main(void)
 	printf("\ntest option '-'\n\n");
 	printf("\033[32mref==>%-dfin\n\033[0m", 33);
 	printf("\033[32mref==>% 9dfin\n\033[0m", 33);
+	printf("\033[32mref==>%-0 9dfin\n\033[0m", 33);
 	printf("resultat de ma fonction : \n");
 	//ft_printf("\033[33mmoi==>\033[0m%-dfin\n", 33);
 	//ft_printf("\033[33mmoi==>\033[0m% 9dfin\n", 33);

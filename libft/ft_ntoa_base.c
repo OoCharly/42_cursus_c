@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 15:05:24 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/05 15:09:42 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/05 18:02:16 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char		*ft_ntoa_base(uintmax_t nb, unsigned int base, int s)
 	if (s == 1 && base == 10)
 	{
 		tmp  = (intmax_t)nb;
-		return (ft_itoa(tmp));
+		return (ft_ntoa(tmp));
 	}
 	while ((nb / ft_pow(base, i)) >= base)
 		i++;

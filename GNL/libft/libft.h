@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/04 17:13:43 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/06 11:12:21 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
-# define LONG_MAX 9223372036854775807
+# include <limits.h>
 
 typedef	unsigned char	t_byte;
 typedef	struct			s_list

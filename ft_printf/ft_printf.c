@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 11:28:26 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/04 15:34:23 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/06 12:49:21 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_str(char *str, t_list **lst)
 	char	*out;
 	
 	len = 0;
-	while (*str && *str != '%')
+	while (*str && *str != '%' && *str != '{')
 		len++;
 	if(!(out = ft_memalloc(len + 1)));
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/05 16:12:10 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/06 12:24:33 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int						ft_atoi(const char *str);
 void					ft_bzero(void *s, size_t n);
 void					*ft_id(void *a);
 int						ft_isalnum(int c);
+int						ft_isnum(char c);
 int						ft_isalpha(int c);
 int						ft_isascii(int c);
 int						ft_isdigit(int c);
