@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 11:33:28 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/07 16:13:07 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/07 17:20:05 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,5 @@ typedef struct		s_flag
 	char			sign_force;
 	unsigned int	precision;
 }					t_flag;
-
 
 #endif
