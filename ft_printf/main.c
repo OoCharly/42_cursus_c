@@ -35,7 +35,7 @@ int		main(void)
 	lol = 'h';
 	ptr = &lol;
 	//test batard
-	printf("%ju\n", a);
+	printf("%lhD\n", ll);
 	printf("%jd\n", b);
 	printf("%#-o\n\n", t);
 	
@@ -64,7 +64,7 @@ int		main(void)
 
 	//test option modif longueur
 	printf("\n test option modif longueur\n\n");
-	printf("\033[32mref==>%10ldfin\n\033[0m", 2147364765555);
+	printf("\033[32mref==>%042ldfin\n\033[0m", 2147364765555);
 	printf("resultat de ma fonction : \n");
 	//ft_printf("\033[33mmoi==>\033[0m%15ldfin\n", 2147364765555);
 

@@ -6,46 +6,33 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 11:28:26 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/06 12:49:21 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/07 15:45:01 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*get_str(char *str, t_list **lst)
 {
-	size_t	len;
-	char	*out;
+	char	*next_arg;
+	char	*new;
 	
-	len = 0;
-	while (*str && *str != '%' && *str != '{')
-		len++;
-	if(!(out = ft_memalloc(len + 1)));
-		return (NULL);
-	out = ft_strncpy(out, format, len + 1);
-	ft_lstadd_end(lst, ft_lstnew(out, len + 1));
-	free(out);
-	return ((char *)(format + len));
-}
-
-t_list	**ft_format_parse(char *format, va_list ap)
-{
-	t_list	**lst;
-
-	if (!(lst = malloc(sizeof(*lst))))
-		return (NULL);
-	while (format)
+	next_arg = ft_strchr(format, '%');
+	if (next_arg == NULL)
 	{
-		if (format != '%')
-			format = get_str(format, lst);
-		else
-			format = get_param(format, lst);
+		ft_lstadd_end(lst, ft_lstcreate_node(format, ft_strlen(format)));
+		return ();
 	}
-}
+	else if (next_arg > format)
+	{
+		if (!(new = ft_strndup(format, (size_t)(next_arg - format))))
+			return (NULL);
+		ft_lstadd_end(lst, ft_lstcreate_node(new, ft_strlen(new)));
+		format = ft_get_arg(next_arg, lst);
+	}
+	else
+		format = ft_get_arg(next_arg, lst);
 
-int		ft_printf(const char *format, ...)
+	
+int	ft_printf(char *format, ...)
 {
-	va_list	ap;
-
-	va_start(ap, format);
-	ft_format_parse(format, ap);
+}

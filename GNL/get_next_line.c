@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 17:01:52 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/04 17:21:38 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/07 11:59:44 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,7 @@ t_mem	*get_mem(t_list **lst, int fd, t_list *mem)
 		out->next_nl = 0;
 		ft_lstadd(lst, ft_create_node(out, sizeof(out)));
 		if (out->last_read < 0)
-		{
-			del_mem(lst, fd);
 			return (NULL);
-		}
 		return (out);
 	}
 	else if (((t_mem*)mem->content)->fd == fd)
@@ -132,12 +129,13 @@ int		get_next_line(const int fd, char **line)
 	if (line == NULL || fd < 0 || BUFF_SIZE < 1)
 		return (-1);
 	if (lst == NULL)
-	{
 		if (!(lst = ft_lstpnew(NULL, 0)))
 			return (-1);
-	}
 	if (!(mem = get_mem(lst, fd, *lst)))
+	{
+		lst = del_mem(lst, fd);
 		return (-1);
+	}
 	if (mem->last_read == 0)
 	{
 		lst = del_mem(lst, fd);

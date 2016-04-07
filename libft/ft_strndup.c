@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstpnew.c                                       :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/04 17:10:19 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/07 11:52:52 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/04/07 15:22:44 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/04/07 15:34:08 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	**ft_lstpnew(void const *content, size_t content_size)
+char	*ft_strndup(const char *src, size_t n)
 {
-	t_list	**out;
+	char	*out;
+	size_t	i;
 
-	if (!(out = (t_list**)ft_memalloc(sizeof(t_list*))))
-		return (NULL);
-	if (!(*out = ft_lstnew(content, content_size)))
+	i = 0;
+	if (!(out = (char*)ft_memalloc(sizeof(char) * n + 1)))
+			return (NULL);
+	while (i < n)
 	{
-		free(out);
-		return (NULL);
+		out[i] = *src;
+		i++;
+		src++;
 	}
 	return (out);
 }

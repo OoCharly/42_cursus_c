@@ -9,7 +9,7 @@ int	main()
 	intmax_t	s;
 	char *t;
 
-	t ="yolo""fhsdjgh"
+	t ="yolo""fhsdjgh";
 
 	s = INTMAX_MIN;
 	u = 0;
@@ -17,5 +17,5 @@ int	main()
 	printf("%jd\n", s);
 	printf("%ju\n", u);
 	printf("%s\n", t);
-	return (0);
+	return (printf("%jzu\n", t));
 }
