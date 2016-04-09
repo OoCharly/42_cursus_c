@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_id.c                                            :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 16:38:27 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/02/25 16:39:37 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/03/26 19:27:18 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/04/09 09:54:00 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-void	*ft_id(void *a)
+# include "libft.h"
+
+# define BUFF_SIZE 1024
+
+typedef struct		s_mem
 {
-	return (a);
-}
+	char			*buff;
+	int				nb_nline;
+	int				last_read;
+	int				fd;
+	int				next_nl;
+}					t_mem;
+
+int					get_next_line(const int fd, char **line);
+
+#endif

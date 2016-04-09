@@ -6,11 +6,12 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 11:28:26 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/07 17:20:03 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/08 15:12:47 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
 
 {
 	char	*next_arg;
@@ -36,6 +37,8 @@
 	}
 }
 
-int	ft_printf(char *format, ...)
+char	*ft_get_arg(char *str, t_flag flag, t_list **lst)
 {
-}
+	while (!ft_strchr(LIST_FORMAT, *str))
+	{
+		

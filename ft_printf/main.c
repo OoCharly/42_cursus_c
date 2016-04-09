@@ -25,7 +25,7 @@ int		main(void)
 	b = -2000;
 	a = b;
 	b = a;
-	t = 1;
+	t = INT_MAX;
 	a = -t;
 	b = a;
 	t2 = UINT_MAX;
@@ -35,7 +35,7 @@ int		main(void)
 	lol = 'h';
 	ptr = &lol;
 	//test batard
-	printf("%lhD\n", ll);
+	printf("%yolod\n", ll);
 	printf("%jd\n", b);
 	printf("%#-o\n\n", t);
 	
