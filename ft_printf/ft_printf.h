@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 11:33:28 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/09 13:41:26 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/21 12:38:07 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdarg.h>
 # include <stdint.h>
 
-# define ARGS_LIST
+# define ARGS_LIST "sSpdDioOuUxXcCjzhl# '0-+.123456789"
 # define LIST_FORMAT "sSpdDioOuUxXcC"
 
 typedef struct		s_flag

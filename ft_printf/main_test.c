@@ -5,17 +5,9 @@
 
 int	main()
 {
-	uintmax_t	u;
-	intmax_t	s;
-	char *t;
+	int	a;
 
-	t ="yolo""fhsdjgh";
-
-	s = INTMAX_MIN;
-	u = 0;
-	u -= s;
-	printf("%jd\n", s);
-	printf("%ju\n", u);
-	printf("%s\n", t);
-	return (printf("%jzu\n", t));
+	a = 42;
+	return (printf("%010*d\n", a, 1024));
+	
 }

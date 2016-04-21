@@ -35,7 +35,7 @@ int		main(void)
 	lol = 'h';
 	ptr = &lol;
 	//test batard
-	printf("%yolod\n", ll);
+	printf("%l10lo\n", ll);
 	printf("%jd\n", b);
 	printf("%#-o\n\n", t);
 	
