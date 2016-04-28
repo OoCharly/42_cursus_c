@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 15:05:57 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/05 16:12:21 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/04/28 12:19:48 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ char	*ft_ntoa(intmax_t n)
 		out[j++] = '-';
 	while (tmp)
 	{
-		out[j] = tmp / ft_pow(tmp, i);
-		tmp %= ft_pow(tmp, i--);
+		out[j] = '0' + (tmp / ft_pow(10, i));
+		tmp %= ft_pow(10, i--);
 		j++;
 	}
 	return (out);
