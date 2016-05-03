@@ -6,8 +6,10 @@
 int	main()
 {
 	int	a;
+	int	i;
 
-	a = -42;
-	return (printf("%o\n", a));
+	i = 10;
+	a =255;
+	return (printf("%d, %d\n", a, 1));
 	
 }
