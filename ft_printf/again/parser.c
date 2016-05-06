@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int		get_arg_len(va_list *ap, char *fmt, t_flag flag)
+int		get_arg_len(char *fmt, t_flag *flag)
 {
 	size_t	i;
 	size_t	j;
@@ -81,7 +81,7 @@ void	parse_flags(char *fmt, t_flag *flag, int n)
 		else if (*(fmt + i) == ''')
 			flag->format = 1;
 		else if (*(fmt + i) == '0' && !isdigit(fmt + i - 1) ||
-														*(fmt + i) == '.')
+							*(fmt + i) == '.')
 			flag->pad_0 = 1;
 		i++;
 	}
@@ -110,3 +110,18 @@ void	get_alt_size(char *fmt, t_flag *flag, int n)
 			flag->alt_size = -1;
 	}
 }
+
+void	get_format(char *fmt, t_flag *flag, int n)
+{
+	if (fmt[n] == 
+
+void	parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list *list)
+{
+	int	len;
+
+	raz_flags(flag);
+	len = get_arg_len(fmt, flag);
+	parse_width(fmt, flag, ap, len);
+	parse_flags(fmt, flag, len);
+	get_alt_size(fmt, flag, len);
+

@@ -15,19 +15,19 @@
 char	*ft_render_numbers(va_list *ap, t_flag *f)
 {
 	if (f->alt_size == -2)
-		return (ft_ntoa_base(va_arg(ap, char), f->base, f->sign));
+		return (ft_ntoa_base(va_arg(ap, char), f->base, f->signed));
 	if (f->alt_size == -1)
-		return (ft_ntoa_base(va_arg(ap, short), f->base, f->sign));
+		return (ft_ntoa_base(va_arg(ap, short), f->base, f->signed));
 	if (f->alt_size == 0)
-		return (ft_ntoa_base(va_arg(ap, int), f->base, f->sign));
+		return (ft_ntoa_base(va_arg(ap, int), f->base, f->signed));
 	if (f->alt_size == 1)
-		return (ft_ntoa_base(va_arg(ap, long), f->base, f->sign));
+		return (ft_ntoa_base(va_arg(ap, long), f->base, f->signed));
 	if (f->alt_size == 2)
-		return (ft_ntoa_base(va_arg(ap, long long), f->base, f->sign));
+		return (ft_ntoa_base(va_arg(ap, long long), f->base, f->signed));
 	if (f->alt_size == 3)
-		return (ft_ntoa_base(va_arg(ap, intmax_t), f->base, f->sign));
+		return (ft_ntoa_base(va_arg(ap, intmax_t), f->base, f->signed));
 	if (f->alt_size == 4)
-		return (ft_ntoa_base(va_arg(ap, ssize_t), f->base, f->sign));
+		return (ft_ntoa_base(va_arg(ap, ssize_t), f->base, f->signed));
 }
 
 

@@ -1,0 +1,4 @@
+libft:
+	-add ft_lst_size
+ft_printf:
+	-adjust ft_concat_full_list

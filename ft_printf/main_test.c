@@ -10,6 +10,6 @@ int	main()
 
 	i = 10;
 	a =255;
-	return (printf("%d, %d\n", a, 1));
+	return (printf("%llD, %d\n", a, 1));
 	
 }
