@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:58:50 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/04 12:40:31 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/06 18:34:18 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,20 @@ int		get_arg_len(char *fmt, t_flag *flag)
 	j = 0;
 	if (*fmt == '%')
 		return (0);
-	while (*(fmt + i) && !ft_strchr(TYPE_LIST, *(fmt + i)))
-		i++;
-	if (*(fmt + i) == '\0')
-		return (-1);
-	while (j < i)
+	while (fmt[i] && !ft_strchr(TYPE_LIST, fmt[i]))
 	{
-		if (!ft_strchr(TYPE_LIST FLAG_LIST, *(fmt + j)))
-			if (!isdigit(*(fmt + j)))
-				return (-1);
-		j++;
+		if (!ft_strchr(FLAG_LIST, fmt[i]) && !isdigit(fmt[i]))
+			return (-1);
+		i++;
 	}
+	if (fmt[i] == '\0')
+		return (-1);
+	if (fmt[i] == 'o' || fmt[i] == 'O')
+		flag->base = 8;
+	else if (fmt[i] == 'x' || fmt[i] == 'X' || fmt[i] == 'p')
+		flag->base = 16;
+	else if (fmt[i] == 'b')
+		flag->base = 2;
 	return (i);
 }
 
@@ -50,14 +53,14 @@ void	parse_width(char *fmt, t_flag *flag, va_list *ap, int n)
 	}
 	while (i < n)
 	{
-		if (isdigit(fmt + i))
+		if (isdigit(fmt[i]))
 		{
 			if (*(fmt + i - 1) != '.')
 				flag->fw = ft_atoi(fmt + i);
 			while (isdigit(fmt + i + 1))
 				i++;
 		}
-		else if (*(fmt + i) == '*' && *(fmt + i - 1) != '.')
+		else if (fmt[i] == '*' && fmt[i - 1] != '.')
 			flag->fw = va_arg(ap, int);
 		i++;
 	}
@@ -70,18 +73,18 @@ void	parse_flags(char *fmt, t_flag *flag, int n)
 	i = 0;
 	while (i < n)
 	{
-		if (*(fmt + i) == '#')
+		if (fmt[i] == '#')
 			flag->alt = 1;
-		else if (*(fmt + i) == '-')
+		else if (fmt[i] == '-' || flag->precision < 0)
 			flag->pad_left = 1;
-		else if (*(fmt + i) == ' ')
+		else if (fmt[i] == ' ')
 			flag->blank_sign = 1;
-		else if (*(fmt + i) == '+')
+		else if (fmt[i] == '+')
 			flag->force_sign = 1;
-		else if (*(fmt + i) == ''')
+		else if (fmt[i] == ''')
 			flag->format = 1;
-		else if (*(fmt + i) == '0' && !isdigit(fmt + i - 1) ||
-							*(fmt + i) == '.')
+		else if (fmt[i] == '0' && !isdigit(fmt + i - 1) ||
+							fmt[i] == '.')
 			flag->pad_0 = 1;
 		i++;
 	}
@@ -111,17 +114,13 @@ void	get_alt_size(char *fmt, t_flag *flag, int n)
 	}
 }
 
-void	get_format(char *fmt, t_flag *flag, int n)
-{
-	if (fmt[n] == 
-
 void	parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list *list)
 {
 	int	len;
+	char	*tmp;
 
 	raz_flags(flag);
 	len = get_arg_len(fmt, flag);
 	parse_width(fmt, flag, ap, len);
 	parse_flags(fmt, flag, len);
 	get_alt_size(fmt, flag, len);
-

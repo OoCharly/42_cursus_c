@@ -8,8 +8,8 @@ int	main()
 	int	a;
 	int	i;
 
-	i = 10;
-	a =255;
-	return (printf("%llD, %d\n", a, 1));
+	i = -10;
+	a = 25;
+	return (printf("%*d", i, a));
 	
 }
