@@ -5,11 +5,13 @@
 
 int	main()
 {
-	int	a;
+	long	a;
 	int	i;
+	short	c;
 
-	i = -10;
-	a = 25;
-	return (printf("%*d", i, a));
-	
+	c = 184;
+	c = c >> 8;
+	i = 47483648; 
+	a = LONG_MAX;
+	return (printf("%d", size_bin(c)));
 }

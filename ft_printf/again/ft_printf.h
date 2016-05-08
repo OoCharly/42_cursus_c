@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 
 # define LIST_ARGS "#- 0.*CcSspDdioOuxXhljz"
-
+# define POS(x) (((x) > 0) ? (x) : 0)
 # include <unistd.h>
 
 #endif

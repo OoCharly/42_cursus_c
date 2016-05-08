@@ -122,4 +122,5 @@ size_t					ft_lstsumsize(t_list *lst);
  * maths
  */
 uintmax_t				ft_pow(int n, int p);
+int						ft_nsize_base(uintmax_t nb, int base);
 #endif

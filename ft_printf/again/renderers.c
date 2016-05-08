@@ -30,4 +30,10 @@ char	*ft_render_numbers(va_list *ap, t_flag *f)
 		return (ft_ntoa_base(va_arg(ap, ssize_t), f->base, f->signed));
 }
 
+char	*ft_render_wchar(va_list *ap, t_flag *f)
+{
+	int	lchar;
 
+	lchar = va_arg(ap, int);
+	return (ft_wchar_to_string(lchar));
+}

@@ -47,17 +47,17 @@ void	parse_width(char *fmt, t_flag *flag, va_list *ap, int n)
 	if (tmp = ft_strnrchr(fmt, '.', n))
 	{
 		if (*(tmp + 1) == '*')
-			flag->precision = va_arg(ap, int);
+			flag->precision = POS(va_arg(ap, int));
 		else
-			flag->precision = ft_atoi(tmp + 1);
+			flag->precision = POS(ft_atoi(tmp + 1));
 	}
 	while (i < n)
 	{
 		if (isdigit(fmt[i]))
 		{
-			if (*(fmt + i - 1) != '.')
+			if (fmt[i - 1] != '.')
 				flag->fw = ft_atoi(fmt + i);
-			while (isdigit(fmt + i + 1))
+			while (isdigit(fmt[i + 1])
 				i++;
 		}
 		else if (fmt[i] == '*' && fmt[i - 1] != '.')
@@ -75,7 +75,7 @@ void	parse_flags(char *fmt, t_flag *flag, int n)
 	{
 		if (fmt[i] == '#')
 			flag->alt = 1;
-		else if (fmt[i] == '-' || flag->precision < 0)
+		else if (fmt[i] == '-')
 			flag->pad_left = 1;
 		else if (fmt[i] == ' ')
 			flag->blank_sign = 1;
@@ -88,13 +88,20 @@ void	parse_flags(char *fmt, t_flag *flag, int n)
 			flag->pad_0 = 1;
 		i++;
 	}
+	if (flag->fw < 0)
+	{
+		flag->pad_left = 1;
+		flag->fw = -1 * flag->fw;
+	}
 }
 
 void	get_alt_size(char *fmt, t_flag *flag, int n)
 {
 	int	i;
 
-	if (ft_strnoccur(fmt, 'z', n))
+ 	if (fmt[n] == 'D' || fmt[n] == 'O' || fmt[n] == 'U')
+		flag->alt_size = 1;
+	else if (ft_strnoccur(fmt, 'z', n))
 		flag->alt_size = 4;
 	else if (ft_strnoccur(fmt, 'j', n))
 		flag->alt_size = 3;
@@ -108,7 +115,7 @@ void	get_alt_size(char *fmt, t_flag *flag, int n)
 	else if (i = ft_strnoccur(fmt, 'h', n))
 	{
 		if (i % 2 == 0)
-			flqg->alt_size = -2;
+			flag->alt_size = -2;
 		else
 			flag->alt_size = -1;
 	}
@@ -124,3 +131,4 @@ void	parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list *list)
 	parse_width(fmt, flag, ap, len);
 	parse_flags(fmt, flag, len);
 	get_alt_size(fmt, flag, len);
+
