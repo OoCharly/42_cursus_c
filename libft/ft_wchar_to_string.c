@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_wchar_to_string.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/05/10 10:19:12 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/05/10 10:19:26 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static char	*ft_wchar_malloc(int size, int *i)
@@ -24,8 +36,8 @@ static char	*ft_wchar_malloc(int size, int *i)
 char		*ft_wchar_to_string(int c)
 {
 	char	*out;
-	int	size;
-	int	i;
+	int		size;
+	int		i;
 
 	size = ft_nsize_base(c, 2);
 	if (!(out = ft_wchar_malloc(size, &i)))

@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/09 11:04:26 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/10 10:19:03 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ typedef	struct			s_list
 }						t_list;
 
 /*
- * tests
- */
+** tests
+*/
 int						ft_atoi(const char *str);
 int						ft_isalnum(int c);
 int						ft_isnum(char c);
@@ -41,14 +41,14 @@ int						ft_isspace(char c);
 int						ft_stroccur(char *s, int c);
 int						ft_strnoccur(char *s, int c, size_t n);
 /*
- * transformers
- */
+** transformers
+*/
 char					*ft_itoa(int n);
 char					*ft_ntoa(intmax_t n);
 char					*ft_ntoa_base(uintmax_t nb, unsigned int base, int s);
 /*
- * memory manipulation
- */
+** memory manipulation
+*/
 void					ft_bzero(void *s, size_t n);
 void					*ft_memalloc(size_t size);
 void					*ft_memccpy(void *dst, const void *src, int c,
@@ -60,8 +60,8 @@ void					ft_memdel(void **ap);
 void					*ft_memmove(void *dst, const void *src, size_t len);
 void					*ft_memset(void *b, int c, size_t len);
 /*
- * Printing functions
- */
+** Printing functions
+*/
 void					ft_putchar(char c);
 void					ft_putchar_fd(char c, int fd);
 void					ft_putendl(char const *s);
@@ -71,8 +71,8 @@ void					ft_putnbr_fd(int n, int fd);
 void					ft_putstr(char const *s);
 void					ft_putstr_fd(char const *s, int fd);
 /*
- * Strings manipulation
- */
+** Strings manipulation
+*/
 char					*ft_strcat(char *s1, const char *s2);
 void					ft_strclr(char *s);
 int						ft_strcmp(const char *s1, const char *s2);
@@ -109,8 +109,8 @@ int						ft_toupper(int c);
 char					*ft_wchar_to_string(int c);
 char					*ft_wstring_to_string(wchar_t *s);
 /*
- * Lists manipulation
- */
+** Lists manipulation
+*/
 void					ft_lstdel(t_list **alst, void (*del)(void*, size_t));
 void					ft_lstdelone(t_list **alst, void (*del)(void*, size_t));
 t_list					*ft_lstnew(void const *content, size_t content_size);
@@ -121,8 +121,8 @@ t_list					*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list					*ft_lstcreate_node(void *content, size_t content_size);
 size_t					ft_lstsumsize(t_list *lst);
 /*
- * maths
- */
+** maths
+*/
 uintmax_t				ft_pow(int n, int p);
 int						ft_nsize_base(uintmax_t nb, int base);
 #endif

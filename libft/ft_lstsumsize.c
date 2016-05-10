@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstsumsize.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/05/10 10:18:16 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/05/10 10:19:01 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 size_t	ft_lstsumsize(t_list *lst)
@@ -14,5 +26,5 @@ size_t	ft_lstsumsize(t_list *lst)
 		out += tmp->content_size;
 		tmp = tmp->next;
 	}
-	return (out + tmp ->content_size);
+	return (out + tmp->content_size);
 }

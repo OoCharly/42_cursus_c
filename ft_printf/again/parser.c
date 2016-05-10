@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:58:50 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/06 18:34:18 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/10 16:18:14 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,16 @@ int		get_arg_len(char *fmt, t_flag *flag)
 	i = 0;
 	j = 0;
 	if (*fmt == '%')
-		return (0);
+		return (-1);
 	while (fmt[i] && !ft_strchr(TYPE_LIST, fmt[i]))
 	{
 		if (!ft_strchr(FLAG_LIST, fmt[i]) && !isdigit(fmt[i]))
-			return (-1);
+			return (0);
 		i++;
 	}
 	if (fmt[i] == '\0')
-		return (-1);
-	if (fmt[i] == 'o' || fmt[i] == 'O')
-		flag->base = 8;
-	else if (fmt[i] == 'x' || fmt[i] == 'X' || fmt[i] == 'p')
-		flag->base = 16;
-	else if (fmt[i] == 'b')
-		flag->base = 2;
-	return (i);
+		return (0);
+	flag->type = fmt[i]
 }
 
 void	parse_width(char *fmt, t_flag *flag, va_list *ap, int n)
@@ -57,7 +51,7 @@ void	parse_width(char *fmt, t_flag *flag, va_list *ap, int n)
 		{
 			if (fmt[i - 1] != '.')
 				flag->fw = ft_atoi(fmt + i);
-			while (isdigit(fmt[i + 1])
+			while (isdigit(fmt[i + 1]))
 				i++;
 		}
 		else if (fmt[i] == '*' && fmt[i - 1] != '.')
@@ -83,7 +77,7 @@ void	parse_flags(char *fmt, t_flag *flag, int n)
 			flag->force_sign = 1;
 		else if (fmt[i] == ''')
 			flag->format = 1;
-		else if (fmt[i] == '0' && !isdigit(fmt + i - 1) ||
+		else if ((fmt[i] == '0' && !isdigit(fmt + i - 1)) ||
 							fmt[i] == '.')
 			flag->pad_0 = 1;
 		i++;
@@ -99,9 +93,16 @@ void	get_alt_size(char *fmt, t_flag *flag, int n)
 {
 	int	i;
 
- 	if (fmt[n] == 'D' || fmt[n] == 'O' || fmt[n] == 'U')
+	if (i = ft_strnoccur(fmt, 'h', n))
+	{
+		if (i % 2 == 0)
+			flag->alt_size = -2;
+		else
+			flag->alt_size = -1;
+	}
+ 	if (ft_strchr(OBSOLETE_TYPE, fmt[n]))
 		flag->alt_size = 1;
-	else if (ft_strnoccur(fmt, 'z', n))
+	if (ft_strnoccur(fmt, 'z', n))
 		flag->alt_size = 4;
 	else if (ft_strnoccur(fmt, 'j', n))
 		flag->alt_size = 3;
@@ -112,23 +113,23 @@ void	get_alt_size(char *fmt, t_flag *flag, int n)
 		else
 			flag->alt_size = 1;
 	}
-	else if (i = ft_strnoccur(fmt, 'h', n))
-	{
-		if (i % 2 == 0)
-			flag->alt_size = -2;
-		else
-			flag->alt_size = -1;
-	}
 }
 
-void	parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list *list)
+char	*parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list **list)
 {
 	int	len;
 	char	*tmp;
 
 	raz_flags(flag);
 	len = get_arg_len(fmt, flag);
+	if (len <= 0)
+		return (ft_strndup(fmt, -len));
 	parse_width(fmt, flag, ap, len);
 	parse_flags(fmt, flag, len);
 	get_alt_size(fmt, flag, len);
-
+	if (tolower(flag->type) == 'o')
+		flag->base = 8;
+	if (tolower(flag->type) == 'x' || flag->type == 'p')
+		flag->base = 16;
+	return (ft_process(flag, lst, ap));
+}
