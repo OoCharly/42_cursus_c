@@ -30,10 +30,12 @@ char	*ft_render_numbers(va_list *ap, t_flag *f)
 		return (ft_ntoa_base(va_arg(ap, ssize_t), f->base, f->signed));
 }
 
-char	*ft_render_wchar(va_list *ap, t_flag *f)
+char	*ft_render_string(va_list *ap, t_flag *f, char *fmt, int n)
 {
-	int	lchar;
+	char	*out;
 
-	lchar = va_arg(ap, int);
-	return (ft_wchar_to_string(lchar));
+	if (f->alt_size)
+		return (ft_wstring_to_string(va_arg(ap, wchar_t*)));
+	else
+		return (va_arg(ap, char*));
 }

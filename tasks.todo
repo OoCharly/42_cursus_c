@@ -1,6 +1,4 @@
 libft:
-	-add ft_size_base
-	-add ft_wchar_to_string
 	-add ft_wstring_to_string
 ft_printf:
 	-add renders_char/string

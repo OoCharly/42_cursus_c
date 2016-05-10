@@ -18,12 +18,7 @@ char	*ft_strnew(size_t size)
 	size_t	i;
 
 	i = 0;
-	if (!(s = malloc(sizeof(char) * (size + 1))))
+	if (!(s = (char*)ft_memalloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	while (i <= size)
-	{
-		*(s + i) = '\0';
-		i++;
-	}
 	return (s);
 }

@@ -106,6 +106,8 @@ char					*ft_strsub(char const *s, unsigned int start,
 char					*ft_strtrim(char const *s);
 int						ft_tolower(int c);
 int						ft_toupper(int c);
+char					*ft_wchar_to_string(int c);
+char					*ft_wstring_to_string(wchar_t *s);
 /*
  * Lists manipulation
  */

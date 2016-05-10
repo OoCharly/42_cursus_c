@@ -1,6 +1,6 @@
 #include "libft.h"
 
-int	*ft_nsize_base(uintmax_t nb, int base)
+int	ft_nsize_base(uintmax_t nb, int base)
 {
 	int	i;
 
