@@ -20,6 +20,6 @@ int	main()
 	c = c >> 8;
 	i = 9; 
 	a = LONG_MAX;
-	printf("%%d");
+	printf("%yla");
 	return (0);
 }

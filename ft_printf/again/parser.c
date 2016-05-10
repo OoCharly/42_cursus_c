@@ -28,8 +28,9 @@ int		get_arg_len(char *fmt, t_flag *flag)
 		i++;
 	}
 	if (fmt[i] == '\0')
-		return (0);
+		return (-i);
 	flag->type = fmt[i]
+	return (i);
 }
 
 void	parse_width(char *fmt, t_flag *flag, va_list *ap, int n)
@@ -115,7 +116,7 @@ void	get_alt_size(char *fmt, t_flag *flag, int n)
 	}
 }
 
-char	*parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list **list)
+int	*parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list **list)
 {
 	int	len;
 	char	*tmp;
