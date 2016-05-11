@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstcreate_node.c                                :+:      :+:    :+:   */
+/*   ft_lstcreate.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/07 15:28:07 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/07 15:28:14 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/05/11 11:18:27 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/05/11 11:18:36 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstcreate_node(void *content, size_t content_size)
+t_list	*ft_lstcreate(void *content, size_t content_size)
 {
 	t_list	*new;
 

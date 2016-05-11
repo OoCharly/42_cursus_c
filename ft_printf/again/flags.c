@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 15:36:32 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/10 15:47:08 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/11 14:12:06 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,13 @@ t_flag	*raz_flags(t_flag *flag)
 		flag->fw = 0;
 		flag->precision = 0;
 		flag->type = 0;
+		flag->base = 10;
 		return (flag);
 	}
 	else
-		return (ft_memalloc(sizeof(t_flag)));
+	{
+		flag = ft_memalloc(sizeof(t_flag));
+		flag->base = 10;
+		return (flag);
+	}
 }

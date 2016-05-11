@@ -6,23 +6,52 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 15:47:23 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/10 16:18:10 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/11 14:51:59 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
+#include "ft_printf.h"
 
-int	ft_do_stuff(char *fmt, va_list ap, t_flag *flag, t_list **lst)
+void	ft_do_stuff(char *fmt, va_list ap, t_flag *flag, t_list **lst)
 {
-	char 	*next_arg;
+	char 	*pc;
+	t_list	*tmp;
+	int		res;
 
-	next_arg = ft_strchr(fmt, '%')
-	if (!next_arg)
+	while (*fmt)
 	{
-		ft_lstadd_end(lst, ft_lstcreate_node(ft_strdup(fmt), ft_strlen(fmt)));
-		return (0);
+		pc = ft_strchr(fmt, '%');
+			if (!pc)
+			{
+				tmp = ft_lstcreate(ft_strdup(fmt), ft_strlen(fmt) + 1);
+				ft_lstadd_end(lst, tmp);
+				return ;
+			}
+			else if (pc > fmt)
+			{
+				tmp = ft_lstcreate(ft_strndup(fmt, pc - fmt), pc - fmt + 1);
+				ft_lstadd_end(lst, tmp);
+				fmt = pc + ft_parse_em_all(pc, ap, flag, lst) + 1;
+			}
+			else
+			{
+				fmt += ft_parse_em_all(pc, ap, flag, lst) + 1;
+			}
 	}
-	else if (next_arg > fmt)
-	{
-		ft_lstadd_end(lst, ft_lstcreate_node(ft_strndup(fmt, next_arg - fmt), next_arg - fmt));
-		
+}
+
+int		ft_printf(char *fmt, ...)
+{
+	va_list	ap;
+	t_list	**lst;
+	t_flag	*flag;
+	int	out;
+
+	out = 0;
+	flag = NULL;
+	va_start(ap, fmt);
+	ft_do_stuff(fmt, ap, flag, lst);
+	printf("%s\n", (*lst)->content);
+	va_end(ap);
+	return (out);
+}

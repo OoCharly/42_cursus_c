@@ -1,32 +1,36 @@
 
 #include "ft_printf.h"
 
-char	*concat_full(t_list *list)
+char	*concat_full(t_list **list)
 {
 	char	*out;
-	t_list	tmp;
+	t_list	*tmp;
 
 	if (!(out = ft_memalloc(ft_lstsumsize(list) + 1)))
 		return (NULL);
-	tmp = list;
+	tmp = *list;
 	while (tmp)
 	{
-		ft_strcat(out, (const char*)tmp->data);
+		ft_strcat(out, (const char*)tmp->content);
 		tmp = tmp->next;
 	}
 	return (out);
 }
 
-char	*ft_transform(t_flag *flag, va_list ap)
+char	*ft_transform(t_flag *f, va_list ap)
 {
 	char	*out;
 
-	if (ft_strchr(INTEGER_TYPE, flag->type))
-		out = ft_render_integers(ap, flag);
-	else if (ft_strchr(STRING_TYPE, flag->type))
-		out = ft_render_string(ap, flag, (tolower(fmt[n]) == 'c') ? 1 : 0);
-	else if (ft_strchr(DOUBLE_TYPE, flag->type))
-		out = ft_render_doubles(ap, flag);
+	if (f->type == '%')
+		out = ft_strnew(0);
+	else if (ft_strchr(INTEGER_TYPE, f->type))
+	{
+		out = ft_render_integers(ap, f);
+	}
+	else if (ft_strchr(STRING_TYPE, f->type))
+		out = ft_render_string(ap, f, (ft_tolower(f->type) == 'c') ? 1 : 0);
+//	else if (ft_strchr(DOUBLE_TYPE, f->type))
+//		out = ft_render_doubles(ap, f);
 	return (out);
 }
 
@@ -90,12 +94,15 @@ char	*ft_alt_format(char *s, char type)
 	return (out);
 }
 
-void	ft_process(t_flag *flag, t_list **lst, va_list ap)
+char	*ft_process(t_flag *flag, t_list **lst, va_list ap)
 {
 	char	*out;
 
+
 	if (!(out = ft_transform(flag, ap)))
+	{
 		exit(-1);
+	}
 	if (flag->precision)
 	{
 		if (!(out = ft_format_precision(flag->precision, out)))
@@ -108,5 +115,5 @@ void	ft_process(t_flag *flag, t_list **lst, va_list ap)
 	}
 	if (!(out = ft_format_padding(flag, out)))
 		exit(-1);
-	ft_lstadd_end(lst, ft_create_node(out, ft_strlen(out) + 1));
+	return (out);
 }

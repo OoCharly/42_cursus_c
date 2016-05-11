@@ -26,7 +26,7 @@ SRCS = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strsub.c ft_strtrim.c \
 	ft_tolower.c ft_toupper.c ft_lstnew.c ft_lstdel.c ft_lstdelone.c\
 	ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_pow.c ft_lst_at_size.c\
-	ft_lstcreate_node.c ft_lstadd_end.c ft_lstpnew.c ft_ntoa_base.c ft_ntoa.c\
+	ft_lstcreate.c ft_lstadd_end.c ft_lstpnew.c ft_ntoa_base.c ft_ntoa.c\
 	ft_putstr_color.c ft_strndup.c get_next_line.c ft_strnchr.c ft_stroccur.c\
 	ft_strnoccur.c ft_lstsumsize.c ft_nsize_base.c ft_wchar_to_string.c\
 	ft_wstring_to_string.c

@@ -2,6 +2,6 @@
 
 int main()
 {
-	ft_printf("yolo%d", 1);
+	ft_printf("%10ld", 1);
 	return (0);
 }

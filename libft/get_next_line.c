@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 17:01:52 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/09 09:52:09 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/11 11:20:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_mem	*get_mem(t_list **lst, int fd, t_list *mem)
 		out->last_read = read(fd, out->buff, BUFF_SIZE);
 		out->fd = fd;
 		out->next_nl = 0;
-		ft_lstadd(lst, ft_lstcreate_node(out, sizeof(out)));
+		ft_lstadd(lst, ft_lstcreate(out, sizeof(out)));
 		if (out->last_read < 0)
 			return (NULL);
 		return (out);

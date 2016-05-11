@@ -1,0 +1,11 @@
+parser.c:131:22: warning: incompatible pointer types passing 'char *' to parameter of type 't_list *' (aka 'struct s_list *') [-Wincompatible-pointer-types]
+        ft_lstadd_end(list, ft_process(flag, list, ap))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+./../../libft/includes/libft.h:119:47: note: passing argument to parameter 'new' here
+void                                    ft_lstadd_end(t_list **alst, t_list *new);
+                                                                             ^
+parser.c:131:49: error: expected ';' after expression
+        ft_lstadd_end(list, ft_process(flag, list, ap))
+                                                       ^
+                                                       ;
+1 warning and 1 error generated.
