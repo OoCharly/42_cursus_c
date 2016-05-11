@@ -2,6 +2,7 @@
 
 int main()
 {
-	ft_printf("%10ld", 1);
+	ft_printf("ft_printf:%#hhdyolo\n", -1);
+	printf("printf\t :%#hhdyolo\n", -1);
 	return (0);
 }

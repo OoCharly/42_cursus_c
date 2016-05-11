@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:58:50 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/11 14:52:02 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/11 20:47:16 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	parse_width(char *fmt, t_flag *flag, va_list ap, int n)
 	i = 0;
 	if ((tmp = ft_strnrchr(fmt, '.', n)))
 	{
+		flag->pad_0 = 0;
 		if (*(tmp + 1) == '*')
 			flag->precision = POS(va_arg(ap, int));
 		else
@@ -74,8 +75,7 @@ void	parse_flags(char *fmt, t_flag *flag, int n)
 			flag->sign_force = 2;
 		else if (fmt[i] == '\'')
 			flag->format = 1;
-		else if ((fmt[i] == '0' && !ft_isdigit(fmt[i - 1])) ||
-							fmt[i] == '.')
+		else if ((fmt[i] == '0' && !ft_isdigit(fmt[i - 1])))
 			flag->pad_0 = 1;
 		i++;
 	}
@@ -121,8 +121,8 @@ int		ft_parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list **list)
 	len = get_arg_len(fmt, flag);
 	if (len <= 0)
 		return (-len);
-	parse_width(fmt, flag, ap, len);
 	parse_flags(fmt, flag, len);
+	parse_width(fmt, flag, ap, len);
 	get_alt_size(fmt, flag, len);
 	if (ft_tolower(flag->type) == 'o')
 		flag->base = 8;

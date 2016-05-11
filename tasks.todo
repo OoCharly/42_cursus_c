@@ -1,4 +1,0 @@
-libft:
-	-add ft_wstring_to_string
-ft_printf:
-	-add renders_char/string

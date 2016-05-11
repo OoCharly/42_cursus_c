@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 15:47:23 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/11 14:51:59 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/11 20:47:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ int		ft_printf(char *fmt, ...)
 
 	out = 0;
 	flag = NULL;
+	lst = ft_memalloc(sizeof(t_list*));
 	va_start(ap, fmt);
 	ft_do_stuff(fmt, ap, flag, lst);
-	printf("%s\n", (*lst)->content);
 	va_end(ap);
+	char	*yolo = concat_full(lst);
+	printf("%s", yolo);
 	return (out);
 }

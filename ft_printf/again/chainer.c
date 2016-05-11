@@ -74,6 +74,8 @@ char	*ft_format_padding(t_flag *flag, char *s)
 			free(tmp);
 		free(s);
 	}
+	else
+		out = s;
 	return (out);
 }
 
@@ -98,7 +100,7 @@ char	*ft_process(t_flag *flag, t_list **lst, va_list ap)
 {
 	char	*out;
 
-
+	stat_flag(flag);
 	if (!(out = ft_transform(flag, ap)))
 	{
 		exit(-1);

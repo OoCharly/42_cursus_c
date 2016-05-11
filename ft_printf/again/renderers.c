@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 13:56:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/11 14:52:10 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/11 20:47:26 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ char	*ft_render_integers(va_list ap, t_flag *f)
 	if (f->alt_size == -1)
 		return (ft_ntoa_base((short)va_arg(ap, int), f->base, f->signd));
 	if (f->alt_size == 0)
-	{
 		return (ft_ntoa_base(va_arg(ap, int), f->base, f->signd));
-	}
 	if (f->alt_size == 1)
 		return (ft_ntoa_base(va_arg(ap, long), f->base, f->signd));
 	if (f->alt_size == 2)

@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/25 11:14:09 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/11 14:52:06 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/11 18:35:14 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_render_string(va_list ap, t_flag *f, int c);
 int		ft_parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list **list);
 t_flag	*raz_flags(t_flag *flag);
 char	*ft_process(t_flag *flag, t_list **lst, va_list ap);
-
+char	*concat_full(t_list **list);
 
 
 
