@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/25 11:14:09 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/11 18:35:14 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/12 15:17:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
+# include <limits.h>
 # include "../../libft/includes/libft.h"
 # define ARGS_LIST "CcSspDdioOuxXeEfFgG%"
-# define FLAG_LIST "#- 0.*jzhl"
-# define INTEGER_TYPE "dDioOuUxX"
+# define FLAG_LIST "#+- 0.*jzhl"
+# define INTEGER_TYPE "dDi"
+# define UINTEGER_TYPE "oOuUxX"
 # define DOUBLE_TYPE "efgEFG"
 # define STRING_TYPE "sScC"
 # define OBSOLETE_TYPE "SCDOU"
@@ -31,17 +33,18 @@ typedef struct		s_flag
 	unsigned char	pad_0 : 1;
 	unsigned char	pad_left : 1;
 	unsigned char	signd : 1;
-	unsigned char	sign_force : 2;
 	unsigned char	format : 1;
 	char			alt_size : 4;
+	char			sign_force;
+	char			type;
 	int				fw;
 	int				precision;
-	char			type;
 	int				base;
 }					t_flag;
 
 int		ft_printf(char *fmt, ...);
-char	*ft_render_integers(va_list ap, t_flag *f);
+char	*ft_render_signed_integers(va_list ap, t_flag *f);
+char	*ft_render_unsigned_integers(va_list ap, t_flag *f);
 char	*ft_render_string(va_list ap, t_flag *f, int c);
 int		ft_parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list **list);
 t_flag	*raz_flags(t_flag *flag);

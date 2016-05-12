@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:58:50 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/11 20:47:16 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/12 16:10:57 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int		get_arg_len(char *fmt, t_flag *flag)
 	if (fmt[i] == '\0')
 		return (-i);
 	flag->type = fmt[i];
+	if (ft_strchr(DOUBLE_TYPE "dDi", flag->type))
+		flag->signd = 1;
 	return (i);
 }
 
@@ -70,9 +72,9 @@ void	parse_flags(char *fmt, t_flag *flag, int n)
 		else if (fmt[i] == '-')
 			flag->pad_left = 1;
 		else if (fmt[i] == ' ' && !flag->sign_force)
-			flag->sign_force = 1;
+			flag->sign_force = ' ';
 		else if (fmt[i] == '+')
-			flag->sign_force = 2;
+			flag->sign_force = '+';
 		else if (fmt[i] == '\'')
 			flag->format = 1;
 		else if ((fmt[i] == '0' && !ft_isdigit(fmt[i - 1])))

@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/11 12:25:14 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/12 15:58:21 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int						ft_strnoccur(char *s, int c, size_t n);
 */
 char					*ft_itoa(int n);
 char					*ft_ntoa(intmax_t n);
-char					*ft_ntoa_base(uintmax_t nb, unsigned int base, int s);
+char					*ft_ntoa_base(uintmax_t nb, unsigned int base);
 /*
 ** memory manipulation
 */
