@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/12 15:58:21 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/20 16:08:48 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int						ft_tolower(int c);
 int						ft_toupper(int c);
 char					*ft_wchar_to_string(int c);
 char					*ft_wstring_to_string(wchar_t *s);
+void					ft_capitalize(char *str);
 /*
 ** Lists manipulation
 */

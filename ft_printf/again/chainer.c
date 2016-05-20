@@ -8,22 +8,23 @@ char	*ft_sign_force(t_flag *f, char *s)
 	int		i;
 
 	i = 0;
-	if (ft_strchr(INTEGER_TYPE DOUBLE_TYPE, f->type) && f->sign_force)
+	while (!ft_isdigit(s[i]) && s[i])
+		i++;
+	if (s[i] == '0')
 	{
-		while (!ft_isdigit(s[i]))
-			i++;
-		out = ft_strjoin(" ", s + i);
-		printf("%s\n", out);
-		out[0] = f->sign_force;
-		tmp = out;
-		s[i] = '\0';
-		out = ft_strjoin(s, tmp);
-		free(tmp);
-		free(s);
-		return (out);
+		s[i] = f->sign_force;
+		out = s;
 	}
 	else
-		return (s);
+	{
+		if (!(tmp = ft_wchar_to_string(f->sign_force)))
+			exit(-1);
+		if (!(out = ft_strjoin(tmp, s)))
+			exit(-1);
+		free(tmp);
+		free(s);
+	}
+	return (out);
 }
 
 char	*ft_transform(t_flag *f, va_list ap)
@@ -52,7 +53,7 @@ char	*ft_format_precision(t_flag *f, char *s)
 	char	*out;
 
 	len = ft_strlen(s);
-	if (f->precision == 0 && s[0] == '0')
+	if (f->precision == 0 && s[0] == '0' && !f->pad_0)
 	{
 		s[0] = f->sign_force;
 		f->sign_force = '\0';
@@ -82,7 +83,8 @@ char	*ft_format_padding(t_flag *flag, char *s)
 	len = ft_strlen(s);
 	if (flag->fw > len)
 	{
-		tmp = ft_memset(ft_strnew(flag->fw - len), c, flag->fw - len);
+		if (!(tmp = ft_memset(ft_strnew(flag->fw - len), c, flag->fw - len)))
+			exit(-1);
 		if (flag->pad_left)
 			out = ft_strjoin(s, tmp);
 		else
@@ -102,8 +104,8 @@ char	*ft_alt_format(char *s, t_flag *f)
 
 	if ((f->type == 'o' || f->type == 'O') && !f->precision)
 	{
-			out = ft_strjoin("0", s);
-			free(s);
+		out = ft_strjoin("0", s);
+		free(s);
 	}
 	else if (f->type == 'x' || f->type == 'X' || f->type == 'p')
 	{
@@ -137,7 +139,10 @@ char	*ft_process(t_flag *flag, t_list **lst, va_list ap)
 	}
 	if (!(out = ft_format_padding(flag, out)))
 		exit(-1);
-	if (!(out = ft_sign_force(flag, out)))
-		exit(-1);
+	if (flag->sign_force && ft_strchr(INTEGER_TYPE DOUBLE_TYPE, flag->type))
+	{
+		if (!(out = ft_sign_force(flag, out)))
+			exit(-1);
+	}
 	return (out);
 }

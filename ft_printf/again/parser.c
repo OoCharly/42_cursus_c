@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:58:50 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/12 16:10:57 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/20 16:33:26 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	parse_flags(char *fmt, t_flag *flag, int n)
 		if (fmt[i] == '#')
 			flag->alt = 1;
 		else if (fmt[i] == '-')
-			flag->pad_left = 1;
+			flag->pad_0 = flag->pad_left++;
 		else if (fmt[i] == ' ' && !flag->sign_force)
 			flag->sign_force = ' ';
 		else if (fmt[i] == '+')

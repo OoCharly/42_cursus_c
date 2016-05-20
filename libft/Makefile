@@ -29,7 +29,7 @@ SRCS = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	ft_lstcreate.c ft_lstadd_end.c ft_lstpnew.c ft_ntoa_base.c ft_ntoa.c\
 	ft_putstr_color.c ft_strndup.c get_next_line.c ft_strnchr.c ft_stroccur.c\
 	ft_strnoccur.c ft_lstsumsize.c ft_nsize_base.c ft_wchar_to_string.c\
-	ft_wstring_to_string.c
+	ft_wstring_to_string.c ft_capitalize.c
 
 OBJS = $(subst .c,.o,$(SRCS))
 
