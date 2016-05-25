@@ -23,7 +23,7 @@ t_flag	*raz_flags(t_flag *flag)
 		flag->alt_size = 0;
 		flag->sign_force = 0;
 		flag->fw = 0;
-		flag->precision = 0;
+		flag->precision = -1;
 		flag->type = 0;
 		flag->base = 10;
 		return (flag);
