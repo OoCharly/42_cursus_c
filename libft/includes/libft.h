@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/20 16:08:48 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/25 13:02:50 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int						ft_strequ(char const *s1, char const *s2);
 void					ft_striter(char *s, void (*f)(char*));
 void					ft_striteri(char *s, void (*f)(unsigned int, char *));
 char					*ft_strjoin(char const *s1, char const *s2);
+char					*ft_strfjoin(char *s1, char *s2);
 size_t					ft_strlcat(char *dst, const char *src, size_t size);
 size_t					ft_strlen(const char *s);
 char					*ft_strmap(char const *s, char (*f)(char));

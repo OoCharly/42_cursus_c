@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/25 11:14:09 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/12 15:17:28 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/25 17:12:36 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ char	*concat_full(t_list **list);
 //debug
 # include <stdio.h>
 void	stat_flag(t_flag *f);
+void	print_lst(t_list *lst);
 #endif

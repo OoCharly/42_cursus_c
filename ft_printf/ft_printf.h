@@ -3,55 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/30 11:33:28 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/21 12:38:07 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/04/25 11:14:09 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/05/25 14:09:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
+# include <unistd.h>
+# include <stdlib.h>
 # include <stdarg.h>
-# include <stdint.h>
-
-# define ARGS_LIST "sSpdDioOuUxXcCjzhl# '0-+.123456789"
-# define LIST_FORMAT "sSpdDioOuUxXcC"
+# include <limits.h>
+# include "../libft/includes/libft.h"
+# define ARGS_LIST "CcSspDdioOuxXeEfFgG%"
+# define FLAG_LIST "#+- 0.*jzhl"
+# define INTEGER_TYPE "dDi"
+# define UINTEGER_TYPE "oOuUxX"
+# define DOUBLE_TYPE "efgEFG"
+# define STRING_TYPE "sScC"
+# define OBSOLETE_TYPE "SCDOU"
+# define POS(x) (((x) > 0) ? (x) : 0)
 
 typedef struct		s_flag
 {
 	unsigned char	alt : 1;
 	unsigned char	pad_0 : 1;
 	unsigned char	pad_left : 1;
+	unsigned char	signd : 1;
+	unsigned char	format : 1;
 	char			alt_size : 4;
 	char			sign_force;
-	unsigned int	min_fw;
-//	unsigned int	precision;
 	char			type;
+	int				fw;
+	int				precision;
+	int				base;
 }					t_flag;
 
+int		ft_printf(char *fmt, ...);
+char	*ft_render_signed_integers(va_list ap, t_flag *f);
+char	*ft_render_unsigned_integers(va_list ap, t_flag *f);
+char	*ft_render_string(va_list ap, t_flag *f, int c);
+int		ft_parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list **list);
+t_flag	*raz_flags(t_flag *flag);
+char	*ft_process(t_flag *flag, t_list **lst, va_list ap);
+char	*concat_full(t_list **list);
+
+
+
+//debug
+# include <stdio.h>
+void	stat_flag(t_flag *f);
+void	print_lst(t_list *lst);
 #endif
-
-/*
- *
-
-typedef union		u_type
-{
-	char				c;
-	unsigned char		hhu;
-	short				h;
-	unsigned short		hu;
-	int					i;
-	unsigned int		iu;
-	long				l;
-	unsigned long		lu;
-	long long			ll;
-	unsigned long long	llu;
-	intmax_t			j;
-	uintmax_t			ju;
-	size_t				z;
-	ssize_t				zs;
-	void				*p;
-}					t_type;
-*/

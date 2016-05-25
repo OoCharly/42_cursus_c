@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_stdargc.c                                     :+:      :+:    :+:   */
+/*   ft_strfjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/31 15:13:07 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/03/31 17:11:24 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/05/25 13:00:18 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/05/25 13:03:40 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "ft_printf.h"
+#include "libft.h"
 
-void	yolo(char *fmt, ...)
+char	*ft_strfjoin(char *s1, char *s2)
 {
-	va_list	ap;
-	void	*a;
+	char	*out;
 
-	va_start(ap, fmt);
-	a = va_arg(ap, void*);
-	va_end(ap);
-	printf("--->%s\n", a);
-}
-
-int	main()
-{
-	t_type	a;
-
-	a.ll = 1234567890123456; 
-	yolo("abc", "abc");
-	printf("\n %i \n", a.i);
+	out = ft_strnew(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!out)
+		return (NULL);
+	ft_strcat(ft_strcat(out, s1), s2);
+	if (s1)
+		free(s1);
+	if (s2)
+		free(s2);
+	return (out);
 }

@@ -2,7 +2,7 @@
 
 int main()
 {
-	ft_printf("ft_printf:%+d\n", 0);
-	printf("printf\t :%+d\n", 0);
+	ft_printf("ft_printf:%.2s\n", "");
+	printf("printf\t :%.2s\n", "");
 	return (0);
 }

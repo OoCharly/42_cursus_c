@@ -5,59 +5,57 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/30 11:28:26 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/04/21 12:38:09 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/05/10 15:47:23 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/05/25 14:02:21 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-parse_arg(t_flag *flag, va_list ap)
+void	ft_do_stuff(char *fmt, va_list ap, t_flag *flag, t_list **lst)
 {
+	char	*pc;
+	t_list	*tmp;
+	int		res;
 
-
-int		check_args(char *fmt, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
+	while (*fmt)
 	{
-		if (!ft_strnchr(ARGS_LIST, *(fmt + i)))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-{
-	char	*next_arg;
-	char	*new;
-
-	while (*format)
-	{
-		next_arg = ft_strchr(format, '%');
-		if (next_arg == NULL)
+		pc = ft_strchr(fmt, '%');
+		if (!pc)
 		{
-			ft_lstadd_end(lst, ft_lstcreate_node(format, ft_strlen(format)));
-			return ();
+			tmp = ft_lstcreate(ft_strdup(fmt), ft_strlen(fmt));
+			ft_lstadd_end(lst, tmp);
+			return ;
 		}
-		else if (next_arg > format)
+		else if (pc > fmt)
 		{
-			if (!(new = ft_strndup(format, (size_t)(next_arg - format))))
-				return (NULL);
-			ft_lstadd_end(lst, ft_lstcreate_node(new, ft_strlen(new)));
-			format = ft_get_arg(next_arg, lst);
+			tmp = ft_lstcreate(ft_strndup(fmt, pc - fmt), pc - fmt);
+			ft_lstadd_end(lst, tmp);
+			fmt = pc + ft_parse_em_all(pc, ap, flag, lst) + 1;
 		}
 		else
-			format = ft_get_arg(next_arg, lst);
+		{
+			fmt += ft_parse_em_all(pc, ap, flag, lst) + 1;
+		}
 	}
 }
 
-char	*ft_get_arg(char *fmt, t_list **lst, va_list ap)
+int		ft_printf(char *fmt, ...)
 {
+	va_list	ap;
+	t_list	**lst;
 	t_flag	*flag;
-	char	*out;
+	int		out;
+	char	*all;
 
-	if(!(flag = ft_get_flags(fmt)))
-		return (fmt + 1);
-	out = parse_arg(flag, ap);
+	flag = NULL;
+	lst = ft_memalloc(sizeof(t_list*));
+	va_start(ap, fmt);
+	ft_do_stuff(fmt, ap, flag, lst);
+	va_end(ap);
+	all = concat_full(lst);
+	out = ft_lstsumsize(lst);
+	write(1, all, out);
+	
+	return (out);
+}
