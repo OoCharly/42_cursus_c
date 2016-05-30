@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:58:50 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/25 17:12:38 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/30 17:57:47 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,23 +112,22 @@ void	get_alt_size(char *fmt, t_flag *flag, int n)
 	}
 }
 
-int		ft_parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list **list)
+int		ft_parse_em_all(char *fmt, va_list ap, t_list **list)
 {
-	int	len;
+	int		len;
 	char	*tmp;
+	t_flag	*flag;
 
-	flag = raz_flags(flag);
+	flag = new_flag();
 	len = get_arg_len(fmt, flag);
 	if (len <= 0)
 		return (-len);
 	parse_flags(fmt, flag, len);
 	parse_width(fmt, flag, ap, len);
 	get_alt_size(fmt, flag, len);
-	if (ft_tolower(flag->type) == 'o')
-		flag->base = 8;
-	if (ft_tolower(flag->type) == 'x' || flag->type == 'p')
-		flag->base = 16;
 	tmp = ft_process(flag, list, ap);
+	stat_flag(flag);
 	ft_lstadd_end(list, ft_lstcreate(tmp, ft_strlen(tmp)));
+	free(flag);
 	return (len);
 }

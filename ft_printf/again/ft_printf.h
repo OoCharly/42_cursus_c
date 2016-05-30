@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/25 11:14:09 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/25 17:12:36 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/30 17:57:46 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 # include <stdarg.h>
 # include <limits.h>
 # include "../../libft/includes/libft.h"
-# define ARGS_LIST "CcSspDdioOuxXeEfFgG%"
+# define ARGS_LIST "bCcSspDdioOuUxXeEfFgG%"
 # define FLAG_LIST "#+- 0.*jzhl"
 # define INTEGER_TYPE "dDi"
-# define UINTEGER_TYPE "oOuUxX"
+# define UINTEGER_TYPE "oOuUxXb"
 # define DOUBLE_TYPE "efgEFG"
 # define STRING_TYPE "sScC"
 # define OBSOLETE_TYPE "SCDOU"
@@ -47,8 +47,8 @@ int		ft_printf(char *fmt, ...);
 char	*ft_render_signed_integers(va_list ap, t_flag *f);
 char	*ft_render_unsigned_integers(va_list ap, t_flag *f);
 char	*ft_render_string(va_list ap, t_flag *f, int c);
-int		ft_parse_em_all(char *fmt, va_list ap, t_flag *flag, t_list **list);
-t_flag	*raz_flags(t_flag *flag);
+int		ft_parse_em_all(char *fmt, va_list ap, t_list **list);
+t_flag	*new_flag(void);
 char	*ft_process(t_flag *flag, t_list **lst, va_list ap);
 char	*concat_full(t_list **list);
 

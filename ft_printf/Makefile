@@ -5,30 +5,34 @@
 #                                                     +:+ +:+         +:+      #
 #    By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/05/25 14:05:22 by cdesvern          #+#    #+#              #
-#    Updated: 2016/05/25 14:08:36 by cdesvern         ###   ########.fr        #
+#    Created: 2016/05/30 15:58:52 by cdesvern          #+#    #+#              #
+#    Updated: 2016/05/30 16:07:31 by cdesvern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
-FLAGS = -Wall -Wextra -Werror
-D_INCLUDES = ./
-
-SRCS = ft_printf.c chainer.c renderers.c flags.c parser.c
+FLAGS =
+D_INCLUDES = ./libft/includes
+D_LIBFT = ./libft/
+LIBFT = libft.a
+SRCS = chainer.c flags.c parser.c renderers.c type.c ft_printf.c
 
 OBJS = $(subst .c,.o,$(SRCS))
 
 all: $(NAME)
 
 $(NAME):
-	@clang -c $(SRCS) -L ../libft -lft
-	@ar rc $(NAME) $(OBJS)
+	@make -C $(D_LIBFT)
+	@clang -I $(D_INCLUDES) $(FLAGS) -c $(SRCS)
+	@libtool -static -o $(NAME) $(OBJS) $(D_LIBFT)$(LIBFT)
 	@ranlib $(NAME)
 
 clean:
+	@make clean -C $(D_LIBFT)
 	@/bin/rm -f $(OBJS)
 
 fclean: clean
+	@make fclean -C $(D_LIBFT)
 	@/bin/rm -f $(NAME)
 
 re: fclean all

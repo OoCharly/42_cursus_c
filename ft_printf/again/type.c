@@ -1,5 +1,15 @@
 #include "ft_printf.h"
 
+void	ft_getbase(t_flag *flag)
+{
+	if (ft_tolower(flag->type) == 'p' || ft_tolower(flag->type) == 'x')
+		flag->base = 16;
+	else if (ft_tolower(flag->type) == 'o')
+		flag->base = 8;
+	else if (ft_tolower(flag->type) == 'b')
+		flag->base = 2;
+}
+
 char    *ft_precision_string(t_flag *f, char *s)
 {
 	int             len;
@@ -52,16 +62,19 @@ char	*ft_integer_transform(t_flag *f, va_list ap)
 		out = ft_render_signed_integers(ap, f);
 		if (out[0] == '-')
 		{
+			f->sign_force = '-';
 			tmp = out;
-			out = strdup(out + 1);
+			out = ft_strdup(out + 1);
 			free(tmp);
 		}
 		out = ft_precision_integer(f, out);
 	}
 	else
 	{
+		f->sign_force = '\0';
+		ft_getbase(f);
 		out = ft_render_unsigned_integers(ap, f);
-		if (out[0] == '0')
+		if (out[0] == '0' && ft_tolower(f->type) == 'x')
 			f->alt = 0;
 		out = ft_precision_integer(f, out);
 	}

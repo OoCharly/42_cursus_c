@@ -1,28 +1,52 @@
 
 #include "ft_printf.h"
 
-char	*ft_format_padding(t_flag *flag, char *s)
+char	*ft_integer_padding(t_flag *f, char *s)
 {
 	int		len;
 	char	*out;
 	char	c;
 
-	c = (flag->pad_0) ? '0' : ' ';
-	if (flag->sign_force && !flag->pad_0)
-		s = ft_strfjoin(ft_wchar_to_string(flag->sign_force), s);
+	c = (f->pad_0) ? '0' : ' ';
+	if (f->sign_force && !f->pad_0)
+		s = ft_strfjoin(ft_wchar_to_string(f->sign_force), s);
 	len = ft_strlen(s);
-	if (flag->fw > len)
+	if (f->fw > len)
 	{
-		if (!(out = ft_memset(ft_strnew(flag->fw - len), c, flag->fw - len)))
+		if (!(out = ft_memset(ft_strnew(f->fw - len), c, f->fw - len)))
 			exit(-1);
-		if (flag->pad_left)
+		if (f->pad_left)
 			out = ft_strfjoin(s, out);
 		else
 			out = ft_strfjoin(out, s);
 		if (!out)
 			exit(-1);
-		if (flag->pad_0 && ft_strchr(INTEGER_TYPE, flag->type))
-			out[0] = flag->sign_force;
+		if (f->pad_0 && ft_strchr(INTEGER_TYPE, f->type) && f->sign_force)
+			out[0] = f->sign_force;
+	}
+	else
+		out = s;
+	return (out);
+}
+
+char	*ft_padding(t_flag *f, char *s)
+{
+	int		len;
+	char	*out;
+	char	c;
+
+	c = (f->pad_0) ? '0' : ' ';
+	len = ft_strlen(s);
+	if (f->fw > len)
+	{
+		if (!(out = ft_memset(ft_strnew(f->fw - len), c, f->fw - len)))
+			exit(-1);
+		if (f->pad_left)
+			out = ft_strfjoin(s, out);
+		else
+			out = ft_strfjoin(out, s);
+		if (!out)
+			exit(-1);
 	}
 	else
 		out = s;
@@ -33,7 +57,7 @@ char	*ft_alt_format(char *s, t_flag *f)
 {
 	char	*out;
 
-	if ((f->type == 'o' || f->type == 'O') && !f->precision)
+	if (f->type == 'o' || f->type == 'O')
 	{
 		out = ft_strjoin("0", s);
 		free(s);
@@ -43,7 +67,7 @@ char	*ft_alt_format(char *s, t_flag *f)
 		if (f->pad_0 && f->precision <= 0 && f->fw)
 		{
 			f->fw = POS(f->fw - 2);
-			out = ft_format_padding(f, s);
+			out = ft_integer_padding(f, s);
 			s = out;
 		}
 		out = ft_strjoin("0x", s);
@@ -58,7 +82,6 @@ char	*ft_process(t_flag *flag, t_list **lst, va_list ap)
 {
 	char	*out;
 
-	stat_flag(flag);
 	if (!(out = ft_transform(flag, ap)))
 		exit(-1);
 	if (flag->alt)
@@ -68,7 +91,15 @@ char	*ft_process(t_flag *flag, t_list **lst, va_list ap)
 	}
 	if (flag->type == 'X')
 		ft_capitalize(out);
-	if (!(out = ft_format_padding(flag, out)))
-		exit(-1);
+	if (ft_strchr(INTEGER_TYPE UINTEGER_TYPE, flag->type))
+	{
+		if (!(out = ft_integer_padding(flag, out)))
+			exit(-1);
+	}
+	else
+	{
+		if (!(out = ft_padding(flag, out)))
+			exit(-1);
+	}
 	return (out);
 }

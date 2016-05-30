@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/25 13:02:50 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/30 14:51:56 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void					ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list					*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list					*ft_lstcreate(void *content, size_t content_size);
 size_t					ft_lstsumsize(t_list **lst);
+void					ft_del_node(void *data, size_t n);
 /*
 ** maths
 */

@@ -1,4 +1,0 @@
-main.c:6:21: warning: flag '#' results in undefined behavior with 'd' conversion specifier [-Wformat]
-        printf("printf\t :%#+05doyolo\n", 10);
-                          ~^~~~~
-1 warning generated.

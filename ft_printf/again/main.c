@@ -2,7 +2,7 @@
 
 int main()
 {
-	ft_printf("ft_printf:%5.2s\n", "");
-	printf("printf\t :%5.2s\n", "");
+	ft_printf("@moulitest: %s", NULL);
+	printf("@moulitest: %s", NULL);
 	return (0);
 }
