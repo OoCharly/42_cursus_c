@@ -42,6 +42,7 @@ typedef struct		s_flag
 	int				base;
 }					t_flag;
 
+char	*ft_transform(t_flag *f, va_list ap);
 int		ft_printf(char *fmt, ...);
 char	*ft_render_signed_integers(va_list ap, t_flag *f);
 char	*ft_render_unsigned_integers(va_list ap, t_flag *f);
