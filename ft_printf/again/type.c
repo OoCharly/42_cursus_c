@@ -1,8 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   type.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/05/31 10:48:03 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/05/31 19:08:51 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	ft_getbase(t_flag *flag)
 {
-	if (ft_tolower(flag->type) == 'p' || ft_tolower(flag->type) == 'x')
+	if (ft_tolower(flag->type) == 'p')
+	{
+		flag->base = 16;
+		flag->alt = 1;
+		flag->alt_size = 1;
+	}
+	if (ft_tolower(flag->type) == 'x')
 		flag->base = 16;
 	else if (ft_tolower(flag->type) == 'o')
 		flag->base = 8;
@@ -10,13 +28,13 @@ void	ft_getbase(t_flag *flag)
 		flag->base = 2;
 }
 
-char    *ft_precision_string(t_flag *f, char *s)
+char	*ft_precision_string(t_flag *f, char *s)
 {
-	int             len;
+	int		len;
 	char    *out;
 
 	len = ft_strlen(s);
-	if (f->precision >= 0 && f->precision < len)
+	if (f->precision >= 0 && f->precision < (int)len)
 	{
 		if (!(out = ft_strndup(s, (size_t)f->precision)))
 			exit(-1);
@@ -30,7 +48,6 @@ char    *ft_precision_string(t_flag *f, char *s)
 char    *ft_precision_integer(t_flag *f, char *s)
 {
 	int             len;
-	char    *tmp;
 	char    *out;
 
 	len = ft_strlen(s);
@@ -84,21 +101,23 @@ char	*ft_integer_transform(t_flag *f, va_list ap)
 char    *ft_transform(t_flag *f, va_list ap)
 {
 	char    *out;
-	char    *tmp;
-
+	
 	if (f->type == '%')
 		return (ft_wchar_to_string('%'));
-	else if (ft_strchr(INTEGER_TYPE UINTEGER_TYPE, f->type))
+	else if (ft_strchr(INTEGER_TYPE UINTEGER_TYPE, f->type) && f->type)
 		return (ft_integer_transform(f, ap));
-	else if (ft_strchr(STRING_TYPE, f->type))
+	else if (ft_tolower(f->type) == 's')
 	{
-		out = ft_render_string(ap, f, (ft_tolower(f->type) == 'c') ? 1 : 0);
+		out = ft_render_string(ap, f);
 		out = ft_precision_string(f, out);
 		return (out);
 	}
-	else if (ft_strchr(DOUBLE_TYPE, f->type))
+	else if (ft_tolower(f->type == 'c'))
+		return (ft_render_char(ap, f));
+	else if (ft_strchr(DOUBLE_TYPE, f->type) && f->type)
 	{
-		exit(-1);
+		return (ft_memalloc(0));
 	}
-	return (NULL);
+	else
+		return (ft_wchar_to_string(f->type));
 }

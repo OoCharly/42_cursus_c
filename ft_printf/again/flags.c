@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 15:36:32 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/30 17:57:42 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/31 19:08:59 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,31 @@ t_flag	*new_flag(void)
 	return (flag);
 }
 
-char	*concat_full(t_list **list)
+size_t		ft_concat_full(t_list **list, char *buff)
 {
-	char	*out;
 	t_list	*tmp;
-	
+	size_t	ret;
+
+	ret = 0;
 	if (!*list)
+		return (0);
+	while (*list && ret < BUFF_SIZE)
 	{
-		if (!(out = ft_memalloc(0)))
-			exit(-1);
-		return (out);
+		tmp = *list;
+		if (tmp->content_size < (BUFF_SIZE - ret))
+		{
+			ft_memcpy((buff + ret), tmp->content, tmp->content_size);
+			ret += tmp->content_size;
+			ft_lstdelfst(list, &ft_del_node);
+		}
+		else
+		{
+			ft_memcpy((buff + ret), tmp->content, (BUFF_SIZE - ret));
+			ret = BUFF_SIZE;
+			ft_memmove(tmp->content, tmp->content, (BUFF_SIZE - ret));
+			tmp->content_size -= (BUFF_SIZE - ret);
+			return (ret);
+		}
 	}
-	if (!(out = ft_memalloc(ft_lstsumsize(list) + 1)))
-		return (NULL);
-	tmp = *list;
-	while (tmp)
-	{
-		ft_strcat(out, (const char*)tmp->content);
-		tmp = tmp->next;
-	}
-	return (out);
+	return (ret);
 }

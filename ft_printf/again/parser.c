@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:58:50 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/30 17:57:47 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/31 16:56:02 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,16 @@ int		get_arg_len(char *fmt, t_flag *flag)
 	while (fmt[i] && !ft_strchr(ARGS_LIST, fmt[i]))
 	{
 		if (!ft_strchr(FLAG_LIST, fmt[i]) && !ft_isdigit(fmt[i]))
-			return (-i);
+		{
+			flag->type = fmt[i];
+			return (i);
+		}
 		i++;
 	}
-	if (fmt[i] == '\0')
-		return (-i);
 	flag->type = fmt[i];
-	if (ft_strchr(DOUBLE_TYPE "dDi", flag->type))
+	if (fmt[i] == '\0')
+		return (i - 1);
+	if (ft_strchr(DOUBLE_TYPE INTEGER_TYPE, flag->type))
 		flag->signd = 1;
 	return (i);
 }
@@ -47,7 +50,7 @@ void	parse_width(char *fmt, t_flag *flag, va_list ap, int n)
 	}
 	while (i < n)
 	{
-		if (ft_isdigit(fmt[i]))
+		if (ft_isdigit(fmt[i]) && fmt[i] != '0')
 		{
 			if (fmt[i - 1] != '.')
 				flag->fw = ft_atoi(fmt + i);
@@ -117,17 +120,16 @@ int		ft_parse_em_all(char *fmt, va_list ap, t_list **list)
 	int		len;
 	char	*tmp;
 	t_flag	*flag;
+	int		wildcase;
 
 	flag = new_flag();
 	len = get_arg_len(fmt, flag);
-	if (len <= 0)
-		return (-len);
 	parse_flags(fmt, flag, len);
 	parse_width(fmt, flag, ap, len);
 	get_alt_size(fmt, flag, len);
-	tmp = ft_process(flag, list, ap);
-	stat_flag(flag);
-	ft_lstadd_end(list, ft_lstcreate(tmp, ft_strlen(tmp)));
+	tmp = ft_process(flag, ap);
+	wildcase = (flag->precision == -2) ? 1 : 0;
+	ft_lstadd_end(list, ft_lstcreate(tmp, ft_strlen(tmp) + wildcase));
 	free(flag);
 	return (len);
 }

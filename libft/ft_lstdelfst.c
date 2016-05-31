@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ntoa.c                                          :+:      :+:    :+:   */
+/*   ft_lstdelfirst.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/05 15:05:57 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/31 11:50:45 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/05/31 16:34:08 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/05/31 16:38:39 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_ntoa(intmax_t n)
+void	ft_lstdelfst(t_list **alst, void (*del)(void*, size_t))
 {
-	int			i;
-	int			j;
-	char		*out;
-	uintmax_t	tmp;
-
-	i = 0;
-	tmp = (n < 0) ? 0 - n: 0 + n;
-	while ((tmp / ft_pow(10, i)) >= 10)
-		i++;
-	if (!(out = ft_memalloc(sizeof(char) * (i + 3))))
-		return (NULL);
-	j = 0;
-	if (n < 0)
-		out[j++] = '-';
-	while (i >= 0)
+	t_list	*tmp;
+	if (alst)
 	{
-		out[j++] = '0' + (tmp / ft_pow(10, i));
-		tmp %= ft_pow(10, i);
-		i--;
+		(*del)((*alst)->content, (*alst)->content_size);
+		tmp = *alst;
+		*alst = (*alst)->next;
+		free(tmp);
+		tmp = NULL;
 	}
-	return (out);
 }

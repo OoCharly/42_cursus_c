@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/25 11:14:09 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/30 17:57:46 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/31 19:08:49 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 # define ARGS_LIST "bCcSspDdioOuUxXeEfFgG%"
 # define FLAG_LIST "#+- 0.*jzhl"
 # define INTEGER_TYPE "dDi"
-# define UINTEGER_TYPE "oOuUxXb"
+# define UINTEGER_TYPE "oOuUxXbp"
 # define DOUBLE_TYPE "efgEFG"
-# define STRING_TYPE "sScC"
 # define OBSOLETE_TYPE "SCDOU"
 # define POS(x) (((x) > 0) ? (x) : 0)
+# define BUFF_SIZE 9046
 
 typedef struct		s_flag
 {
@@ -42,20 +42,19 @@ typedef struct		s_flag
 	int				base;
 }					t_flag;
 
-char	*ft_transform(t_flag *f, va_list ap);
-int		ft_printf(char *fmt, ...);
-char	*ft_render_signed_integers(va_list ap, t_flag *f);
-char	*ft_render_unsigned_integers(va_list ap, t_flag *f);
-char	*ft_render_string(va_list ap, t_flag *f, int c);
-int		ft_parse_em_all(char *fmt, va_list ap, t_list **list);
-t_flag	*new_flag(void);
-char	*ft_process(t_flag *flag, t_list **lst, va_list ap);
-char	*concat_full(t_list **list);
-
-
+char				*ft_transform(t_flag *f, va_list ap);
+int					ft_printf(char *fmt, ...);
+char				*ft_render_signed_integers(va_list ap, t_flag *f);
+char				*ft_render_unsigned_integers(va_list ap, t_flag *f);
+char				*ft_render_string(va_list ap, t_flag *f);
+char				*ft_render_char(va_list ap, t_flag *f);
+int					ft_parse_em_all(char *fmt, va_list ap, t_list **list);
+t_flag				*new_flag(void);
+char				*ft_process(t_flag *flag, va_list ap);
+size_t				ft_concat_full(t_list **list, char *buff);
 
 //debug
 # include <stdio.h>
-void	stat_flag(t_flag *f);
-void	print_lst(t_list *lst);
+void				stat_flag(t_flag *f);
+void				print_lst(t_list *lst);
 #endif

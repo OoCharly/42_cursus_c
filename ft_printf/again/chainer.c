@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   chainer.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/05/31 10:48:10 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/05/31 16:56:00 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf.h"
 
@@ -9,7 +20,10 @@ char	*ft_integer_padding(t_flag *f, char *s)
 
 	c = (f->pad_0) ? '0' : ' ';
 	if (f->sign_force && !f->pad_0)
+	{
 		s = ft_strfjoin(ft_wchar_to_string(f->sign_force), s);
+		f->sign_force = 0;
+	}
 	len = ft_strlen(s);
 	if (f->fw > len)
 	{
@@ -25,7 +39,7 @@ char	*ft_integer_padding(t_flag *f, char *s)
 			out[0] = f->sign_force;
 	}
 	else
-		out = s;
+		out = ft_strfjoin(ft_wchar_to_string(f->sign_force), s);
 	return (out);
 }
 
@@ -78,7 +92,7 @@ char	*ft_alt_format(char *s, t_flag *f)
 	return (out);
 }
 
-char	*ft_process(t_flag *flag, t_list **lst, va_list ap)
+char	*ft_process(t_flag *flag, va_list ap)
 {
 	char	*out;
 
@@ -91,7 +105,7 @@ char	*ft_process(t_flag *flag, t_list **lst, va_list ap)
 	}
 	if (flag->type == 'X')
 		ft_capitalize(out);
-	if (ft_strchr(INTEGER_TYPE UINTEGER_TYPE, flag->type))
+	if (ft_strchr(INTEGER_TYPE UINTEGER_TYPE, flag->type) && flag->type)
 	{
 		if (!(out = ft_integer_padding(flag, out)))
 			exit(-1);

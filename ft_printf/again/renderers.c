@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 13:56:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/25 17:12:32 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/05/31 19:08:57 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*ft_render_unsigned_integers(va_list ap, t_flag *f)
 		out = (ft_ntoa_base(va_arg(ap, uintmax_t), f->base));
 	else if (f->alt_size == 4)
 		out = (ft_ntoa_base(va_arg(ap, size_t), f->base));
+	else
+		exit(-1);
 	if (!out)
 		exit(-1);
 	return (out);
@@ -54,38 +56,48 @@ char	*ft_render_signed_integers(va_list ap, t_flag *f)
 		out = (ft_ntoa(va_arg(ap, intmax_t)));
 	else if (f->alt_size == 4)
 		out = (ft_ntoa(va_arg(ap, ssize_t)));
+	else
+		exit(-1);
 	if (!out)
 		exit(-1);
 	return (out);
 }
 
-char	*ft_render_string(va_list ap, t_flag *f, int c)
+char	*ft_render_string(va_list ap, t_flag *f)
 {
 	char	*out;
 	char	*tmp;
+	wchar_t	*wtmp;
 
-	if (!c)
-		if (f->alt_size == 1)
-			out = (ft_wstring_to_string(va_arg(ap, wchar_t*)));
+	if (f->alt_size == 1)
+	{
+		if (!(wtmp = va_arg(ap, wchar_t*)))
+			out = ft_strdup("(null)");
 		else
-			out = (ft_strdup(va_arg(ap, char*)));
+			out = (ft_wstring_to_string(wtmp));
+	}
 	else
-		if (f->alt_size == 1)
-			out = (ft_wchar_to_string(va_arg(ap, wchar_t)));
+	{
+		if (!(tmp = va_arg(ap, char*)))
+			out = ft_strdup("(null)");
 		else
-		{
-			if (!(out = ft_memalloc(sizeof(char) * 2)))
-				exit(-1);
-			out[0] = (char)va_arg(ap, int);
-		}
+			out = (ft_strdup(tmp));
+	}
 	if (!out)
 		exit(-1);
-	if (f->precision >= 0 && ft_strlen(out) > f->precision)
+	return (out);
+}
+
+char	*ft_render_char(va_list ap, t_flag *f)
+{
+	char	*out;
+
+	if (!(out = ft_wchar_to_string(va_arg(ap, int))))
+		exit(-1);
+	if (!*out)
 	{
-		tmp = out;
-		out = ft_strndup(out, f->precision);
-		free(tmp);
-		f->precision = -1;
+		f->fw = POS(f->fw - 1);
+		f->precision = -2;
 	}
 	return (out);
 }
