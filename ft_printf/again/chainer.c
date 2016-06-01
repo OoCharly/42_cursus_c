@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 10:48:10 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/31 16:56:00 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/01 23:56:53 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ char	*ft_integer_padding(t_flag *f, char *s)
 	if (f->fw > len)
 	{
 		if (!(out = ft_memset(ft_strnew(f->fw - len), c, f->fw - len)))
-			exit(-1);
+			return (NULL);
 		if (f->pad_left)
 			out = ft_strfjoin(s, out);
 		else
 			out = ft_strfjoin(out, s);
 		if (!out)
-			exit(-1);
+			return (NULL);
 		if (f->pad_0 && ft_strchr(INTEGER_TYPE, f->type) && f->sign_force)
 			out[0] = f->sign_force;
 	}
@@ -54,13 +54,13 @@ char	*ft_padding(t_flag *f, char *s)
 	if (f->fw > len)
 	{
 		if (!(out = ft_memset(ft_strnew(f->fw - len), c, f->fw - len)))
-			exit(-1);
+			return (NULL);
 		if (f->pad_left)
 			out = ft_strfjoin(s, out);
 		else
 			out = ft_strfjoin(out, s);
 		if (!out)
-			exit(-1);
+			return (NULL);
 	}
 	else
 		out = s;
@@ -97,23 +97,23 @@ char	*ft_process(t_flag *flag, va_list ap)
 	char	*out;
 
 	if (!(out = ft_transform(flag, ap)))
-		exit(-1);
+		return (NULL);
 	if (flag->alt)
 	{
 		if (!(out = ft_alt_format(out, flag)))
-			exit(-1);
+			return (NULL);
 	}
 	if (flag->type == 'X')
 		ft_capitalize(out);
 	if (ft_strchr(INTEGER_TYPE UINTEGER_TYPE, flag->type) && flag->type)
 	{
 		if (!(out = ft_integer_padding(flag, out)))
-			exit(-1);
+			return (NULL);
 	}
 	else
 	{
 		if (!(out = ft_padding(flag, out)))
-			exit(-1);
+			return (NULL);
 	}
 	return (out);
 }

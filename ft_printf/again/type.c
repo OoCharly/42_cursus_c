@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 10:48:03 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/31 19:08:51 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/01 23:56:47 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_integer_transform(t_flag *f, va_list ap)
 {
 	char	*out;
 	char	*tmp;
-
+	
 	if (ft_strchr(INTEGER_TYPE, f->type))
 	{
 		out = ft_render_signed_integers(ap, f);
@@ -112,7 +112,7 @@ char    *ft_transform(t_flag *f, va_list ap)
 		out = ft_precision_string(f, out);
 		return (out);
 	}
-	else if (ft_tolower(f->type == 'c'))
+	else if (ft_tolower(f->type) == 'c')
 		return (ft_render_char(ap, f));
 	else if (ft_strchr(DOUBLE_TYPE, f->type) && f->type)
 	{

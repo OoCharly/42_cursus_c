@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 10:19:12 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/31 19:09:01 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/01 23:19:47 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char		*ft_wchar_to_string(int c)
 	if (!i)
 		out[0] = (char)c;
 	else
-		out[0] = ((c >> (6 * i) & (size << i)) | (size << (4 - i)));
+		out[0] = ((c >> (6 * i)) | (size << (4 - i)));
 	size = 1;
 	while (i--)
 		out[size++] = ((c >> (6 * i)) & 63) | 128;

@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:58:50 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/31 16:56:02 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/01 23:35:10 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int		ft_parse_em_all(char *fmt, va_list ap, t_list **list)
 	parse_width(fmt, flag, ap, len);
 	get_alt_size(fmt, flag, len);
 	tmp = ft_process(flag, ap);
+	stat_flag(flag);
 	wildcase = (flag->precision == -2) ? 1 : 0;
 	ft_lstadd_end(list, ft_lstcreate(tmp, ft_strlen(tmp) + wildcase));
 	free(flag);

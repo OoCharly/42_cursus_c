@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 13:56:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/31 19:08:57 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/01 23:55:48 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ char	*ft_render_unsigned_integers(va_list ap, t_flag *f)
 	else if (f->alt_size == 4)
 		out = (ft_ntoa_base(va_arg(ap, size_t), f->base));
 	else
-		exit(-1);
+		return (NULL);
 	if (!out)
-		exit(-1);
+		return (NULL);
 	return (out);
 }
 
@@ -57,9 +57,9 @@ char	*ft_render_signed_integers(va_list ap, t_flag *f)
 	else if (f->alt_size == 4)
 		out = (ft_ntoa(va_arg(ap, ssize_t)));
 	else
-		exit(-1);
+		return (NULL);
 	if (!out)
-		exit(-1);
+		return (NULL);
 	return (out);
 }
 
@@ -84,7 +84,7 @@ char	*ft_render_string(va_list ap, t_flag *f)
 			out = (ft_strdup(tmp));
 	}
 	if (!out)
-		exit(-1);
+		return (NULL);
 	return (out);
 }
 
@@ -93,7 +93,7 @@ char	*ft_render_char(va_list ap, t_flag *f)
 	char	*out;
 
 	if (!(out = ft_wchar_to_string(va_arg(ap, int))))
-		exit(-1);
+		return (NULL);
 	if (!*out)
 	{
 		f->fw = POS(f->fw - 1);
