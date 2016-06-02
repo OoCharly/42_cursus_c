@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 15:05:57 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/31 11:50:45 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/02 18:59:37 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_ntoa(intmax_t n)
 	uintmax_t	tmp;
 
 	i = 0;
-	tmp = (n < 0) ? 0 - n: 0 + n;
+	tmp = (n < 0) ? 0 - n : 0 + n;
 	while ((tmp / ft_pow(10, i)) >= 10)
 		i++;
 	if (!(out = ft_memalloc(sizeof(char) * (i + 3))))

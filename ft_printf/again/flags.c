@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 15:36:32 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/01 19:47:39 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/02 19:01:18 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_flag	*new_flag(void)
 	return (flag);
 }
 
-size_t		ft_concat_full(t_list **list, char *buff)
+size_t	ft_concat_full(t_list **list, char *buff)
 {
 	t_list	*tmp;
 	size_t	ret;

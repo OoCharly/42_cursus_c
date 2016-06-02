@@ -6,11 +6,27 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 13:56:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/01 23:55:48 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/02 19:54:37 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+wchar_t	*wstring_precision(wchar_t *ws, t_flag	*f)
+{
+	wchar_t	*out;
+
+	if (f->precision < 0)
+		return (ws);
+	else
+	{
+		if (!(out = ft_memalloc(sizeof(wchar_t) * (f->precision + 1))))
+			return (NULL);
+		ft_memcpy(out, ws, f->precision * 4);
+		f->precision = -1;
+		return (out);
+	}
+}
 
 char	*ft_render_unsigned_integers(va_list ap, t_flag *f)
 {
@@ -74,7 +90,7 @@ char	*ft_render_string(va_list ap, t_flag *f)
 		if (!(wtmp = va_arg(ap, wchar_t*)))
 			out = ft_strdup("(null)");
 		else
-			out = (ft_wstring_to_string(wtmp));
+			out = (ft_wstring_to_string(wstring_precision(wtmp, f)));
 	}
 	else
 	{
@@ -92,7 +108,11 @@ char	*ft_render_char(va_list ap, t_flag *f)
 {
 	char	*out;
 
-	if (!(out = ft_wchar_to_string(va_arg(ap, int))))
+	if (f->alt_size == 1)
+		out = ft_wchar_to_string(va_arg(ap, int));
+	else
+		out = ft_char_to_string(va_arg(ap, int));
+	if (!out)
 		return (NULL);
 	if (!*out)
 	{

@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_char_to_string.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/01 22:41:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/02 19:54:49 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/06/02 16:16:06 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/06/02 16:17:41 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <wchar.h>
-#include <locale.h>
+#include "libft.h"
 
-int main()
+char	*ft_char_to_string(int c)
 {
-	wchar_t	*p;
+	char	*out;
 
-	setlocale(LC_ALL, "");
-	p = L"coucorüu";
-	printf("pf |%.5S", L"œ∂ƒ©˙");
-	ft_printf("ft |%.5S", L"œ∂ƒ©˙");
-	return (0);
+	if (!(out = ft_memalloc(2)))
+		return (NULL);
+	else
+		out[0] = (char)c;
+	return (out);
 }

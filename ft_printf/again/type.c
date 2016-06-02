@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 10:48:03 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/01 23:56:47 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/02 19:54:51 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	ft_getbase(t_flag *flag)
 		flag->base = 2;
 }
 
-char	*ft_precision_string(t_flag *f, char *s)
+char	*ft_precision_string(t_flag *f, void *s)
 {
 	int		len;
-	char    *out;
+	char	*out;
 
 	len = ft_strlen(s);
 	if (f->precision >= 0 && f->precision < (int)len)
@@ -45,10 +45,10 @@ char	*ft_precision_string(t_flag *f, char *s)
 	return (out);
 }
 
-char    *ft_precision_integer(t_flag *f, char *s)
+char	*ft_precision_integer(t_flag *f, char *s)
 {
-	int             len;
-	char    *out;
+	int		len;
+	char	*out;
 
 	len = ft_strlen(s);
 	if (f->precision == 0 && s[0] == '0' && !f->pad_0)
@@ -73,8 +73,8 @@ char	*ft_integer_transform(t_flag *f, va_list ap)
 {
 	char	*out;
 	char	*tmp;
-	
-	if (ft_strchr(INTEGER_TYPE, f->type))
+
+	if (ft_strchr(SINTEGER_TYPE, f->type))
 	{
 		out = ft_render_signed_integers(ap, f);
 		if (out[0] == '-')
@@ -98,26 +98,24 @@ char	*ft_integer_transform(t_flag *f, va_list ap)
 	return (out);
 }
 
-char    *ft_transform(t_flag *f, va_list ap)
+char	*ft_transform(t_flag *f, va_list ap)
 {
-	char    *out;
-	
+	char	*out;
+
 	if (f->type == '%')
-		return (ft_wchar_to_string('%'));
-	else if (ft_strchr(INTEGER_TYPE UINTEGER_TYPE, f->type) && f->type)
-		return (ft_integer_transform(f, ap));
+		out = ft_wchar_to_string('%');
+	else if (ft_strchr(INTEGER_TYPE, f->type) && f->type)
+		out = ft_integer_transform(f, ap);
 	else if (ft_tolower(f->type) == 's')
 	{
 		out = ft_render_string(ap, f);
 		out = ft_precision_string(f, out);
-		return (out);
 	}
 	else if (ft_tolower(f->type) == 'c')
-		return (ft_render_char(ap, f));
+		out = (ft_render_char(ap, f));
 	else if (ft_strchr(DOUBLE_TYPE, f->type) && f->type)
-	{
-		return (ft_memalloc(0));
-	}
+		out = (ft_memalloc(0));
 	else
-		return (ft_wchar_to_string(f->type));
+		out = ft_wchar_to_string(f->type);
+	return (out);
 }

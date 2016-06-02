@@ -6,7 +6,7 @@
 #    By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/30 15:58:52 by cdesvern          #+#    #+#              #
-#    Updated: 2016/05/30 16:07:31 by cdesvern         ###   ########.fr        #
+#    Updated: 2016/06/02 17:43:50 by cdesvern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ FLAGS =
 D_INCLUDES = ./libft/includes
 D_LIBFT = ./libft/
 LIBFT = libft.a
-SRCS = chainer.c flags.c parser.c renderers.c type.c ft_printf.c
+SRCS = chainer.c flags.c parser.c renderers.c type.c ft_printf.c\
+	   ft_printf_fw_parser.c
 
 OBJS = $(subst .c,.o,$(SRCS))
 

@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 16:34:08 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/31 16:38:39 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/02 18:59:08 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_lstdelfst(t_list **alst, void (*del)(void*, size_t))
 {
 	t_list	*tmp;
+
 	if (alst)
 	{
 		(*del)((*alst)->content, (*alst)->content_size);

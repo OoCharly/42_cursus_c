@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 10:48:10 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/01 23:56:53 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/02 19:54:44 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ char	*ft_integer_padding(t_flag *f, char *s)
 	char	c;
 
 	c = (f->pad_0) ? '0' : ' ';
-	if (f->sign_force && !f->pad_0)
-	{
-		s = ft_strfjoin(ft_wchar_to_string(f->sign_force), s);
-		f->sign_force = 0;
-	}
 	len = ft_strlen(s);
 	if (f->fw > len)
 	{
@@ -35,7 +30,7 @@ char	*ft_integer_padding(t_flag *f, char *s)
 			out = ft_strfjoin(out, s);
 		if (!out)
 			return (NULL);
-		if (f->pad_0 && ft_strchr(INTEGER_TYPE, f->type) && f->sign_force)
+		if (f->pad_0 && ft_strchr(SINTEGER_TYPE, f->type) && f->sign_force)
 			out[0] = f->sign_force;
 	}
 	else
@@ -71,7 +66,7 @@ char	*ft_alt_format(char *s, t_flag *f)
 {
 	char	*out;
 
-	if (f->type == 'o' || f->type == 'O')
+	if ((f->type == 'o' || f->type == 'O') && s[0] != '0')
 	{
 		out = ft_strjoin("0", s);
 		free(s);
@@ -105,15 +100,17 @@ char	*ft_process(t_flag *flag, va_list ap)
 	}
 	if (flag->type == 'X')
 		ft_capitalize(out);
-	if (ft_strchr(INTEGER_TYPE UINTEGER_TYPE, flag->type) && flag->type)
+	if (ft_strchr(INTEGER_TYPE, flag->type) && flag->type)
 	{
-		if (!(out = ft_integer_padding(flag, out)))
-			return (NULL);
+		if (flag->sign_force && !flag->pad_0)
+		{
+			if (!(out = ft_strfjoin(ft_wchar_to_string(flag->sign_force), out)))
+				return (NULL);
+			flag->sign_force = 0;
+		}
+		out = ft_integer_padding(flag, out);
 	}
 	else
-	{
-		if (!(out = ft_padding(flag, out)))
-			return (NULL);
-	}
+		out = ft_padding(flag, out);
 	return (out);
 }

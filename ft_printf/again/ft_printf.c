@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 15:47:23 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/01 23:53:26 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/02 19:01:50 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	ft_print(t_list **lst)
 	free(buff);
 	free(lst);
 }
-
 
 int		ft_printf(char *fmt, ...)
 {

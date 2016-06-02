@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/25 11:14:09 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/01 22:39:24 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/02 18:46:51 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 # include "../../libft/includes/libft.h"
 # define ARGS_LIST "bCcSspDdioOuUxXeEfFgG%"
 # define FLAG_LIST "#+- 0.*jzhl"
-# define INTEGER_TYPE "dDi"
+# define SINTEGER_TYPE "dDi"
 # define UINTEGER_TYPE "oOuUxXbp"
+# define INTEGER_TYPE "dDioOuUxXbp"
 # define DOUBLE_TYPE "efgEFG"
 # define OBSOLETE_TYPE "SCDOU"
 # define POS(x) (((x) > 0) ? (x) : 0)
@@ -49,6 +50,7 @@ char				*ft_render_unsigned_integers(va_list ap, t_flag *f);
 char				*ft_render_string(va_list ap, t_flag *f);
 char				*ft_render_char(va_list ap, t_flag *f);
 int					ft_parse_em_all(char *fmt, va_list ap, t_list **list);
+void				ft_printf_field_parser(char *fmt, va_list ap, t_flag *f, int n);
 t_flag				*new_flag(void);
 char				*ft_process(t_flag *flag, va_list ap);
 size_t				ft_concat_full(t_list **list, char *buff);

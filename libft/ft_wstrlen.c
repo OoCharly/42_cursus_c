@@ -1,17 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcolor.c                                      :+:      :+:    :+:   */
+/*   ft_wstrlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/05 18:15:45 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/05/10 10:20:12 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/06/02 19:40:02 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/06/02 19:41:32 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "ft_colors.h"
 
-void	ft_putstr_color(char *str, char *color)
+size_t	ft_wstrlen(wchar_t *ws)
 {
+	int	i;
+
+	i = 0;
+	if (!ws)
+		return (0);
+	while (*ws)
+	{
+		i++;
+		ws++;
+	}
+	return (i);
+}
