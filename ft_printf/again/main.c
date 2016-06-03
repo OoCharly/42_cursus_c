@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/01 22:41:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/02 19:54:49 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/03 20:26:38 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int main()
 
 	setlocale(LC_ALL, "");
 	p = L"coucorüu";
-	printf("pf |%.5S", L"œ∂ƒ©˙");
-	ft_printf("ft |%.5S", L"œ∂ƒ©˙");
-	return (0);
+	printf("pf |%#o\n", 0);
+	return (ft_printf("ft |%#o\n", 0));
 }
