@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   renderers.c                                        :+:      :+:    :+:   */
+/*   ft_printf_renderers.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/28 13:56:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/03 20:55:42 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/06/06 10:33:49 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/06/06 11:02:25 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*wstring_precision(wchar_t *ws, t_flag *f)
+static	char	*wstring_precision(wchar_t *ws, t_flag *f)
 {
 	char	*out;
 	char	*tmp;
@@ -32,7 +32,7 @@ char	*wstring_precision(wchar_t *ws, t_flag *f)
 	return (out);
 }
 
-char	*ft_render_unsigned_integers(va_list ap, t_flag *f)
+char			*ft_printf_render_unsignedint(va_list ap, t_flag *f)
 {
 	char	*out;
 
@@ -56,7 +56,7 @@ char	*ft_render_unsigned_integers(va_list ap, t_flag *f)
 	return (out);
 }
 
-char	*ft_render_signed_integers(va_list ap, t_flag *f)
+char			*ft_printf_render_signedint(va_list ap, t_flag *f)
 {
 	char	*out;
 
@@ -79,7 +79,7 @@ char	*ft_render_signed_integers(va_list ap, t_flag *f)
 	return (out);
 }
 
-char	*ft_render_string(va_list ap, t_flag *f)
+char			*ft_printf_render_string(va_list ap, t_flag *f)
 {
 	char	*out;
 	char	*tmp;
@@ -107,7 +107,7 @@ char	*ft_render_string(va_list ap, t_flag *f)
 	return ((out) ? out : NULL);
 }
 
-char	*ft_render_char(va_list ap, t_flag *f)
+char			*ft_printf_render_char(va_list ap, t_flag *f)
 {
 	char	*out;
 

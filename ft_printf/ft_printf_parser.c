@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_printf_parser.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/28 15:58:50 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/03 20:55:44 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/06/06 10:34:57 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/06/06 10:59:41 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		get_arg_len(char *fmt, t_flag *flag)
+static	int		get_arg_len(char *fmt, t_flag *flag)
 {
 	size_t	i;
 
@@ -29,12 +29,10 @@ int		get_arg_len(char *fmt, t_flag *flag)
 	flag->type = fmt[i];
 	if (fmt[i] == '\0')
 		return (i - 1);
-	if (ft_strchr(SINTEGER_TYPE, flag->type))
-		flag->signd = 1;
 	return (i);
 }
 
-void	get_alt_size(char *fmt, t_flag *flag, int n)
+static	void	get_alt_size(char *fmt, t_flag *flag, int n)
 {
 	int	i;
 
@@ -60,7 +58,7 @@ void	get_alt_size(char *fmt, t_flag *flag, int n)
 	}
 }
 
-void	ft_getbase(t_flag *flag)
+static	void	ft_getbase(t_flag *flag)
 {
 	if (flag->type == 'p')
 	{
@@ -76,7 +74,7 @@ void	ft_getbase(t_flag *flag)
 		flag->base = 2;
 }
 
-void	reparse_flags(t_flag *f)
+static	void	reparse_flags(t_flag *f)
 {
 	if (f->fw < 0)
 	{
@@ -93,18 +91,18 @@ void	reparse_flags(t_flag *f)
 	ft_getbase(f);
 }
 
-int		ft_parse_em_all(char *fmt, va_list ap, t_list **list)
+int				ft_printf_parse(char *fmt, va_list ap, t_list **list)
 {
 	int		len;
 	char	*tmp;
 	t_flag	*flag;
 
-	flag = new_flag();
+	flag = ft_printf_new_flag();
 	len = get_arg_len(fmt, flag);
 	get_alt_size(fmt, flag, len);
 	ft_printf_field_parser(fmt, ap, flag, len);
 	reparse_flags(flag);
-	tmp = ft_process(flag, ap);
+	tmp = ft_printf_process(flag, ap);
 	ft_lstadd_end(list, ft_lstcreate(tmp, flag->size));
 	free(flag);
 	return (len);
