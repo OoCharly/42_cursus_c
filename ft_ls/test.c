@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
-#include <sys/dirent.h>
+#include <dirent.h>
 #include <sys/types.h>
 #include <sys/dir.h>
 #include <sys/stat.h>
@@ -13,9 +13,12 @@ int	main(int ac, char **av)
 	struct stat	*s;
 	DIR			*pdir;
 	int			n;
-
-	s = ft_memalloc(sizeof(struct stat));
-	printf("%d\n", lstat("/tmp", s));
-	printf("%d\n", s->st_mode);
+	
+	if (ac == 1)
+		pdir = opendir("./");
+	else
+		pdir = opendir(av[1]);
+	if (!pdir)
+		perror(strerror(errno));
 	return (0);
 }
