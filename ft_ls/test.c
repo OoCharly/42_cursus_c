@@ -11,6 +11,7 @@
 int	main(int ac, char **av)
 {
 	struct stat	*s;
+	struct dirent	*d;
 	DIR			*pdir;
 	int			n;
 	
@@ -18,6 +19,8 @@ int	main(int ac, char **av)
 		pdir = opendir("./");
 	else
 		pdir = opendir(av[1]);
+	d = readdir(pdir);
+	printf("%s\n", d->d_name);
 	if (!pdir)
 		perror(strerror(errno));
 	return (0);

@@ -6,13 +6,13 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 13:26:21 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/07 16:25:52 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/08 18:37:58 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	sort_by_name(t_lsstat *l_st, t_lsflag *f)
+void	sort_by_name(t_lsdir *l_st, t_lsflag *f)
 {
 	char	*tmp;
 	if (!l_st->next)
