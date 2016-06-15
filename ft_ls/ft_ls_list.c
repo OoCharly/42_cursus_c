@@ -6,45 +6,22 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 17:58:28 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/08 19:20:33 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/06/15 17:34:54 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_ls.h>
+#include "ft_ls.h"
 
-void	ft_insert_cond(t_lsdir *in, t_lsdir **ldir, t_lsflag *f)
+void	ft_get_path(char *path, char *dirname)
 {
-	t_lsdir	*tmp;
-
-	tmp = *ldir;
-	if (tmp)
+	if (!path)
 	{
-		while (tmp->next)
-		{
-			if ((*f->test)(in, tmp->next) < 0)
-			{
-				in->next = tmp->next;
-				tmp->next = in;
-				return ;
-			}
-			tmp = tmp->next;
-		}
-		tmp->next = in;
-		return ;
+		if (!(path = ft_memalloc(sizeof(char) * _POSIX_PATH_MAX)))
+			return ;
+		ft_strcat(path, dirname);
 	}
-	*ldir = in;
+	else
+		strcat(strcat(path, "/"), dirname);
 }
 
-void	ft_get_path(t_path *path, char *dname)
-{
-	t_path	new;
-	char	*tmp;
-
-	if (!(new = ft_memalloc(sizeof(t_path))))
-		return ;
-	path->next = new;
-	tmp = ft_strjoin(path->p_name, "/");
-	new->p_name = ft_strjoin(tmp, dname);
-	free(tmp);
-}
 
