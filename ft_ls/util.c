@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ls_list.c                                       :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/08 17:58:28 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/15 17:34:54 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/07/30 14:37:17 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/07/30 23:53:04 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	ft_get_path(char *path, char *dirname)
+void	ft_append_path(char *path, char *name)
 {
-	if (!path)
-	{
-		if (!(path = ft_memalloc(sizeof(char) * _POSIX_PATH_MAX)))
-			return ;
-		ft_strcat(path, dirname);
-	}
-	else
-		strcat(strcat(path, "/"), dirname);
+	int	len;
+
+	len = ft_strlen(path);
+	ft_strcpy(&path[len], name);
+	len += ft_strlen(name);
+	path[len] = '\0';
 }
-
-

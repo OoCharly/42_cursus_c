@@ -1,24 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ls_sort.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/14 17:25:58 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/07/14 18:30:22 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/07/14 16:14:48 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/07/30 23:53:09 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int	ft_ls_by_name(t_info *new, t_info *old)
+int	parse_options(char *opt, t_flag *flag)
 {
-	return (ft_strcmp(old->i_dirent->d_name, new->i_dirent->d_name);
+
+
+int	get_options(char **av, int ac, t_flag *flag)
+{
+	int	i;
+
+	i = 1;
+	while (i < ac)
+	{
+		if (av[i][0] == '-')
+		{
+			if ((parse_options(av[i], flag)) < 0)
+				return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-int	ft_ls_by_mtime(t_info *new, t_info *old)
+int	main(int ac, char **av)
 {
-	return ((int)(old->i_stat->st_mtime - new->i_stat->st_mtime));
-}
+	char	*path;
 
+	if (!(path = ft_memalloc(sizeof(char) * _POSIX_PATH_MAX)))
+	{
+		perrror(errno);
+		return (-2);
+	}
+	if

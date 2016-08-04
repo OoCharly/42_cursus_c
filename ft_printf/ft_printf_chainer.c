@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/06 10:34:13 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/06 10:59:20 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/04 15:40:57 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static	void	ft_padding(t_flag *f, char *s)
 		}
 	}
 	if (f->pad_0 && f->sign_force)
-		s[0] = f->sign_force;
+		*s = f->sign_force;
 	if (f->precision == -2)
 	{
 		len = ft_strlen(s);
@@ -46,12 +46,12 @@ static	void	ft_alt_format(char *s, t_flag *f)
 	len = ft_strlen(s);
 	if (f->type == 'o' || f->type == 'O')
 	{
-		if (s[0] != '0')
+		if (*s != '0')
 		{
 			ft_memmove(s + 1, s, len);
-			ft_memset(s, '0', 1);
+			*s = '0';
 		}
-		else if (s[0] == '0' && len == 1 && f->precision < 0)
+		else if (*s == '0' && len == 1 && f->precision < 0)
 			f->size--;
 	}
 	else if (f->type == 'x' || f->type == 'X' || f->type == 'p')
@@ -79,7 +79,7 @@ char			*ft_printf_process(t_flag *flag, va_list ap)
 	if (flag->sign_force && !flag->pad_0)
 	{
 		ft_memmove(out + 1, out, len);
-		out[0] = flag->sign_force;
+		*out = flag->sign_force;
 		flag->sign_force = 0;
 	}
 	ft_padding(flag, out);
