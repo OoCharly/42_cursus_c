@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/06 10:33:49 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/06 11:02:25 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/24 15:03:35 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static	char	*wstring_precision(wchar_t *ws, t_flag *f)
 	if (!(out = ft_memalloc(sizeof(char) * f->precision)))
 		return (NULL);
 	tmp = ft_wchar_to_string(*ws);
-	while ((ft_strlen(tmp) + ft_strlen(out)) <= f->precision && *ws)
+	while ((ft_strlen(tmp) + ft_strlen(out)) <= (size_t)f->precision && *ws)
 	{
 		ft_strcat(out, tmp);
 		free(tmp);

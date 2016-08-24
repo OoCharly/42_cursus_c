@@ -6,37 +6,33 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/29 12:57:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/07/29 15:36:49 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/24 13:50:03 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_getenv(const char *name)
+const char	*ft_getenv(const char *name)
 {
-	const char	*np;
-	char		**p;
-	char		*cp;
-	int		i;
-	int		len;
+	extern char const	**environ;
+	const char			*np;
+	const char			**p;
+	const char			*cp;
+	int					len;
 
-	i = 0;
-	if (!(np = name) || !__environ)
+	if (!(np = name) || !environ)
 		return (NULL);
-	while(*np && *np != '=')
+	while (*np && *np != '=')
 		np++;
-	len = (int)(np - name);
-	p = __environ;
-	while((cp = *p) != NULL)
+	len = (int)(np - name) + 1;
+	p = environ;
+	while ((cp = *p) != NULL)
 	{
 		np = name;
-		i = len + 1;
-		while (--i && *cp)
-			if (*cp++ != *np++)
-				break ;
-		if (!i && *cp++ == '=')
-			return (cp);
-		p++;
+		if (strncmp(cp, np, len) == 61)
+			return (cp + len);
+		else
+			p++;
 	}
 	return (NULL);
 }

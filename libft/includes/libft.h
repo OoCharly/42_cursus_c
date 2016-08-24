@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/07/29 13:26:39 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/24 13:06:36 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,5 +135,5 @@ int						ft_nsize_base(uintmax_t nb, int base);
 /*
 ** env
 */
-char					*ft_getenv(const char *name);
+const char				*ft_getenv(const char *name);
 #endif

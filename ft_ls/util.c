@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/30 14:37:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/07/30 23:53:04 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/24 18:49:14 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,3 +21,4 @@ void	ft_append_path(char *path, char *name)
 	len += ft_strlen(name);
 	path[len] = '\0';
 }
+

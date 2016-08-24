@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/06 10:50:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/06/06 10:58:26 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/24 15:03:08 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static	void	get_integer_final_size(char *s, t_flag *f)
 		out += 2;
 	if (f->sign_force && ft_strchr(SINTEGER_TYPE, f->type))
 		out++;
-	if (out <= f->fw)
+	if (out <= (size_t)f->fw)
 		out = f->fw;
 	else
 	{
@@ -42,12 +42,12 @@ static	void	get_string_final_size(char *s, t_flag *f)
 	out = ft_strlen(s);
 	if (f->precision > -1)
 	{
-		if (ft_strchr("sScC", f->type) && f->type && f->precision < out)
+		if (ft_strchr("sScC", f->type) && f->type && f->precision < (int)out)
 			out = f->precision;
 		else
 			f->precision = -1;
 	}
-	if (f->fw > out)
+	if ((size_t)f->fw > out)
 		out = f->fw;
 	else
 		f->fw = 0;
@@ -65,7 +65,7 @@ static	char	*ft_precision_integer(t_flag *f, char *s)
 	len = ft_strlen(s);
 	ft_memcpy(out, s, len);
 	free(s);
-	diff = POS((int)(f->precision - len));
+	diff = ((int)(f->precision - len) > 0) ? (int)(f->precision - len) : 0;
 	if (!f->precision && *out == '0')
 	{
 		*out = f->sign_force;
