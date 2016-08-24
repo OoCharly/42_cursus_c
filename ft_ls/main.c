@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/14 16:14:48 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/07/30 23:53:09 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/04 18:49:54 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	parse_options(char *opt, t_flag *flag)
 {
+	while (*opt)
+	{
 
 
 int	get_options(char **av, int ac, t_flag *flag)
@@ -25,7 +27,7 @@ int	get_options(char **av, int ac, t_flag *flag)
 	{
 		if (av[i][0] == '-')
 		{
-			if ((parse_options(av[i], flag)) < 0)
+			if ((parse_options(av[i] + 1, flag)) < 0)
 				return (1);
 		}
 		i++;
