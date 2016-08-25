@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   ls_get_info.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/30 14:37:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/08/25 13:43:17 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/08/25 15:36:07 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/08/25 18:20:22 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	ft_append_path(char *path, char *name)
+void	ls_no_stat(t_info *info)
 {
-	int	len;
-
-	len = ft_strlen(path);
-	ft_strcpy(&path[len], name);
-	len += ft_strlen(name);
-	path[len] = '\0';
+	return ;
 }
 
-int		usage(void)
+void	ls_stat(t_info *info)
 {
-	ft_printf("usage: ls [Radlrt] [file ...]");
-	return (-1);
-}
+	`
