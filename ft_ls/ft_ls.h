@@ -26,9 +26,7 @@
 # define OPT_SLH 0x0010 //  p
 # define OPT_BLK 0x0020 //  s
 # define BY_TIME 0x0040 //  t
-/*
-** 0x004F NO_STAT
-*/
+# define NO_STAT 0x007F //  case no t,l,S,F,i,p or s
 # define OPT_REC 0x0080 //  R
 # define OPT_ALL 0x0100 //  a
 # define OPT_REV 0x0200 //  r
@@ -38,7 +36,6 @@
 # define BY_CTIME 0x2000//  U
 # define BY_ATIME 0x4000//  u
 # define BY_STIME 0x8000//  c
-# define NO_STAT 0x10000//  case no l,S,F,i,p or s
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;

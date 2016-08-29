@@ -12,11 +12,6 @@
 
 #include "ft_ls.h"
 
-int	ls_nosort(void *old, void *new)
-{
-	return (-1);
-}
-
 int	ls_by_size(void *old, void *new)
 {
 	return ((int)(old->i_stat->st_size -(t_info*)(new)->i_stat->st_size));

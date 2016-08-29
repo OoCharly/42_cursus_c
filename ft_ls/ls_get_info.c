@@ -12,11 +12,11 @@
 
 #include "ft_ls.h"
 
-void	ls_no_stat(t_info *info)
+	ls_no_stat( *info)
 {
 	return ;
 }
 
 void	ls_stat(t_info *info)
 {
-	`
+	

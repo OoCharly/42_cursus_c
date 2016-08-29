@@ -15,7 +15,7 @@
 pcmp	get_cmpfunction(unsigned int flag)
 {
 	if (flag & NO_SORT)
-		return (&ls_nosort);
+		return (NULL);
 	else if (flag & BY_SIZE)
 		return ((flag & OPT_REV) ? &ls_by_rsize : &ls_by_size);
 	else if (flag & BY_TIME)
@@ -87,8 +87,8 @@ int		main(int ac, char **av)
 
 	flag = 0;
 	get_options(ac, av, &flag);
-	flag |= (flag & 0x4f) ? 0 : NO_STAT;
 	mastercmp = get_cmpfunction(flag);
+
 
 	return (0);
 }
