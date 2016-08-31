@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 12:02:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/08/25 18:20:24 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/31 18:25:09 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include "libft.h"
 # include <unistd.h>
 # include <stdlib.h>
+# include <dirent.h>
+# include <pwd.h>
+# include <grp.h>
+# include <uuid/uuid.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 
@@ -36,18 +40,26 @@
 # define BY_CTIME 0x2000//  U
 # define BY_ATIME 0x4000//  u
 # define BY_STIME 0x8000//  c
+# define SML_ERR 0x10000//  if small error occur
+# define BIG_ERR 0x20000//  if big error occur
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
 typedef struct passwd	t_pswd;
 typedef struct group	t_grp;
-typedef 				int (*pcmp)(t_info *, t_info *);
-
 typedef struct		s_info
 {
 	char			*i_name;
 	t_dirent		*i_dirent;
 	t_stat			*i_stat;
 }					t_info;
+typedef int				(*t_pcmp)(t_info *, t_info *);
+typedef t_stat			(*t_fstat)(const char *, struct stat *);
+typedef struct		s_util
+{
+	int				flag;
+	t_pcmp			cmp;
+	t_fstat			getstat;
+}					t_util;
 
 #endif

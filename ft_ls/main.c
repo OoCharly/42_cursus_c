@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/14 16:14:48 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/08/25 18:20:19 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/31 18:25:09 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,14 @@ int		get_options(int ac, char **av, unsigned int *flag)
 
 int		main(int ac, char **av)
 {
-	int	flag;
-	int	(*mastercmp)(void *, void *);
+	int		flag;
+	t_pcmp	mastercmp;
+	t_util	util;
 
 	flag = 0;
 	get_options(ac, av, &flag);
 	mastercmp = get_cmpfunction(flag);
+	util = get_util(flag, mastercmp);
 
 
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/30 14:37:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/08/25 13:43:17 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/31 18:25:09 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,19 @@ int		usage(void)
 {
 	ft_printf("usage: ls [Radlrt] [file ...]");
 	return (-1);
+}
+
+t_util	get_util(int flag, t_pcmp cmp);
+{
+	t_util	*out;
+
+	if (!(out = malloc(sizeof(t_util))))
+		return (NULL);
+	out->cmp = cmp;
+	out->flag = flag;
+	if ((flag & NO_STAT))
+		out->getstat = NULL;
+	else
+		out->getstat = &lstat;
+	return (out);
 }

@@ -6,7 +6,6 @@
 #include <sys/types.h>
 #include <sys/dir.h>
 #include <sys/stat.h>
-#include <attr/xattr.h>
 #include <time.h>
 /***test1***/
 int	main(int ac, char **av)

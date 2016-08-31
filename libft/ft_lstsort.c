@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 16:34:13 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/08/25 18:20:07 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/08/31 17:04:29 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,19 @@ void	ft_lstsort(t_list **alst, t_list *new, int (*f)(void *, void *))
 {
 	t_list	*cp;
 
-	if (alst && new && f)
+	if (alst && new)
 	{
 		cp = *alst;
 		while (cp->next)
 		{
-			if ((*f)(cp->content, new->content) < 0)
+			if (f)
 			{
-				new->next = cp->next;
-				cp->next = new;
-				return ;
+				if ((*f)(cp->content, new->content) < 0)
+				{
+					new->next = cp->next;
+					cp->next = new;
+					return ;
+				}
 			}
 			cp = cp->next;
 		}
