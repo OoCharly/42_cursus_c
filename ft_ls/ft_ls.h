@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 12:02:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/08/31 18:25:09 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/01 18:10:52 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct passwd	t_pswd;
 typedef struct group	t_grp;
 typedef struct		s_info
 {
-	char			*i_name;
-	t_dirent		*i_dirent;
+	char			*name;
+	size_t			len;
 	t_stat			*i_stat;
 }					t_info;
 typedef int				(*t_pcmp)(t_info *, t_info *);

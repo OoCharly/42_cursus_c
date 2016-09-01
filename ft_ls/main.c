@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/14 16:14:48 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/08/31 18:25:09 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/01 18:12:39 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,22 +75,51 @@ int		get_options(int ac, char **av, unsigned int *flag)
 					return (usage());
 				}
 		}
+		else
+			return (i);
 		i++;
 	}
-	return (0);
+	return (i);
+}
+
+int		ls_prelim(int ac, char **av, t_util *util)
+{
+	int		flag;
+	t_pcmp	mastercmp;
+	int		out;
+
+	flag = 0;
+	if(!(out = get_options(ac, av, &flag)))
+		return (0);
+	mastercmp = get_cmpfunction(flag);
+	if(!(util = get_util(flag, mastercmp)))
+		return (0);
+	return (out);
 }
 
 int		main(int ac, char **av)
 {
-	int		flag;
-	t_pcmp	mastercmp;
 	t_util	util;
+	char	*path;
+	int		out;
+	DIR		*dir;
 
-	flag = 0;
-	get_options(ac, av, &flag);
-	mastercmp = get_cmpfunction(flag);
-	util = get_util(flag, mastercmp);
+	if (!(path = ft_memalloc(sizeof(char) * _POSIX_PATH_MAX)))
+		return (2);
+	if (!(out = ls_prelim(ac, av)))
+		return (2);
+	if (ac == out)
+	{
+		ft_strcat(path, ".");
+		if(!(dir = opendir(path)))
+			perror(errno);
+		out = ft_ls(path, dir, util);
+	}
+	else
+		out = ls_multi_arg(av + out, path, util);
+	 
 
 
-	return (0);
-}
+
+		
+	
