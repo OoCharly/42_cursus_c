@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <sys/dir.h>
 #include <sys/stat.h>
+#include <sys/xattr.h>
+#include <sys/acl.h>
 #include <time.h>
 /***test1***/
 int	main(int ac, char **av)
@@ -15,11 +17,19 @@ int	main(int ac, char **av)
 	DIR			*pdir;
 	int			n;
 	char		path[_POSIX_PATH_MAX];
-	
+	char		namebuf[_POSIX_PATH_MAX];
+	ssize_t			yolo;
+	char		*test;
+	acl_t		acl;
+
+	n = 0;
 	s= malloc(sizeof(struct stat));
-	strcat(path, "./");
+	test=malloc(sizeof(char) * _POSIX_PATH_MAX);
 	if (ac == 1)
+	{
+		strcat(path, "./");
 		pdir = opendir("./");
+	}
 	else
 	{
 		strcat(path, av[1]);
@@ -30,34 +40,48 @@ int	main(int ac, char **av)
 	while ((d = readdir(pdir)))
 	{
 		memcpy(strrchr(path, '/') + 1, d->d_name, strlen(d->d_name) +1);
+//		acl = acl_get_file(path, ACL_TYPE_EXTENDED);
+//		test = acl_to_text(acl, &yolo);
+		yolo = listxattr(path, namebuf, _POSIX_PATH_MAX,XATTR_NOFOLLOW);
+//		yolo = listxattr(path, namebuf, _POSIX_PATH_MAX,XATTR_SHOWCOMPRESSION);
+		yolo = getxattr(path, namebuf, test, _POSIX_PATH_MAX, 0,XATTR_NOFOLLOW);
+//		yolo = getxattr(path, namebuf, test, _POSIX_PATH_MAX, 0,XATTR_SHOWCOMPRESSION);
 		if ((lstat(path, s)) < 0)
 		{
 			perror(path);
 			exit(-1);
 		}
-		printf("%s\n", d->d_name);
-		printf("time %lu\ntime %sblks %ld\n\n", s->st_mtime, ctime(&(s->st_mtime)), s->st_nlink);
+		if(yolo > 0)
+		{
+			printf("\n%s\n", test);
+			printf("%s\n", namebuf);
+			n++;
+			//printf("xattr -> %s\n", namebuf);
+			printf("%s\n", d->d_name);
+			//printf("time %lu\ntime %sblks %hu\n\n", s->st_mtime, ctime(&(s->st_mtime)), s->st_nlink);
+		}
 	}
+	printf("   %d\n", n);
 	if (!pdir)
 		perror(strerror(errno));
 	return (0);
 }
 /***test2***
-int	main(int ac, char **av)
-{
-	char	path[_POSIX_PATH_MAX];
-	int	i;
+  int	main(int ac, char **av)
+  {
+  char	path[_POSIX_PATH_MAX];
+  int	i;
 
-	i = 0;
-	while (i < _POSIX_PATH_MAX)
-		path[i++] = 0;
-	if (ac != 2)
-		return (1);
-	printf("%zd\n", getxattr("/", "usr", path, 10));
-	perror("xattr");
-	printf("%s\n", path);
-	printf("%zd\n", listxattr(av[1], path, 10));
-	printf("%s\n", path);
-	return (0);
-}
-*/
+  i = 0;
+  while (i < _POSIX_PATH_MAX)
+  path[i++] = 0;
+  if (ac != 2)
+  return (1);
+  printf("%zd\n", getxattr("/", "usr", path, 10));
+  perror("xattr");
+  printf("%s\n", path);
+  printf("%zd\n", listxattr(av[1], path, 10));
+  printf("%s\n", path);
+  return (0);
+  }
+  */
