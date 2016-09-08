@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 11:29:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/07 16:35:12 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/08 18:42:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	get_attr(char *path, char *out)
 	else if (listxattr(path, NULL, 0, XATTR_NOFOLLOW) > 0)
 		*out = '@';
 	else
-		*out = ' ';
+		*out = 0;
 }
 
 void	get_rights(mode_t mode, char *out)
@@ -49,13 +49,11 @@ void	get_rights(mode_t mode, char *out)
 		*out++ = (mode & S_IXOTH) ? 'x' : '-';
 }
 
-char	*get_type_n_rights(char *path, t_info info)
+char	*get_type_n_rights(char *path,mode_t mode)
 {
 	char	*out;
-	mode_t	mode;
 
-	mode = info->i_stat->st_mode;
-	if(!(out = ft_memalloc(sizeof(char) * 13)))
+	if(!(out = ft_memalloc(sizeof(char) * 12)))
 		exit (2);
 	if (S_ISBLK(mode))
 		*out = 'b';
@@ -77,6 +75,42 @@ char	*get_type_n_rights(char *path, t_info info)
 	return (out);
 }
 
+unsigned int		*get_padding(int flag, t_list **plst)
+{
+	unsigned int		*pad;
+	t_list				*cplst;
+	t_info				*tmp;
+
+	if (!(pad = ft_memalloc(sizeof(int) * 6)))
+		exit (2);
+	cplst = *plst;
+	while (cplst)
+	{
+		tmp = cplst->content;
+		pad[0] = ft_umax(ft_strlen(tmp->i_perm), pad[0]);
+		pad[1] = ft_umax(ft_strlen(tmp->i_nlink), pad[1]);
+		pad[2] = ft_umax(ft_strlen(tmp->i_usr), pad[2]);
+		pad[3] = ft_umax(ft_strlen(tmp->i_grp), pad[3]);
+		pad[4] = ft_umax(ft_strlen(tmp->i_size), pad[4]);
+		pad[5] = ft_umax(ft_strlen(tmp->i_date), pad[5]);
+		cplst = cplst->next;
+	}
+	return (pad);
+}
+
 void	ls_print(t_list **plst, t_util *util)
 {
+	int	flag;
+
+	flag = util->flag;
+	if (!(flag & OPT_LNG))
+
+
+
+
+
+
+
+
+
 
