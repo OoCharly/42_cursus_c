@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/08/24 13:06:36 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/09 15:06:50 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ char					*ft_strmap(char const *s, char (*f)(char));
 char					*ft_strmapi(char const *s,
 									char (*f)(unsigned int, char));
 char					*ft_strncat(char *s1, const char *s2, size_t n);
+char					*ft_strfcat(char *s1, char *s2);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 char					*ft_strncpy(char *dst, const char *src, size_t n);
 int						ft_strnequ(char const *s1, char const *s2, size_t n);
@@ -127,6 +128,8 @@ t_list					*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list					*ft_lstcreate(void *content, size_t content_size);
 size_t					ft_lstsumsize(t_list **lst);
 void					ft_del_node(void *data, size_t n);
+void					ft_lstsort(t_list **alst, t_list *new,
+										int (*f)(void *, void *));
 /*
 ** maths
 */

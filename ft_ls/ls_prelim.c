@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:47:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/07 11:29:22 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/09 16:02:21 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,17 @@ static int		get_options(int ac, char **av, unsigned int *flag)
 	return (i);
 }
 
-t_util			*ls_prelim(int ac, char **av)
+int				ls_prelim(int ac, char **av, t_util **util)
 {
 	int		flag;
 	t_pcmp	mastercmp;
-	t_util	*util;
 
 	flag = 0;
 	if(!(out = get_options(ac, av, &flag)))
 		exit (2);
 	mastercmp = get_cmpfunction(flag);
-	if(!(util = get_util(flag, mastercmp)))
+	if(!(*util = get_util(flag, mastercmp)))
 		exit (2);
-	return (util);
+	return (out);
 }
 

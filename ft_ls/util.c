@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/30 14:37:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/05 15:50:32 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/09 16:34:16 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,45 @@ void	ft_append_path(char *path, char *name)
 	path[len] = '\0';
 }
 
+void	ls_free_util(t_util **util)
+{
+	free((*util)->cmp);
+	if ((*util)->getstat)
+		free((*util)->getstat);
+	free(*util);
+}
+
+void	ls_del_node(void *content, size_t n)
+{
+	t_info	*tmp;
+	size_t	norme;
+
+	norme = n;
+	tmp = (t_info*)content;
+	free(tmp->i_name);
+	if (tmp->i_stat)
+	{
+		free(tmp->i_stat);
+		free(tmp->i_perm);
+		free(tmp->i_nlink);
+		free(tmp->i_usr);
+		free(tmp->i_grp);
+		free(tmp->i_size);
+		free(tmp->i_date);
+	}
+}
+
 int		usage(void)
 {
 	ft_printf("usage: ls [Radlrt] [file ...]");
 	exit (2);
 }
 
-t_util	*get_util(int flag, t_pcmp cmp);
+t_util	*get_util(int flag, t_pcmp cmp)
 {
 	t_util	*out;
 
-	if (!(out = malloc(sizeof(t_util))))
+	if (!(out = ft_memalloc(sizeof(t_util))))
 		return (NULL);
 	out->cmp = cmp;
 	out->flag = flag;

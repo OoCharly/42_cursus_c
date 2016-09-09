@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 15:36:07 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/08 17:21:05 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/09 13:53:58 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_info	*get_linfo(char *path, t_dirent *tdir, t_util *util)
 	out->i_grp = get_grp(stat);
 	out->i_size = get_size(stat, flag);
 	out->i_date = get_date(stat, flag);
+	out->i_blocks = stat->st_blocks;
 }
 
 t_info	*get_info(char *path, t_dirent *tdir, t_util *util)

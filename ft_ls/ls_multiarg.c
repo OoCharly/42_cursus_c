@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:37:47 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/05 16:20:29 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/09 16:04:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void		ls_reargv(char **av)
 	}
 }
 
-t_list			**ls_multi_arg(char **av, t_util util)
+t_list			**ls_multi_arg(char **av, t_util *util)
 {
 	t_list	**plst;
 	t_list	**pflst;

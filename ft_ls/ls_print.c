@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 11:29:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/08 18:42:28 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/09 15:01:31 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,56 @@ unsigned int		*get_padding(int flag, t_list **plst)
 	return (pad);
 }
 
-void	ls_print(t_list **plst, t_util *util)
+void	ls_print_simple(t_list **plst, int flag)
+{
+	t_list *tmp;
+	
+	tmp = *plst;
+	while (tmp)
+	{
+		ft_printf("%s\n", tmp->i_name);
+		tmp = tmp->next;
+	}
+}
+
+void	ls_print_long(t_list **plst, int flag, uint_t *pad)
+{
+	t_list	*tmp;
+	t_info	*cpinfo;
+
+	tmp = *plst;
+	while (tmp)
+	{
+		cpinfo = tmp->content;
+		ft_printf("%*s%*s%*s%*s%*s%*s%*s",
+				pad[0], cpinfo->i_perm,
+				pad[1], cpinfo->i_nlink,
+				pad[2], cpinfo->i_usr,
+				pad[3], cpinfo->i_grp,
+				pad[4], cpinfo->size,
+				pad[5], cpinfo->date,
+				cpinfo->name);
+		tmp = tmp->next;
+	}
+}
+
+void	ls_print(char *path, t_list **plst, t_util *util)
 {
 	int	flag;
+	uint_t	*pad;
 
 	flag = util->flag;
+	if ((flag & OPT_REC) || (flag & MULTIARG))
+		ft_printf("%s:\n", path);
 	if (!(flag & OPT_LNG))
+		ls_print_simple(plst, flag);
+	else
+	{
+		ft_printf("total %lld\n", ls_sum_blocks(plst));
+		pad = get_padding(flag, plst);
+		ls_print_long(plst, flag, pad);
+	}
+}
 
 
 

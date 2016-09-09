@@ -6,37 +6,27 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 12:26:11 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/05 16:20:29 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/09 16:13:54 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	ls_del_node(t_info *info, size_t size)
+DIR		*ls_next_dir(char *path, t_list **plst, int *out)
 {
-	if(info->i_stat)
-	{
-		free(info->i_stat);
-		info->i_stat = NULL;
-	}
-	free(info);
-}
+	DIR 	*ret;
+	t_info	*info;
 
-DIR		*ls_next_dir(char *path, t_lst **plst, int *out)
-{
-	DIR 		*ret;
-	t_dirent	*tdir;
-
-	tdir = (*plst)->content->i_dirent;
-	path = memcpy(path + ft_strlen(path), tdir->d_name, (size_t)tdir->d_namlen);
-	if (ret = opendir(path))
+	info = (t_info*)((*plst)->content);
+	path = memcpy(path + ft_strlen(path), info->i_name, info->i_len);
+	if ((ret = opendir(path)))
 		return (ret);
 	else
 	{
-		path = ls_erase_last_name(path, (size_t)tdir->d_namlen);
+		ls_erase_last_name(path, info->i_len);
 		if (errno != 20)
 		{
-			perror(errno);
+			perror("yolo");
 			*out = 1;
 			return (NULL);
 		}
@@ -56,11 +46,11 @@ int		ft_ls(char *path, DIR *dir, t_util *util)
 	out = get_list(path, dir, util, plst);
 	util->flag |= (out == 2) ? BIG_ERR : 0;
 	closedir(dir);
-	ls_print(plst);
+	ls_print(path, plst, util);
 	if ((util->flag & OPT_REC))
 		while (*plst)
 		{
-			if (dir = ls_next_dir(path, plst, &out))
+			if ((dir = ls_next_dir(path, plst, &out)))
 				out = ft_ls(path, dir, util);
 			else if (out)
 				util->flag |= (out == 2) ? BIG_ERR : SML_ERR;
