@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 11:29:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/09 15:01:31 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/13 14:42:06 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	get_rights(mode_t mode, char *out)
 		*out++ = (mode & S_IXOTH) ? 'x' : '-';
 }
 
-char	*get_type_n_rights(char *path,mode_t mode)
+char	*get_type_n_rights(char *path, mode_t mode)
 {
 	char	*out;
 
@@ -70,7 +70,6 @@ char	*get_type_n_rights(char *path,mode_t mode)
 	else if (S_ISREG(mode))
 		*out = '-';
 	get_rights(mode, out + 1);
-	ft_strcat(path, info->i_name);
 	get_attr(path, out + 10);
 	return (out);
 }
@@ -87,12 +86,12 @@ unsigned int		*get_padding(int flag, t_list **plst)
 	while (cplst)
 	{
 		tmp = cplst->content;
-		pad[0] = ft_umax(ft_strlen(tmp->i_perm), pad[0]);
-		pad[1] = ft_umax(ft_strlen(tmp->i_nlink), pad[1]);
-		pad[2] = ft_umax(ft_strlen(tmp->i_usr), pad[2]);
-		pad[3] = ft_umax(ft_strlen(tmp->i_grp), pad[3]);
-		pad[4] = ft_umax(ft_strlen(tmp->i_size), pad[4]);
-		pad[5] = ft_umax(ft_strlen(tmp->i_date), pad[5]);
+		pad[0] = (unsigned int)ft_umax(ft_strlen(tmp->i_perm), pad[0]);
+		pad[1] = (unsigned int)ft_umax(ft_strlen(tmp->i_nlink), pad[1]);
+		pad[2] = (unsigned int)ft_umax(ft_strlen(tmp->i_usr), pad[2]);
+		pad[3] = (unsigned int)ft_umax(ft_strlen(tmp->i_grp), pad[3]);
+		pad[4] = (unsigned int)ft_umax(ft_strlen(tmp->i_size), pad[4]);
+		pad[5] = (unsigned int)ft_umax(ft_strlen(tmp->i_date), pad[5]);
 		cplst = cplst->next;
 	}
 	return (pad);
@@ -105,12 +104,12 @@ void	ls_print_simple(t_list **plst, int flag)
 	tmp = *plst;
 	while (tmp)
 	{
-		ft_printf("%s\n", tmp->i_name);
+		ft_printf("%s\n", ((t_info *)tmp->content)->i_name);
 		tmp = tmp->next;
 	}
 }
 
-void	ls_print_long(t_list **plst, int flag, uint_t *pad)
+void	ls_print_long(t_list **plst, int flag, unsigned int *pad)
 {
 	t_list	*tmp;
 	t_info	*cpinfo;
@@ -124,17 +123,17 @@ void	ls_print_long(t_list **plst, int flag, uint_t *pad)
 				pad[1], cpinfo->i_nlink,
 				pad[2], cpinfo->i_usr,
 				pad[3], cpinfo->i_grp,
-				pad[4], cpinfo->size,
-				pad[5], cpinfo->date,
-				cpinfo->name);
+				pad[4], cpinfo->i_size,
+				pad[5], cpinfo->i_date,
+				cpinfo->i_name);
 		tmp = tmp->next;
 	}
 }
 
 void	ls_print(char *path, t_list **plst, t_util *util)
 {
-	int	flag;
-	uint_t	*pad;
+	int				flag;
+	unsigned int	*pad;
 
 	flag = util->flag;
 	if ((flag & OPT_REC) || (flag & MULTIARG))

@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/09 15:06:50 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/13 16:29:09 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int						ft_isprint(int c);
 int						ft_isspace(char c);
 int						ft_stroccur(char *s, int c);
 int						ft_strnoccur(char *s, int c, size_t n);
+uintmax_t				ft_umax(uintmax_t a, uintmax_t b);
 /*
 ** transformers
 */

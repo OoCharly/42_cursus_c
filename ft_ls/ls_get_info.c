@@ -6,19 +6,20 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 15:36:07 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/09 13:53:58 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/13 18:42:32 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-
-void	ls_erase_last_name(char *path, size_t len)
+void	get_util(int flag, t_pcmp cmp, t_util *util)
 {
-	char	*slash;
-
-	slash = ft_strrchr(path, '/');
-	ft_memset(slash + 1, 0, len);
+	util->cmp = cmp;
+	util->flag = flag;
+	if ((flag & NO_STAT))
+		util->getstat = NULL;
+	else
+		util->getstat = &lstat;
 }
 
 t_info	*get_linfo(char *path, t_dirent *tdir, t_util *util)
@@ -34,14 +35,16 @@ t_info	*get_linfo(char *path, t_dirent *tdir, t_util *util)
 	out->i_len = tdir->d_namlen;
 	if (!(stat = ft_memalloc(sizeof(t_stat))))
 		exit (2);
-	out->i_stat = (*fstat)(path, stat);
-	out->i_perm = get_type_n_rights(path, out->st_mode);
-	out->i_nlink = ft_ntoa_base((uintmax_t)stat->nlink, 10);
+	(*fstat)(path, stat);
+	out->i_perm = get_type_n_rights(path, stat->st_mode);
+	out->i_nlink = ft_ntoa_base((uintmax_t)stat->st_nlink, 10);
 	out->i_usr = (flag & OPT_GRP) ? NULL : get_usr(stat);
 	out->i_grp = get_grp(stat);
 	out->i_size = get_size(stat, flag);
 	out->i_date = get_date(stat, flag);
 	out->i_blocks = stat->st_blocks;
+	out->i_stat = stat;
+	return (out);
 }
 
 t_info	*get_info(char *path, t_dirent *tdir, t_util *util)
@@ -50,7 +53,7 @@ t_info	*get_info(char *path, t_dirent *tdir, t_util *util)
 	t_stat	*stat;
 	t_fstat	fstat;	
 
-	(out = ft_memalloc(sizeof(t_info))) ? continue : exit (2);
+	(out = ft_memalloc(sizeof(t_info))) ? : exit (2);
 	out->i_name = tdir->d_name;
 	out->i_len = tdir->d_namlen;
 	out->i_stat = NULL;
@@ -75,14 +78,17 @@ int		get_list(char *path, DIR *dir, t_util *util, t_list **plst)
 	cmp = util->cmp;
 	while ((tdir = readdir(dir)))
 	{
+		ft_putendl("	readdir");
 		if ((flag & OPT_ALL) || (*(tdir->d_name) != '.'))
 		{
+			ft_printf("	file: %s\n", tdir->d_name);
 			path = ft_strcat(path, tdir->d_name);
 			if((info = get_info(path, tdir, util)))
 			{
-				if (!(new = ft_lstnew(info, sizeof(*info))))
+				if (!(new = ft_lstcreate(info, sizeof(*info))))
 					exit (2);
 				ft_lstsort(plst, new, cmp);
+				ft_putendl("	sorted");
 			}
 			ls_erase_last_name(path, (size_t)tdir->d_namlen);
 		}

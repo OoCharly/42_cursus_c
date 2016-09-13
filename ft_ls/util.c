@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/30 14:37:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/09 16:34:16 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/13 16:00:23 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,10 @@ int		usage(void)
 	exit (2);
 }
 
-t_util	*get_util(int flag, t_pcmp cmp)
+void	ls_erase_last_name(char *path, size_t len)
 {
-	t_util	*out;
+	char	*slash;
 
-	if (!(out = ft_memalloc(sizeof(t_util))))
-		return (NULL);
-	out->cmp = cmp;
-	out->flag = flag;
-	if ((flag & NO_STAT))
-		out->getstat = NULL;
-	else
-		out->getstat = &lstat;
-	return (out);
+	slash = ft_strrchr(path, '/');
+	ft_memset(slash + 1, 0, len);
 }

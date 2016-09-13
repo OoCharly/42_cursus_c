@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 12:26:11 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/09 16:13:54 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/13 18:36:50 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,13 @@ int		ft_ls(char *path, DIR *dir, t_util *util)
 	t_list		**plst;
 	int			out;
 
+	ft_putendl("start ft_ls");
 	*(path + ft_strlen(path)) = '/';
-	if (!(plst = ft_lstpnew(NULL, 0)))
-		return (2);
+	if (!(plst = ft_memalloc(sizeof(t_list*))))
+		exit(2);
+	ft_putendl("get_list start");
 	out = get_list(path, dir, util, plst);
+	ft_putendl("get_list done");
 	util->flag |= (out == 2) ? BIG_ERR : 0;
 	closedir(dir);
 	ls_print(path, plst, util);

@@ -6,13 +6,13 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:37:47 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/09 16:04:28 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/13 18:35:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		ls_insert_arg(t_list **plst, char *name, t_util util)
+static void		ls_insert_arg(t_list **plst, char *name, t_util *util)
 {
 	t_info	*new;
 	t_stat	*st;
@@ -24,8 +24,8 @@ static void		ls_insert_arg(t_list **plst, char *name, t_util util)
 	new->i_len = ft_strlen(name);
 	if (util->getstat)
 	{
-		if((st = util->getstat(name, st)))
-			perror(errno);
+		if((util->getstat(name, st)))
+			perror("yolo");
 		new->i_stat = st;
 	}
 	else
@@ -35,14 +35,14 @@ static void		ls_insert_arg(t_list **plst, char *name, t_util util)
 	ft_lstsort(plst, lstnew, util->cmp);
 }
 
-static t_list	**ls_sort_args(t_list **plst, char **av, t_util util)
+static void	ls_sort_args(t_list **plst, char **av, t_util *util)
 {
 	t_pcmp	cmp;
 	DIR		*dir;
 	t_list	**flst;
 
 	cmp = util->cmp;
-	if (!(flst = ft_plstnew(NULL, 0)))
+	if (!(flst = ft_memalloc(sizeof(t_list*))))
 		exit(2);
 	while (*av)
 	{
@@ -51,7 +51,7 @@ static t_list	**ls_sort_args(t_list **plst, char **av, t_util util)
 			if (errno == ENOTDIR)
 				ls_insert_arg(flst, *av, util);
 			else
-				perror(errno);
+				perror("yolo");
 		}
 		else
 		{
@@ -83,7 +83,7 @@ static void		ls_reargv(char **av)
 	}
 }
 
-t_list			**ls_multi_arg(char **av, t_util *util)
+t_list			**ls_multi_arg(char *path, char **av, t_util *util)
 {
 	t_list	**plst;
 	t_list	**pflst;
@@ -92,10 +92,13 @@ t_list			**ls_multi_arg(char **av, t_util *util)
 	if(!(plst = ft_lstpnew(NULL, 0)))
 		exit(2);
 	ls_reargv(av);
-	pflst = ls_sort_arg(plst, argv, cmp);
-	if(*pflst)
-		ls_print(pflst, util);
-	ls_del_lst(pflst);
+	ls_sort_args(plst, av, util);
+	while (*pflst)
+	{
+		ft_strcat(path, ((t_info*)(*plst)->content)->i_name);
+		ls_print(path, pflst, util);
+	}
+	ft_lstdel(pflst, &ls_del_node);
 	free(pflst);
 	return (plst);
 }

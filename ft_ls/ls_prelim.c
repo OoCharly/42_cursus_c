@@ -6,13 +6,13 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:47:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/09 16:02:21 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/13 17:33:07 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static t_pcmp	get_cmpfunction(unsigned int flag)
+static t_pcmp	get_cmpfunction(int flag)
 {
 	if (flag & NO_SORT)
 		return (NULL);
@@ -30,35 +30,42 @@ static t_pcmp	get_cmpfunction(unsigned int flag)
 			return ((flag & OPT_REV) ? &ls_by_rmtime : &ls_by_mtime);
 	}
 	else
-		return ((flag & OPT_REV) ? $ls_by_rname : &ls_by_name);
+	{
+		ft_putendl("sort_by_name");
+		return ((flag & OPT_REV) ? &ls_by_rname : &ls_by_name);
+	}
 }
 
-static int		parse_options(char ch, unsigned int *flag)
-{ 
+static int		parse_options(char ch, int *flag)
+{
+	int	tmp;
+
+	tmp = *flag;
 	if (ch == 't')
-		*flag |= BY_MTIME;
+		tmp |= BY_TIME;
 	else if (ch == 'l')
-		*flag = (*flag | OPT_LNG) & ~OPT_GRP;
-	else if (ch == 'R' && !(*flag & OPT_DIR))
-		*flag |= OPT_REC;
+		tmp = (tmp | OPT_LNG) & ~OPT_GRP;
+	else if (ch == 'R' && !(tmp & OPT_DIR))
+		tmp |= OPT_REC;
 	else if (ch == 'a')
-		*flag |= OPT_ALL;
+		tmp |= OPT_ALL;
 	else if (ch == 'r')
-		*flag |= OPT_REV;
+		tmp |= OPT_REV;
 	else if (ch == 'd')
-		*flag = (flag | OPT_DIR) & ~OPT_REC;
+		tmp = (tmp | OPT_DIR) & ~OPT_REC;
 	else if (ch == 't')
-		*flag |= BY_TIME;
+		tmp |= BY_TIME;
 	else if (ch == 'S')
-		*flag |= BY_SIZE;
+		tmp |= BY_SIZE;
 	else
 		return (-1);
+	*flag = tmp;
 	return (0);
 }
 
-static int		get_options(int ac, char **av, unsigned int *flag)
+static int		get_options(int ac, char **av, int *flag)
 {
-	unsigned int		i;
+	int		i;
 	char	*opt;
 
 	i = 1;
@@ -71,7 +78,6 @@ static int		get_options(int ac, char **av, unsigned int *flag)
 				if (parse_options(*opt, flag))
 				{
 					perror("ls: illegal option -- ");
-					ft_printf("%c\n", ch);
 					return (usage());
 				}
 		}
@@ -82,17 +88,17 @@ static int		get_options(int ac, char **av, unsigned int *flag)
 	return (i);
 }
 
-int				ls_prelim(int ac, char **av, t_util **util)
+int				ls_prelim(int ac, char **av, t_util *util)
 {
 	int		flag;
 	t_pcmp	mastercmp;
+	int		out;
 
 	flag = 0;
-	if(!(out = get_options(ac, av, &flag)))
+	if((out = get_options(ac, av, &flag)) < 0)
 		exit (2);
 	mastercmp = get_cmpfunction(flag);
-	if(!(*util = get_util(flag, mastercmp)))
-		exit (2);
+	get_util(flag, mastercmp, util);
 	return (out);
 }
 
