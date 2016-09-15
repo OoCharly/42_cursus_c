@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:37:47 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/13 18:35:28 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/14 17:51:19 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,16 @@ static void		ls_insert_arg(t_list **plst, char *name, t_util *util)
 	t_info	*new;
 	t_stat	*st;
 	t_list	*lstnew;
+	t_info	*(*get)(char *, t_dirent*, t_util*);
 
-	if(!(new = ft_memalloc(sizeof(t_info))))
-		exit(2);
-	new->i_name = name;
-	new->i_len = ft_strlen(name);
-	if (util->getstat)
-	{
-		if((util->getstat(name, st)))
-			perror("yolo");
-		new->i_stat = st;
-	}
-	else
-		new->i_stat = NULL;
-	if (!(lstnew = ft_lstnew(new, sizeof(new))))
+	get = (util->flag & NO_STAT) ? &get_linfo : &get_info;
+	new = (*get)(name, NULL, util);
+	if (!(lstnew = ft_lstcreate(new, sizeof(t_list))))
 		exit(2);
 	ft_lstsort(plst, lstnew, util->cmp);
 }
 
-static void	ls_sort_args(t_list **plst, char **av, t_util *util)
+static t_list	**ls_sort_args(t_list **plst, char **av, t_util *util)
 {
 	t_pcmp	cmp;
 	DIR		*dir;
@@ -46,13 +37,10 @@ static void	ls_sort_args(t_list **plst, char **av, t_util *util)
 		exit(2);
 	while (*av)
 	{
-		if(!(dir = opendir(*av)))
-		{
-			if (errno == ENOTDIR)
-				ls_insert_arg(flst, *av, util);
-			else
-				perror("yolo");
-		}
+		if(!(dir = opendir(*av)) && errno != ENOTDIR)
+				perror(*av);
+		else if (!dir)
+			ls_insert_arg(flst, *av, util);
 		else
 		{
 			ls_insert_arg(plst, *av, util);
@@ -60,6 +48,7 @@ static void	ls_sort_args(t_list **plst, char **av, t_util *util)
 		}
 		av++;
 	}
+	return (flst);
 }
 
 static void		ls_reargv(char **av)
@@ -78,6 +67,7 @@ static void		ls_reargv(char **av)
 				*av = *(av + i);
 				*av = tmp;
 			}
+			i++;
 		}
 		av++;
 	}
@@ -89,15 +79,12 @@ t_list			**ls_multi_arg(char *path, char **av, t_util *util)
 	t_list	**pflst;
 	t_pcmp	cmp;
 
-	if(!(plst = ft_lstpnew(NULL, 0)))
+	if(!(plst = ft_memalloc(sizeof(t_list*))))
 		exit(2);
 	ls_reargv(av);
-	ls_sort_args(plst, av, util);
-	while (*pflst)
-	{
-		ft_strcat(path, ((t_info*)(*plst)->content)->i_name);
-		ls_print(path, pflst, util);
-	}
+	pflst = ls_sort_args(plst, av, util);
+	if (*pflst)
+		ls_print("", pflst, util);
 	ft_lstdel(pflst, &ls_del_node);
 	free(pflst);
 	return (plst);

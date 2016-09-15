@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 12:02:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/13 17:23:15 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/15 15:58:02 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/stat.h>
 # include <sys/acl.h>
 # include <sys/xattr.h>
+# include <sys/syslimits.h>
 # include <errno.h>
 # include <stdio.h>
 # include <time.h>
@@ -68,6 +69,7 @@ typedef struct		s_info
 	char			*i_grp;
 	char			*i_size;
 	char			*i_date;
+	char			*i_link;
 	blkcnt_t		i_blocks;
 }					t_info;
 typedef int				(*t_pcmp)(void *, void *);
@@ -87,7 +89,6 @@ void	ls_del_node(void *content, size_t n);
 int		ft_ls(char *path, DIR *dir, t_util *util);
 int		ls_prelim(int ac, char **av, t_util *util);
 t_list			**ls_multi_arg(char *path, char **av, t_util *util);
-void	ls_free_util(t_util **util);
 char	*get_type_n_rights(char *path,mode_t mode);
 char	*get_usr(t_stat *st);
 char	*get_grp(t_stat *st);
@@ -95,6 +96,9 @@ char	*get_size(t_stat *st, int flag);
 time_t	get_time(t_stat *st, int flag);
 char	*get_date(t_stat *st, int flag);
 blkcnt_t	ls_sum_blocks(t_list **plst);
+t_info	*get_linfo(char *path, t_dirent *tdir, t_util *util);
+t_info	*get_info(char *path, t_dirent *tdir, t_util *util);
+char	*get_link(char *path);
 int	ls_by_size(void *old, void *new);
 int	ls_by_mtime(void *old, void *new);
 int	ls_by_atime(void *old, void *new);

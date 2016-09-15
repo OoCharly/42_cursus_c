@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 16:52:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/13 14:56:01 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/14 15:18:23 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	ls_by_size(void *old, void *new)
 
 	size_old = ((t_info*)old)->i_stat->st_size;
 	size_new = ((t_info*)new)->i_stat->st_size;
-	if ((size_old = size_new))
+	if (size_old == size_new)
 		return (ls_by_name(old, new));
 	else if (size_old < size_new)
-		return (1);
-	else
 		return (-1);
+	else
+		return (1);
 }
 
 int	ls_by_atime(void *old, void *new)

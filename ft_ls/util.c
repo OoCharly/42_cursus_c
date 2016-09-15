@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/30 14:37:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/13 16:00:23 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/15 15:58:47 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,15 @@ void	ft_append_path(char *path, char *name)
 	path[len] = '\0';
 }
 
-void	ls_free_util(t_util **util)
-{
-	free((*util)->cmp);
-	if ((*util)->getstat)
-		free((*util)->getstat);
-	free(*util);
-}
-
 void	ls_del_node(void *content, size_t n)
 {
 	t_info	*tmp;
 	size_t	norme;
 
 	norme = n;
-	tmp = (t_info*)content;
-	free(tmp->i_name);
-	if (tmp->i_stat)
+	if (((t_info*)content)->i_stat)
 	{
+		tmp = (t_info*)content;
 		free(tmp->i_stat);
 		free(tmp->i_perm);
 		free(tmp->i_nlink);
@@ -47,7 +38,32 @@ void	ls_del_node(void *content, size_t n)
 		free(tmp->i_grp);
 		free(tmp->i_size);
 		free(tmp->i_date);
+		if (tmp->i_link)
+		free(tmp->i_link);
 	}
+}
+
+char	*get_link(char *path)
+{
+	char	*link;
+	char	*out;
+
+	if (!path)
+	{
+		if (!(out = ft_memalloc(sizeof(char))))
+			exit(2);
+		return (out);
+	}
+	if (!(link = ft_memalloc(sizeof(char) * NAME_MAX + 1)))
+		exit (2);
+	if ((readlink(path, link, NAME_MAX)) < 0)
+	{
+		perror (path);
+		*link = 0;
+	}
+	out = ft_strjoin(" -> ", link);
+	free(link);
+	return (out);
 }
 
 int		usage(void)

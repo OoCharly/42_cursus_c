@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 15:54:38 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/13 18:42:31 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/15 15:13:40 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ blkcnt_t	ls_sum_blocks(t_list **plst)
 	return (out);
 }
 
-int			ls_by_name(void *old, void *new)
+int			ls_by_rname(void *old, void *new)
 {
 	return (ft_strcmp(((t_info*)old)->i_name, ((t_info*)new)->i_name));
 }
 
-int			ls_by_rname(void *old, void *new)
+int			ls_by_name(void *old, void *new)
 {
 	return (ft_strcmp(((t_info*)new)->i_name, ((t_info*)old)->i_name));
 }

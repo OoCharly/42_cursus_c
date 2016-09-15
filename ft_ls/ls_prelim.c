@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:47:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/13 17:33:07 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/15 16:32:11 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ static t_pcmp	get_cmpfunction(int flag)
 			return ((flag & OPT_REV) ? &ls_by_rmtime : &ls_by_mtime);
 	}
 	else
-	{
-		ft_putendl("sort_by_name");
 		return ((flag & OPT_REV) ? &ls_by_rname : &ls_by_name);
-	}
 }
 
 static int		parse_options(char ch, int *flag)
@@ -71,7 +68,7 @@ static int		get_options(int ac, char **av, int *flag)
 	i = 1;
 	while (i < ac)
 	{
-		if (av[i][0] == '-')
+		if (av[i][0] == '-' && av[i][1])
 		{
 			opt = av[i];
 			while (*++opt)
@@ -101,4 +98,3 @@ int				ls_prelim(int ac, char **av, t_util *util)
 	get_util(flag, mastercmp, util);
 	return (out);
 }
-

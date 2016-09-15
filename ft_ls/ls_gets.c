@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/08 17:07:05 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/09 16:42:11 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/15 17:17:15 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@ char	*get_usr(t_stat *st)
 {
 	t_pwd	*pwd;
 	char	*out;
-
+	
+	if (!st)
+	{
+		(out = ft_memalloc(sizeof(char))) ? : exit(2);
+		return (out);
+	}
 	pwd = getpwuid(st->st_uid);
 	if(!(out = ft_strdup(pwd->pw_name)))
 		exit(2);
@@ -39,16 +44,23 @@ char	*get_size(t_stat *st, int flag)
 	mode_t	mode;
 	dev_t	rdev;
 	char	*out;
+	int		d;
 
 	mode = st->st_mode;
 	if (S_ISCHR(mode) || S_ISBLK(mode))
 	{
-		if(!(out = ft_memalloc(sizeof(char) * 13)))
+		if(!(out = ft_memalloc(sizeof(char) * 8)))
 			exit (2);
 		rdev = st->st_rdev;
-		ft_strfcat(out, ft_ntoa_base((uintmax_t)minor(rdev), 10));
-		ft_strcat(out, ", ");
 		ft_strfcat(out, ft_ntoa_base((uintmax_t)major(rdev), 10));
+		d = 3 - ft_strlen(out);
+		ft_memmove(out + d, out, 3 - d);
+		ft_memset(out, ' ', d);
+		ft_strcat(out, ", ");
+		ft_strfcat(out, ft_ntoa_base((uintmax_t)minor(rdev), 10));
+		d = 3 - (ft_strlen(out) - 5);
+		ft_memmove(out + 5 + d, out + 5, 3 - d);
+		ft_memset(out + 5, ' ', d); 
 	}
 	else
 		out = ft_ntoa_base((uintmax_t)st->st_size, 10);
@@ -88,7 +100,7 @@ char	*get_date(t_stat *st, int flag)
 		ft_memcpy(out, tmp + 4, 7);
 		now = time(NULL);
 		if ((now - stime) > SIX_MONTH)
-			ft_strcat(out, tmp + 20);
+			ft_memcpy(out + ft_strlen(out), tmp + 19, 5);
 		else
 			ft_memcpy(out + 7, tmp + 11, 5);
 	}
