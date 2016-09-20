@@ -6,17 +6,17 @@
 #    By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/09 15:01:55 by cdesvern          #+#    #+#              #
-#    Updated: 2016/09/09 15:12:51 by cdesvern         ###   ########.fr        #
+#    Updated: 2016/09/20 13:13:31 by cdesvern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 FLAGS = 
-D_LIB = ../ft_printf/
-D_INCLUDES = ../libft/includes/
+D_LIB = ./lib/ft_printf/
+D_INCLUDES = ./lib/includes/
 
 SRCS = ft_ls.c ls_get_info.c ls_gets.c ls_multiarg.c ls_prelim.c ls_print.c\
-	   ls_rsort.c ls_sort.c main.c util.c
+	   ls_rsort.c ls_sort.c main.c ls_util.c ls_util_2.c
 
 all: $(NAME)
 
@@ -30,3 +30,5 @@ clean:
 fclean: clean
 	@make fclean -C $(D_LIB)
 	@/bin/rm -f $(NAME)
+
+re: fclean all

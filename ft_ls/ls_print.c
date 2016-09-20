@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 11:29:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/15 15:15:46 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/20 16:07:03 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ char	*get_type_n_rights(char *path, mode_t mode)
 {
 	char	*out;
 
-	if(!(out = ft_memalloc(sizeof(char) * 12)))
-		exit (2);
+	if (!(out = ft_memalloc(sizeof(char) * 12)))
+		exit(2);
 	if (S_ISBLK(mode))
 		*out = 'b';
 	else if (S_ISCHR(mode))
@@ -81,7 +81,7 @@ unsigned int		*get_padding(int flag, t_list **plst)
 	t_info				*tmp;
 
 	if (!(pad = ft_memalloc(sizeof(int) * 6)))
-		exit (2);
+		exit(2);
 	cplst = *plst;
 	while (cplst)
 	{
@@ -100,7 +100,7 @@ unsigned int		*get_padding(int flag, t_list **plst)
 void	ls_print_simple(t_list **plst, int flag)
 {
 	t_list *tmp;
-	
+
 	tmp = *plst;
 	while (tmp)
 	{
@@ -123,8 +123,8 @@ void	ls_print_long(t_list **plst, int flag, unsigned int *pad)
 				pad[1] + 1, cpinfo->i_nlink,
 				pad[2] + 2, cpinfo->i_usr,
 				pad[3], cpinfo->i_grp,
-				pad[4] + 1, cpinfo->i_size,
-				pad[5] + 2, cpinfo->i_date,
+				pad[4] + 2, cpinfo->i_size,
+				pad[5] + 1, cpinfo->i_date,
 				cpinfo->i_name, cpinfo->i_link);
 		tmp = tmp->next;
 	}
@@ -136,8 +136,10 @@ void	ls_print(char *path, t_list **plst, t_util *util)
 	unsigned int	*pad;
 
 	flag = util->flag;
+	if ((flag & PRTD))
+		ft_putendl("");
 	if (((flag & MULTIARG)) && *path)
-		ft_printf("\n%s:\n", path);
+		ft_printf("%.*s:\n", ft_strlen(path) - 1, path);
 	if (!(flag & OPT_LNG))
 		ls_print_simple(plst, flag);
 	else
@@ -147,5 +149,5 @@ void	ls_print(char *path, t_list **plst, t_util *util)
 		pad = get_padding(flag, plst);
 		ls_print_long(plst, flag, pad);
 	}
-	util->flag |= MULTIARG;
+	util->flag |= (PRTD | MULTIARG);
 }

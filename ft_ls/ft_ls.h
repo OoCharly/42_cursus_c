@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 12:02:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/15 15:58:02 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/20 16:42:19 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@
 # define BY_ATIME 0x4000//  u
 # define BY_STIME 0x8000//  c
 # define SML_ERR 0x10000//  if small error occur
-# define BIG_ERR 0x20000//  if big error occur
+# define OPT_SCOL 0x20000//  if big error occur
 # define OPT_WTIME 0x40000// T
 # define MULTIARG 0x80000// case multiple args
-
+# define PRTD 0x100000// Printed at least one line
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
 typedef struct passwd	t_pwd;
@@ -80,13 +80,13 @@ typedef struct		s_util
 	t_pcmp			cmp;
 	t_fstat			getstat;
 }					t_util;
-
+int		usage(void);
 void	get_util(int flag, t_pcmp cmp, t_util *util);
 void	ls_erase_last_name(char *path, size_t len);
-int		get_list(char *path, DIR *dir, t_util *util, t_list **plst);
+void	get_list(char *path, DIR *dir, t_util *util, t_list **plst);
 void	ls_print(char *path, t_list **plst, t_util *util);
 void	ls_del_node(void *content, size_t n);
-int		ft_ls(char *path, DIR *dir, t_util *util);
+void	ft_ls(char *path, DIR *dir, t_util *util);
 int		ls_prelim(int ac, char **av, t_util *util);
 t_list			**ls_multi_arg(char *path, char **av, t_util *util);
 char	*get_type_n_rights(char *path,mode_t mode);
@@ -99,6 +99,7 @@ blkcnt_t	ls_sum_blocks(t_list **plst);
 t_info	*get_linfo(char *path, t_dirent *tdir, t_util *util);
 t_info	*get_info(char *path, t_dirent *tdir, t_util *util);
 char	*get_link(char *path);
+void	ls_error(char *file);
 int	ls_by_size(void *old, void *new);
 int	ls_by_mtime(void *old, void *new);
 int	ls_by_atime(void *old, void *new);

@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/14 16:14:48 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/14 18:20:52 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/20 14:10:27 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void	ls_start(char *path, t_list **plst, t_util *util)
 	{
 		info = (t_info*)((*plst)->content);
 		if (!(dir = opendir(info->i_name)))
-			perror(info->i_name);
+		{
+			ft_printf("%s%s:\n", (util->flag & PRTD) ? "\n": "", info->i_name);
+			ls_error(ft_strchr(info->i_name, '/') + 1);
+			ft_lstdelfst(plst, &ls_del_node);
+		}
 		else
 		{
 			ft_memcpy(path, info->i_name, info->i_len);
@@ -41,17 +45,14 @@ int		main(int ac, char **av)
 	t_list	**plst;
 	int		out;
 
-	if (!(path = ft_memalloc(sizeof(char) * _POSIX_PATH_MAX)))
-		exit (2);
-	if(!(util = ft_memalloc(sizeof(t_info))))
-		exit (2);
-	if (!(out = ls_prelim(ac, av, util)))
-		return (2);
+	(path = ft_memalloc(sizeof(char) * (PATH_MAX + NAME_MAX))) ? : exit(2);
+	(util = ft_memalloc(sizeof(t_util))) ? : exit(2);
+	(out = ls_prelim(ac, av, util)) ? : exit(2);
 	if (ac == out)
 	{
 		ft_strcat(path, ".");
 		if(!(dir = opendir(path)))
-			perror("main");
+			ls_error(".");
 		ft_ls(path, dir, util);
 	}
 	else
@@ -60,6 +61,8 @@ int		main(int ac, char **av)
 		plst = ls_multi_arg(path, av + out, util);
 		ls_start(path, plst, util);
 	}
+	out = (util->flag & SML_ERR) ? 1 : 0;
 	free(util);
-	return (0);
+	free(path);
+	return (out);
 }

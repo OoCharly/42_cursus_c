@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 15:54:38 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/15 15:13:40 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/20 13:18:35 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,10 @@ int			ls_by_rname(void *old, void *new)
 int			ls_by_name(void *old, void *new)
 {
 	return (ft_strcmp(((t_info*)new)->i_name, ((t_info*)old)->i_name));
+}
+
+void		ls_error(char *file)
+{
+	write(2, "ft_ls: ", 7);
+	perror(file);
 }

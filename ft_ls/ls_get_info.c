@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 15:36:07 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/15 16:07:35 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/19 17:17:16 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_info	*get_info(char *path, t_dirent *tdir, t_util *util)
 	return (out);
 }
 
-int		get_list(char *path, DIR *dir, t_util *util, t_list **plst)
+void		get_list(char *path, DIR *dir, t_util *util, t_list **plst)
 {
 	t_list		*new;
 	t_dirent	*tdir;
@@ -88,5 +88,4 @@ int		get_list(char *path, DIR *dir, t_util *util, t_list **plst)
 			ft_lstsort(plst, new, cmp);
 			ls_erase_last_name(path, (size_t)tdir->d_namlen);
 		}
-	return (0);
 }

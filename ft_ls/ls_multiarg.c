@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:37:47 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/14 17:51:19 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/20 15:20:50 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,17 @@ static t_list	**ls_sort_args(t_list **plst, char **av, t_util *util)
 		exit(2);
 	while (*av)
 	{
-		if(!(dir = opendir(*av)) && errno != ENOTDIR)
-				perror(*av);
-		else if (!dir)
-			ls_insert_arg(flst, *av, util);
-		else
+		if ((dir = opendir(*av)))
 		{
 			ls_insert_arg(plst, *av, util);
 			closedir(dir);
 		}
+		else if (errno == EACCES)
+			ls_insert_arg(plst, *av, util);
+		else if (errno == ENOTDIR)
+			ls_insert_arg(flst, *av, util);
+		else
+			ls_error(*av);
 		av++;
 	}
 	return (flst);
@@ -79,7 +81,7 @@ t_list			**ls_multi_arg(char *path, char **av, t_util *util)
 	t_list	**pflst;
 	t_pcmp	cmp;
 
-	if(!(plst = ft_memalloc(sizeof(t_list*))))
+	if (!(plst = ft_memalloc(sizeof(t_list*))))
 		exit(2);
 	ls_reargv(av);
 	pflst = ls_sort_args(plst, av, util);

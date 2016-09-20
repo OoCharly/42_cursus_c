@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:47:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/15 16:32:11 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/20 17:43:27 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ static int		parse_options(char ch, int *flag)
 		tmp |= OPT_REV;
 	else if (ch == 'd')
 		tmp = (tmp | OPT_DIR) & ~OPT_REC;
-	else if (ch == 't')
-		tmp |= BY_TIME;
 	else if (ch == 'S')
 		tmp |= BY_SIZE;
+	else if (ch == '1')
+		tmp |= OPT_SCOL;
 	else
-		return (-1);
+		return (ch);
 	*flag = tmp;
 	return (0);
 }
@@ -64,17 +64,22 @@ static int		get_options(int ac, char **av, int *flag)
 {
 	int		i;
 	char	*opt;
+	char	ch;
 
 	i = 1;
 	while (i < ac)
 	{
 		if (av[i][0] == '-' && av[i][1])
 		{
+			if (av[i][1] == '-' && !av[i][2])
+				return (i + 1);
 			opt = av[i];
 			while (*++opt)
-				if (parse_options(*opt, flag))
+				if ((ch = parse_options(*opt, flag)))
 				{
-					perror("ls: illegal option -- ");
+					ft_putstr_fd("ls: illegal option -- ", 2);
+					ft_putchar_fd(ch, 2);
+					ft_putendl("");
 					return (usage());
 				}
 		}
@@ -92,8 +97,8 @@ int				ls_prelim(int ac, char **av, t_util *util)
 	int		out;
 
 	flag = 0;
-	if((out = get_options(ac, av, &flag)) < 0)
-		exit (2);
+	if ((out = get_options(ac, av, &flag)) < 0)
+		exit(2);
 	mastercmp = get_cmpfunction(flag);
 	get_util(flag, mastercmp, util);
 	return (out);
