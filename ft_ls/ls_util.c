@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/30 14:37:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/20 15:22:28 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/21 17:41:49 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ls_del_node(void *content, size_t n)
 		free(tmp->i_date);
 		free(tmp->i_link);
 	}
+	free(tmp->i_blocks);
 	free(tmp->i_name);
 	free(content);
 }
@@ -69,7 +70,7 @@ char	*get_link(char *path)
 
 int		usage(void)
 {
-	ft_printf("usage: ls [Radlrt] [file ...]");
+	ft_putendl_fd("usage: ls [Radlrt] [file ...]", 2);
 	exit(2);
 }
 

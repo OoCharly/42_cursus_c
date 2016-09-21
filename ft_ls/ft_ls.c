@@ -6,19 +6,29 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 12:26:11 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/20 16:02:29 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/21 17:40:17 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-DIR		*ls_next_dir(char *path, t_list **plst, t_util *util)
+void	ls_preprint(char *path, int flag)
+{
+	if (flag & PRTD)
+		ft_putendl("");
+	if (flag & (MULTIARG | PRTD))
+		ft_printf("%s:\n", path);
+	if (*(path + ft_strlen(path) - 1) != '/')
+		*(path + ft_strlen(path)) = '/';
+}
+
+DIR		*ls_next_dir(char *path, t_list *lst, t_util *util)
 {
 	DIR		*ret;
 	t_info	*info;
 	char	*slash;
 
-	info = (t_info*)((*plst)->content);
+	info = (t_info*)((lst)->content);
 	if (!ft_strcmp(info->i_name, ".") || !ft_strcmp(info->i_name, ".."))
 		return (NULL);
 	ft_strcat(path, info->i_name);
@@ -46,25 +56,24 @@ void	ft_ls(char *path, DIR *dir, t_util *util)
 {
 	t_list		**plst;
 	char		*cp;
+	t_list		*tmp;
 
-	if (*(path + ft_strlen(path) - 1) != '/')
-		*(path + ft_strlen(path)) = '/';
-	if (!(plst = ft_memalloc(sizeof(t_list*))))
-		exit(2);
+	ls_preprint(path, util->flag);
+	(plst = ft_memalloc(sizeof(t_list*))) ? : exit(2);
 	get_list(path, dir, util, plst);
-	closedir(dir);
 	ls_print(path, plst, util);
+	tmp = *plst;
 	if ((util->flag & OPT_REC))
-		while (*plst)
+		while (tmp)
 		{
 			cp = ft_strdup(path);
-			if ((dir = ls_next_dir(path, plst, util)))
+			if ((dir = ls_next_dir(path, tmp, util)))
 			{
 				ft_ls(path, dir, util);
-				ft_memset(path, 0, _POSIX_PATH_MAX);
+				ft_memset(path, 0, PATH_MAX + NAME_MAX);
 				ft_strcat(path, cp);
 			}
-			ft_lstdelfst(plst, &ls_del_node);
+			tmp = tmp->next;
 			free(cp);
 		}
 	ft_lstdel(plst, &ls_del_node);

@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/08 17:07:05 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/15 17:17:15 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/21 16:37:32 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ char	*get_usr(t_stat *st)
 	char	*out;
 	
 	if (!st)
-	{
 		(out = ft_memalloc(sizeof(char))) ? : exit(2);
-		return (out);
+	else
+	{
+		pwd = getpwuid(st->st_uid);
+		(out = ft_strdup(pwd->pw_name)) ? : exit(2);
 	}
-	pwd = getpwuid(st->st_uid);
-	if(!(out = ft_strdup(pwd->pw_name)))
-		exit(2);
 	return (out);
 }
 
@@ -99,10 +98,21 @@ char	*get_date(t_stat *st, int flag)
 			exit(2);
 		ft_memcpy(out, tmp + 4, 7);
 		now = time(NULL);
-		if ((now - stime) > SIX_MONTH)
+		if ((now - stime) > SIX_MONTH || (now-stime) < -SIX_MONTH)
 			ft_memcpy(out + ft_strlen(out), tmp + 19, 5);
 		else
 			ft_memcpy(out + 7, tmp + 11, 5);
 	}
+	return (out);
+}
+
+char	*get_blocks(t_stat *st)
+{
+	char	*out;
+
+	if (!st)
+		(out = ft_memalloc(sizeof(char))) ? : exit(2);
+	else
+		(out = ft_ntoa_base((uintmax_t)st->st_blocks, 10)) ? : exit(2);
 	return (out);
 }

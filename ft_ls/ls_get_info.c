@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 15:36:07 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/19 17:17:16 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/21 17:31:20 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,9 @@ t_info	*get_linfo(char *path, t_dirent *tdir, t_util *util)
 	t_info	*out;
 	t_stat	*stat;
 	int		flag;
-	char *wtf;
 
 	flag = util->flag;
 	(out = ft_memalloc(sizeof(t_info))) ? : exit(2);
-	out->i_name = (tdir) ? ft_strdup(tdir->d_name) : ft_strdup(path);
-	out->i_len = (tdir) ? tdir->d_namlen : ft_strlen(path);
 	if (!(stat = ft_memalloc(sizeof(t_stat))))
 		exit (2);
 	(*(util->getstat))(path, stat);
@@ -42,9 +39,11 @@ t_info	*get_linfo(char *path, t_dirent *tdir, t_util *util)
 	out->i_grp = get_grp(stat);
 	out->i_size = get_size(stat, flag);
 	out->i_date = get_date(stat, flag);
-	out->i_blocks = stat->st_blocks;
+	out->i_blocks = get_blocks((flag & OPT_BLK) ? stat : NULL);
 	out->i_stat = stat;
 	out->i_link = get_link((*(out->i_perm) == 'l') ? path : NULL);
+	out->i_name = (tdir) ? ft_strdup(tdir->d_name) : ft_strdup(path);
+	out->i_len = (tdir) ? tdir->d_namlen : ft_strlen(path);
 	return (out);
 }
 
@@ -65,6 +64,7 @@ t_info	*get_info(char *path, t_dirent *tdir, t_util *util)
 	out->i_size = NULL;
 	out->i_date = NULL;
 	out->i_link = NULL;
+	out->i_blocks = get_blocks((util->flag & OPT_BLK) ? stat : NULL);
 	return (out);
 }
 
@@ -88,4 +88,5 @@ void		get_list(char *path, DIR *dir, t_util *util, t_list **plst)
 			ft_lstsort(plst, new, cmp);
 			ls_erase_last_name(path, (size_t)tdir->d_namlen);
 		}
+	closedir(dir);
 }

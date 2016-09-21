@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 11:29:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/20 16:07:03 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/21 17:43:27 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ unsigned int		*get_padding(int flag, t_list **plst)
 	t_list				*cplst;
 	t_info				*tmp;
 
-	if (!(pad = ft_memalloc(sizeof(int) * 6)))
-		exit(2);
+	(pad = ft_memalloc(sizeof(int) * 7)) ? : exit(2);
 	cplst = *plst;
 	while (cplst)
 	{
@@ -92,19 +91,25 @@ unsigned int		*get_padding(int flag, t_list **plst)
 		pad[3] = (unsigned int)ft_umax(ft_strlen(tmp->i_grp), pad[3]);
 		pad[4] = (unsigned int)ft_umax(ft_strlen(tmp->i_size), pad[4]);
 		pad[5] = (unsigned int)ft_umax(ft_strlen(tmp->i_date), pad[5]);
+		pad[6] = (unsigned int)ft_umax(ft_strlen(tmp->i_blocks), pad[6]);
 		cplst = cplst->next;
 	}
 	return (pad);
 }
 
-void	ls_print_simple(t_list **plst, int flag)
+void	ls_print_simple(t_list **plst, int flag, unsigned int *pad)
 {
-	t_list *tmp;
+	t_list	*tmp;
+	int		blk;
 
+	blk = (flag & OPT_BLK) ? 1 : 0;
+	if (blk)
+		ft_printf("total %lld\n", ls_sum_blocks(plst));
 	tmp = *plst;
 	while (tmp)
 	{
-		printf("%s\n", ((t_info *)tmp->content)->i_name);
+		ft_printf("%*s%.*s%s\n", pad[6], ((t_info*)tmp->content)->i_blocks,
+							blk, " ", ((t_info *)tmp->content)->i_name);
 		tmp = tmp->next;
 	}
 }
@@ -113,15 +118,19 @@ void	ls_print_long(t_list **plst, int flag, unsigned int *pad)
 {
 	t_list	*tmp;
 	t_info	*cpinfo;
+	int		grp;
 
+	grp = (flag & OPT_GRP) ? 0 : 2;
 	tmp = *plst;
 	while (tmp)
 	{
 		cpinfo = tmp->content;
-		ft_printf("%-*s%-*s%-*s%-*s%*s%*s %s%s\n",
-				pad[0] + 2, cpinfo->i_perm,
+		ft_printf("%*s%.*s%-*s%*s %-*s%-*s%*s%*s %s%s\n", 
+				pad[6], cpinfo->i_blocks,
+				(flag & OPT_BLK), " ",
+				pad[0] + 1, cpinfo->i_perm,
 				pad[1] + 1, cpinfo->i_nlink,
-				pad[2] + 2, cpinfo->i_usr,
+				pad[2] + grp, cpinfo->i_usr,
 				pad[3], cpinfo->i_grp,
 				pad[4] + 2, cpinfo->i_size,
 				pad[5] + 1, cpinfo->i_date,
@@ -135,19 +144,16 @@ void	ls_print(char *path, t_list **plst, t_util *util)
 	int				flag;
 	unsigned int	*pad;
 
+	pad = get_padding(flag, plst);
 	flag = util->flag;
-	if ((flag & PRTD))
-		ft_putendl("");
-	if (((flag & MULTIARG)) && *path)
-		ft_printf("%.*s:\n", ft_strlen(path) - 1, path);
 	if (!(flag & OPT_LNG))
-		ls_print_simple(plst, flag);
+		ls_print_simple(plst, flag, pad);
 	else
 	{
 		if (*path)
 			ft_printf("total %lld\n", ls_sum_blocks(plst));
-		pad = get_padding(flag, plst);
 		ls_print_long(plst, flag, pad);
 	}
+	free(pad);
 	util->flag |= (PRTD | MULTIARG);
 }

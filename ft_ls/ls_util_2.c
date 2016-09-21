@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 15:54:38 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/20 13:18:35 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/21 15:30:40 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ blkcnt_t	ls_sum_blocks(t_list **plst)
 	tmp = *plst;
 	while (tmp)
 	{
-		out += ((t_info*)tmp->content)->i_blocks;
+		out += ((t_info*)tmp->content)->i_stat->st_blocks;
 		tmp = tmp->next;
 	}
 	return (out);

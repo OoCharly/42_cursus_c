@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 12:02:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/20 16:42:19 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/21 15:20:33 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct		s_info
 	char			*i_size;
 	char			*i_date;
 	char			*i_link;
-	blkcnt_t		i_blocks;
+	char			*i_blocks;
 }					t_info;
 typedef int				(*t_pcmp)(void *, void *);
 typedef int			(*t_fstat)(const char *, struct stat *);
@@ -92,6 +92,7 @@ t_list			**ls_multi_arg(char *path, char **av, t_util *util);
 char	*get_type_n_rights(char *path,mode_t mode);
 char	*get_usr(t_stat *st);
 char	*get_grp(t_stat *st);
+char	*get_blocks(t_stat *st);
 char	*get_size(t_stat *st, int flag);
 time_t	get_time(t_stat *st, int flag);
 char	*get_date(t_stat *st, int flag);

@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:47:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/20 17:43:27 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/21 16:46:51 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,44 @@ static t_pcmp	get_cmpfunction(int flag)
 
 static int		parse_options(char ch, int *flag)
 {
-	int	tmp;
-
-	tmp = *flag;
 	if (ch == 't')
-		tmp |= BY_TIME;
+		*flag |= BY_TIME;
 	else if (ch == 'l')
-		tmp = (tmp | OPT_LNG) & ~OPT_GRP;
-	else if (ch == 'R' && !(tmp & OPT_DIR))
-		tmp |= OPT_REC;
+		*flag = (*flag | OPT_LNG) & ~OPT_SCOL;
+	else if (ch == 'R' && !(*flag & OPT_DIR))
+		*flag |= OPT_REC;
 	else if (ch == 'a')
-		tmp |= OPT_ALL;
+		*flag |= OPT_ALL;
 	else if (ch == 'r')
-		tmp |= OPT_REV;
+		*flag |= OPT_REV;
 	else if (ch == 'd')
-		tmp = (tmp | OPT_DIR) & ~OPT_REC;
+		*flag = (*flag | OPT_DIR) & ~OPT_REC;
 	else if (ch == 'S')
-		tmp |= BY_SIZE;
+		*flag |= BY_SIZE;
 	else if (ch == '1')
-		tmp |= OPT_SCOL;
+		*flag = (*flag | OPT_SCOL) & (~OPT_LNG);
+	else if (ch == 's')
+		*flag |= OPT_BLK;
+	else if (ch == 'f')
+		*flag |= NO_SORT;
+	else if (ch == 'g')
+		*flag |= (OPT_GRP | OPT_LNG);
+	else if (ch == 'i')
+		*flag |= (OPT_INO);
+	else if (ch == 'p')
+		*flag |= OPT_SLH;
+	else if (ch == 'F')
+		*flag |= OPT_SUF;
+	else if (ch == 'C')
+		*flag &= (~OPT_LNG & ~OPT_SCOL);
+	else if (ch == 'U')
+		*flag = (*flag | BY_CTIME) & (~BY_ATIME & ~BY_STIME);
+	else if (ch == 'u')
+		*flag = (*flag | BY_ATIME) & (~BY_CTIME & ~BY_STIME);
+	else if (ch == 'c')
+		*flag = (*flag | BY_STIME) & (~BY_ATIME & ~BY_CTIME);
 	else
 		return (ch);
-	*flag = tmp;
 	return (0);
 }
 
