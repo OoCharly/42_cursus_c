@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 11:29:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/21 17:43:27 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/22 14:29:31 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	get_attr(char *path, char *out)
 {
 	acl_t	acl;
 
-	if ((acl = acl_get_file(path, ACL_TYPE_EXTENDED)))
+	if (listxattr(path, NULL, 0, XATTR_NOFOLLOW) > 0)
+		*out = '@';
+	else if((acl = acl_get_file(path, ACL_TYPE_EXTENDED)))
 	{
 		*out = '+';
 		acl_free(acl);
 	}
-	else if (listxattr(path, NULL, 0, XATTR_NOFOLLOW) > 0)
-		*out = '@';
 	else
-		*out = 0;
+		*out = ' ';
 }
 
 void	get_rights(mode_t mode, char *out)
@@ -128,7 +128,7 @@ void	ls_print_long(t_list **plst, int flag, unsigned int *pad)
 		ft_printf("%*s%.*s%-*s%*s %-*s%-*s%*s%*s %s%s\n", 
 				pad[6], cpinfo->i_blocks,
 				(flag & OPT_BLK), " ",
-				pad[0] + 1, cpinfo->i_perm,
+				pad[0], cpinfo->i_perm,
 				pad[1] + 1, cpinfo->i_nlink,
 				pad[2] + grp, cpinfo->i_usr,
 				pad[3], cpinfo->i_grp,

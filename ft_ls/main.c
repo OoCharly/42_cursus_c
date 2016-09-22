@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/14 16:14:48 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/20 14:10:27 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/22 13:11:42 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ls_start(char *path, t_list **plst, t_util *util)
 		{
 			ft_memcpy(path, info->i_name, info->i_len);
 			ft_ls(path, dir, util);
-			ft_memset(path, 0, info->i_len);
+			ft_memset(path, 0, PATH_MAX + NAME_MAX);
 			ft_lstdelfst(plst, &ls_del_node);
 		}
 	}

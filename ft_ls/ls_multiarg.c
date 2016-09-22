@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:37:47 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/20 15:20:50 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/22 15:19:03 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,35 @@ static void		ls_insert_arg(t_list **plst, char *name, t_util *util)
 	ft_lstsort(plst, lstnew, util->cmp);
 }
 
-static t_list	**ls_sort_args(t_list **plst, char **av, t_util *util)
+static t_list	**ls_sort_largs(t_list **plst, char **av, t_util *util)
 {
-	t_pcmp	cmp;
 	DIR		*dir;
 	t_list	**flst;
 
-	cmp = util->cmp;
-	if (!(flst = ft_memalloc(sizeof(t_list*))))
-		exit(2);
+	(flst = ft_memalloc(sizeof(t_list*))) ? : exit(2);
 	while (*av)
 	{
-		if ((dir = opendir(*av)))
+		if (readlink(*av, NULL, 0) > -1)
+			ls_insert_arg(flst, *av, util);
+		else if ((dir = opendir(*av)))
+			ls_insert_arg;
+	}
+}
+static t_list	**ls_sort_args(t_list **plst, char **av, t_util *util)
+{
+	DIR		*dir;
+	t_list	**flst;
+
+	(flst = ft_memalloc(sizeof(t_list*))) ? : exit(2);
+	while (*av)
+	{
+		else if ((dir = opendir(*av)))
 		{
 			ls_insert_arg(plst, *av, util);
 			closedir(dir);
 		}
+		else if (readlink(*av, NULL, 0) > -1)
+			ls_insert_arg(flst, *av, util);
 		else if (errno == EACCES)
 			ls_insert_arg(plst, *av, util);
 		else if (errno == ENOTDIR)
