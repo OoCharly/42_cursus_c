@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:47:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/21 16:46:51 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/29 16:01:48 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static int		parse_options(char ch, int *flag)
 		*flag = (*flag | BY_ATIME) & (~BY_CTIME & ~BY_STIME);
 	else if (ch == 'c')
 		*flag = (*flag | BY_STIME) & (~BY_ATIME & ~BY_CTIME);
+	else if (ch == 'T')
+		*flag |= OPT_WTIME;
 	else
 		return (ch);
 	return (0);

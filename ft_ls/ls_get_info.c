@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 15:36:07 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/21 17:31:20 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/29 16:22:07 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,6 @@ t_info	*get_info(char *path, t_dirent *tdir, t_util *util)
 	(out = ft_memalloc(sizeof(t_info))) ? : exit (2);
 	out->i_name = (tdir) ? ft_strdup(tdir->d_name) : ft_strdup(path);
 	out->i_len = (tdir) ? tdir->d_namlen : ft_strlen(path);
-	out->i_stat = NULL;
-	out->i_perm = NULL;
-	out->i_nlink = NULL;
-	out->i_usr = NULL;
-	out->i_grp = NULL;
-	out->i_size = NULL;
-	out->i_date = NULL;
-	out->i_link = NULL;
 	out->i_blocks = get_blocks((util->flag & OPT_BLK) ? stat : NULL);
 	return (out);
 }

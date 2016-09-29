@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:37:47 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/22 15:19:03 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/29 15:47:06 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,16 @@ static t_list	**ls_sort_largs(t_list **plst, char **av, t_util *util)
 		if (readlink(*av, NULL, 0) > -1)
 			ls_insert_arg(flst, *av, util);
 		else if ((dir = opendir(*av)))
-			ls_insert_arg;
+			ls_insert_arg(plst, *av, util);
+		else if (errno == ENOTDIR)
+			ls_insert_arg(flst, *av, util);
+		else if (errno == EACCES)
+			ls_insert_arg(plst, *av, util);
+		else
+			ls_error(*av);
+		av++;
 	}
+	return (flst);
 }
 static t_list	**ls_sort_args(t_list **plst, char **av, t_util *util)
 {
@@ -48,16 +56,15 @@ static t_list	**ls_sort_args(t_list **plst, char **av, t_util *util)
 	(flst = ft_memalloc(sizeof(t_list*))) ? : exit(2);
 	while (*av)
 	{
-		else if ((dir = opendir(*av)))
+		if ((dir = opendir(*av)))
 		{
 			ls_insert_arg(plst, *av, util);
 			closedir(dir);
 		}
-		else if (readlink(*av, NULL, 0) > -1)
-			ls_insert_arg(flst, *av, util);
 		else if (errno == EACCES)
 			ls_insert_arg(plst, *av, util);
-		else if (errno == ENOTDIR)
+		else if (errno == ENOTDIR ||
+				(errno == ENOENT && (readlink(*av, NULL, 0) > -1)))
 			ls_insert_arg(flst, *av, util);
 		else
 			ls_error(*av);
@@ -73,14 +80,14 @@ static void		ls_reargv(char **av)
 
 	while (*(av + 1))
 	{
-		i = 1;
+		i = 0;
 		while (av[i])
 		{
 			if (ft_strcmp(*av, *(av + i)) > 0)
 			{
 				tmp = *av;
 				*av = *(av + i);
-				*av = tmp;
+				*(av + i) = tmp;
 			}
 			i++;
 		}
@@ -97,7 +104,10 @@ t_list			**ls_multi_arg(char *path, char **av, t_util *util)
 	if (!(plst = ft_memalloc(sizeof(t_list*))))
 		exit(2);
 	ls_reargv(av);
-	pflst = ls_sort_args(plst, av, util);
+	if (util->flag & OPT_LNG)
+		pflst = ls_sort_largs(plst, av, util);
+	else
+		pflst = ls_sort_args(plst, av, util);
 	if (*pflst)
 		ls_print("", pflst, util);
 	ft_lstdel(pflst, &ls_del_node);

@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsort.c                                       :+:      :+:    :+:   */
+/*   ls_colors.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/25 16:34:13 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/29 14:46:16 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/09/29 18:05:36 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/09/29 19:26:01 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef LS_COLORS_H
+# define LS_COLORS_H
 
-void	ft_lstsort(t_list **alst, t_list *new, int (*f)(void *, void *))
-{
-	t_list	*cp;
-	t_list	*mem;
+# define COL_DEF	"39"
+# define COL_BLK	"30"
+# define COL_RED	"31"
+# define COL_GRN	"32"
+# define COL_BRW	"33"
+# define COL_BLU	"34"
+# define COL_MAG	"35"
+# define COL_CYA	"36"
+# define COL_LGR	"37"
+# define COL_END	"\e[0m"
+# define LS_COLOR_DEFAULT "exfxcxdxbxegedabagacad"
 
-	if (!(cp = *alst))
-	{
-		*alst = new;
-		return ;
-	}
-	mem = NULL;
-	while (cp)
-	{
-		if (f)
-			if ((*f)(cp->content, new->content) < 0)
-			{
-				(mem) ? (mem->next = new) : (*alst = new);
-				new->next = cp;
-				return ;
-			}
-		mem = cp;
-		cp = cp->next;
-	}
-	mem->next = new;
-}
+#endif

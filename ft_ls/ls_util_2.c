@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 15:54:38 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/21 15:30:40 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/29 15:48:18 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,8 @@ int			ls_by_name(void *old, void *new)
 void		ls_error(char *file)
 {
 	write(2, "ft_ls: ", 7);
-	perror(file);
+	if (!*file)
+		perror("open");
+	else
+		perror(file);
 }

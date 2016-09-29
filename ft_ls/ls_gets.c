@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/08 17:07:05 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/21 16:37:32 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/29 16:05:21 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*get_date(t_stat *st, int flag)
 	stime = get_time(st, flag);
 	tmp = ctime(&stime);
 	if (flag & OPT_WTIME)
-		out = ft_strdup(tmp + 4);
+		out = ft_strndup(tmp + 4, ft_strlen(tmp + 4) - 1);
 	else
 	{
 		if(!(out = ft_memalloc(sizeof(char) * 13)))

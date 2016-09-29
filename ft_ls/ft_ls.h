@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 12:02:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/21 15:20:33 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/09/29 19:26:01 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,28 @@
 
 # define SIX_MONTH 15778458L
 
-# define OPT_LNG 0x0001 //  l
-# define BY_SIZE 0x0002 //  S
-# define OPT_SUF 0x0004 //  F
-# define OPT_INO 0x0008 //  i
-# define OPT_SLH 0x0010 //  p
-# define OPT_BLK 0x0020 //  s
-# define BY_TIME 0x0040 //  t
-# define NO_STAT 0x007F //  case no t,l,S,F,i,p or s
-# define OPT_REC 0x0080 //  R
-# define OPT_ALL 0x0100 //  a
-# define OPT_REV 0x0200 //  r
-# define OPT_DIR 0x0400 //  d
-# define OPT_GRP 0x0800 //  g
-# define NO_SORT 0x1000 //  f
-# define BY_CTIME 0x2000//  U
-# define BY_ATIME 0x4000//  u
-# define BY_STIME 0x8000//  c
-# define SML_ERR 0x10000//  if small error occur
-# define OPT_SCOL 0x20000//  if big error occur
-# define OPT_WTIME 0x40000// T
-# define MULTIARG 0x80000// case multiple args
-# define PRTD 0x100000// Printed at least one line
+# define OPT_LNG	0x000001 //  l
+# define BY_SIZE	0x000002 //  S
+# define OPT_SUF	0x000004 //  F
+# define OPT_INO	0x000008 //  i
+# define OPT_SLH	0x000010 //  p
+# define OPT_BLK	0x000020 //  s
+# define BY_TIME	0x000040 //  t
+# define NO_STAT	0x00007F //  case no t,l,S,F,i,p or s
+# define OPT_REC	0x000080 //  R
+# define OPT_ALL	0x000100 //  a
+# define OPT_REV	0x000200 //  r
+# define OPT_DIR	0x000400 //  d
+# define OPT_GRP	0x000800 //  g
+# define NO_SORT	0x001000 //  f
+# define BY_CTIME	0x002000 //  U
+# define BY_ATIME	0x004000 //  u
+# define BY_STIME	0x008000 //  c
+# define SML_ERR	0x010000 //  if small error occur
+# define OPT_SCOL	0x020000 //  1 
+# define OPT_WTIME	0x040000 //  T
+# define MULTIARG	0x080000 //  case multiple args
+# define PRTD		0x100000 //  Printed at least one line
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
 typedef struct passwd	t_pwd;
