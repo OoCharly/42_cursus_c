@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = libftprintf.a
-FLAGS =
+FLAGS = -Wall -Werror -Wextra
 D_INCLUDES = ../includes
 D_LIBFT = ../libft/
 LIBFT = libft.a
@@ -25,7 +25,8 @@ all: $(NAME)
 $(NAME):
 	@make -C $(D_LIBFT)
 	@clang -I $(D_INCLUDES) $(FLAGS) -c $(SRCS)
-	@libtool -static -o $(NAME) $(OBJS) $(D_LIBFT)$(LIBFT)
+#	@libtool -static -o $(NAME) $(OBJS) $(D_LIBFT)$(LIBFT)
+	@ar -rcT $(NAME) $(D_LIBFT)$(LIBFT) $(OBJS)
 	@ranlib $(NAME)
 
 clean:

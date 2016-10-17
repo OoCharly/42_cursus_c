@@ -34,8 +34,23 @@ static int	get_color_offset(mode_t mode)
 	return (-1);
 }
 
+static char	*fmt_bcolor(char s)
+{
+	!(s == 'x') ? : return (BCOL_DEF);
+	!(s == 'a') ? : return (BCOL_BLK);
+	!(s == 'b') ? : return (BCOL_RED);
+	!(s == 'c') ? : return (BCOL_GRN);
+	!(s == 'd') ? : return (BCOL_BRW);
+	!(s == 'e') ? : return (BCOL_BLU);
+	!(s == 'f') ? : return (BCOL_MAG);
+	!(s == 'g') ? : return (BCOL_CYA);
+	!(s == 'h') ? : return (BCOL_LGR);
+	return (NULL);
+}
+
 static char	*fmt_color(char s)
 {
+	!(s == 'x') ? : return (COL_DEF);
 	!(s == 'a') ? : return (COL_BLK);
 	!(s == 'b') ? : return (COL_RED);
 	!(s == 'c') ? : return (COL_GRN);
@@ -89,7 +104,13 @@ char	*get_color(t_stat *stat, char *lcol)
 	int		i;
 
 	(out = ft_memalloc(sizeof(char) * 12)) ? : exit(2);
-	ft_strcat(out, "\e[");
 	i = get_col_offset(stat->st_mode);
-	if (*(lcol + i) >= 'a')
-
+	if (i == -1)
+		return (out);
+	ft_strcat(out, "\e[");
+	if (*(lcol + i) <= 'a')
+		ft_strcat(out, "1;");
+	ft_strcat(out, fmt_color(*(lscol + i)));
+	ft_strcat(out, fmt_bcolor(*(lscol + i + 1)));
+	return(out);
+}
