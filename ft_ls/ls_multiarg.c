@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:37:47 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/29 15:47:06 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/18 18:55:03 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ static void		ls_insert_arg(t_list **plst, char *name, t_util *util)
 	t_info	*new;
 	t_stat	*st;
 	t_list	*lstnew;
-	t_info	*(*get)(char *, t_dirent*, t_util*);
+	t_fetch	fetch;
 
-	get = (util->flag & NO_STAT) ? &get_linfo : &get_info;
-	new = (*get)(name, NULL, util);
+	fetch = util->fetch;
+	new = (*fetch)(name, NULL, util->flag);
 	if (!(lstnew = ft_lstcreate(new, sizeof(t_list))))
 		exit(2);
 	ft_lstsort(plst, lstnew, util->cmp);
+	if(util->flag & NO_SUPP)
+		fetch_info_supp(new, util->flag, util->lscol); 
 }
 
 static t_list	**ls_sort_largs(t_list **plst, char **av, t_util *util)
@@ -67,7 +69,10 @@ static t_list	**ls_sort_args(t_list **plst, char **av, t_util *util)
 				(errno == ENOENT && (readlink(*av, NULL, 0) > -1)))
 			ls_insert_arg(flst, *av, util);
 		else
+		{
+			util->flag |= SML_ERR;
 			ls_error(*av);
+		}
 		av++;
 	}
 	return (flst);

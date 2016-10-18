@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/30 14:37:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/21 17:41:49 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/18 17:53:39 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*get_link(char *path)
 
 int		usage(void)
 {
-	ft_putendl_fd("usage: ls [Radlrt] [file ...]", 2);
+	ft_putendl_fd("usage: ls [1CFGRSTUacdfgilrstu] [file ...]", 2);
 	exit(2);
 }
 

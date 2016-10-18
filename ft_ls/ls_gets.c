@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/08 17:07:05 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/29 16:05:21 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/18 12:16:36 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,5 @@ char	*get_date(t_stat *st, int flag)
 		else
 			ft_memcpy(out + 7, tmp + 11, 5);
 	}
-	return (out);
-}
-
-char	*get_blocks(t_stat *st)
-{
-	char	*out;
-
-	if (!st)
-		(out = ft_memalloc(sizeof(char))) ? : exit(2);
-	else
-		(out = ft_ntoa_base((uintmax_t)st->st_blocks, 10)) ? : exit(2);
 	return (out);
 }

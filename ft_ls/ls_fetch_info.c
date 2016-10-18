@@ -6,11 +6,73 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/29 16:42:15 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/29 18:58:43 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/18 15:56:19 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void	get_attr(char *path, char *out)
+{
+	acl_t	acl;
+
+	if (listxattr(path, NULL, 0, XATTR_NOFOLLOW) > 0)
+		*out = '@';
+	else if((acl = acl_get_file(path, ACL_TYPE_EXTENDED)))
+	{
+		*out = '+';
+		acl_free(acl);
+	}
+	else
+		*out = ' ';
+}
+
+void	get_rights(mode_t mode, char *out)
+{
+	*out++ = (mode & S_IRUSR) ? 'r' : '-';
+	*out++ = (mode & S_IWUSR) ? 'w' : '-';
+	if (mode & S_ISUID)
+		*out++ = (mode & S_IXUSR) ? 's' : 'S';
+	else
+		*out++ = (mode & S_IXUSR) ? 'x' : '-';
+	*out++ = (mode & S_IRGRP) ? 'r' : '-';
+	*out++ = (mode & S_IWGRP) ? 'w' : '-';
+	if (mode & S_ISGID)
+		*out++ = (mode & S_IXGRP) ? 's' : 'S';
+	else
+		*out++ = (mode & S_IXGRP) ? 'x' : '-';
+	*out++ = (mode & S_IROTH) ? 'r' : '-';
+	*out++ = (mode & S_IWOTH) ? 'w' : '-';
+	if (mode & S_ISVTX)
+		*out++ = (mode & S_IXOTH) ? 't' : 'T';
+	else
+		*out++ = (mode & S_IXOTH) ? 'x' : '-';
+}
+
+char	*get_type_n_rights(char *path, mode_t mode)
+{
+	char	*out;
+
+	if (!(out = ft_memalloc(sizeof(char) * 12)))
+		exit(2);
+	if (S_ISBLK(mode))
+		*out = 'b';
+	else if (S_ISCHR(mode))
+		*out = 'c';
+	else if (S_ISDIR(mode))
+		*out = 'd';
+	else if (S_ISLNK(mode))
+		*out = 'l';
+	else if (S_ISSOCK(mode))
+		*out = 's';
+	else if (S_ISFIFO(mode))
+		*out = 'p';
+	else if (S_ISREG(mode))
+		*out = '-';
+	get_rights(mode, out + 1);
+	get_attr(path, out + 10);
+	return (out);
+}
 
 t_info	*fetch_info_simple(char *path, t_dirent *tdir, int flag)
 {
@@ -21,7 +83,6 @@ t_info	*fetch_info_simple(char *path, t_dirent *tdir, int flag)
 	(out = ft_memalloc(sizeof(t_info))) ? : exit (2);
 	out->i_name = (tdir) ? ft_strdup(tdir->d_name) : ft_strdup(path);
 	out->i_len = (tdir) ? tdir->d_namlen : ft_strlen(path);
-	out->i_blocks = get_blocks((util->flag & OPT_BLK) ? stat : NULL);
 	return (out);
 }
 
@@ -45,15 +106,4 @@ t_info	*fetch_info_long(char *path, t_dirent *tdir, int flag)
 	out->i_name = (tdir) ? ft_strdup(tdir->d_name) : ft_strdup(path);
 	out->i_len = (tdir) ? tdir->d_namlen : ft_strlen(path);
 	return (out);
-}
-
-void	*fetch_info_sup(t_info *info, int flag)
-{
-	t_stat	*stat;
-
-	stat = info->i_stat;
-	info->i_blocks = get_blocks((flag & OPT_BLK) ? stat : NULL);
-	info->i_suff = get_suff(stat->st_mode, flag)
-	info->i_ino = get_ino((flag & OPT_INO) ? stat : NULL);
-	info->color = get_color((flag & OPT_CLR) ? stat : NULL);
 }

@@ -6,13 +6,13 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:47:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/29 16:01:48 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/18 18:51:10 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static t_pcmp	get_cmpfunction(int flag)
+t_pcmp	get_cmpfunction(int flag)
 {
 	if (flag & NO_SORT)
 		return (NULL);
@@ -60,9 +60,9 @@ static int		parse_options(char ch, int *flag)
 	else if (ch == 'i')
 		*flag |= (OPT_INO);
 	else if (ch == 'p')
-		*flag |= OPT_SLH;
+		*flag = (*flag | OPT_SLH) & ~OPT_SUF;
 	else if (ch == 'F')
-		*flag |= OPT_SUF;
+		*flag = (*flag | OPT_SUF) & ~OPT_SLH;
 	else if (ch == 'C')
 		*flag &= (~OPT_LNG & ~OPT_SCOL);
 	else if (ch == 'U')
@@ -73,6 +73,8 @@ static int		parse_options(char ch, int *flag)
 		*flag = (*flag | BY_STIME) & (~BY_ATIME & ~BY_CTIME);
 	else if (ch == 'T')
 		*flag |= OPT_WTIME;
+	else if (ch == 'G')
+		*flag |= OPT_CLR;
 	else
 		return (ch);
 	return (0);
@@ -118,6 +120,8 @@ int				ls_prelim(int ac, char **av, t_util *util)
 	if ((out = get_options(ac, av, &flag)) < 0)
 		exit(2);
 	mastercmp = get_cmpfunction(flag);
-	get_util(flag, mastercmp, util);
+	util->flag = flag;
+	util->cmp = mastercmp;
+	get_util(util, flag);
 	return (out);
 }

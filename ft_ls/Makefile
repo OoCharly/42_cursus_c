@@ -6,7 +6,7 @@
 #    By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/09 15:01:55 by cdesvern          #+#    #+#              #
-#    Updated: 2016/09/20 13:13:31 by cdesvern         ###   ########.fr        #
+#    Updated: 2016/10/18 18:59:24 by cdesvern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ D_LIB = ./lib/ft_printf/
 D_INCLUDES = ./lib/includes/
 
 SRCS = ft_ls.c ls_get_info.c ls_gets.c ls_multiarg.c ls_prelim.c ls_print.c\
-	   ls_rsort.c ls_sort.c main.c ls_util.c ls_util_2.c
+	   ls_rsort.c ls_sort.c main.c ls_util.c ls_util_2.c ls_gets2.c\
+	   ls_fetch_info.c ls_prints.c ls_errors.c
 
 all: $(NAME)
 

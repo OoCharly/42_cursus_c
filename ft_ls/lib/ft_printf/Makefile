@@ -6,7 +6,7 @@
 #    By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/30 15:58:52 by cdesvern          #+#    #+#              #
-#    Updated: 2016/09/20 13:11:40 by cdesvern         ###   ########.fr        #
+#    Updated: 2016/10/17 14:20:56 by cdesvern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,7 @@ all: $(NAME)
 $(NAME):
 	@make -C $(D_LIBFT)
 	@clang -I $(D_INCLUDES) $(FLAGS) -c $(SRCS)
-#	@libtool -static -o $(NAME) $(OBJS) $(D_LIBFT)$(LIBFT)
-	@ar -rcT $(NAME) $(D_LIBFT)$(LIBFT) $(OBJS)
+	@libtool -static -o $(NAME) $(OBJS) $(D_LIBFT)$(LIBFT)
 	@ranlib $(NAME)
 
 clean:

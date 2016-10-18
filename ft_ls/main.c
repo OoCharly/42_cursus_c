@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/14 16:14:48 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/22 13:11:42 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/18 18:41:05 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ void	ls_start(char *path, t_list **plst, t_util *util)
 		info = (t_info*)((*plst)->content);
 		if (!(dir = opendir(info->i_name)))
 		{
-			ft_printf("%s%s:\n", (util->flag & PRTD) ? "\n": "", info->i_name);
+			if (util->flag & MULTIARG)
+				ft_printf("%s%s:\n", (util->flag & SML_ERR) ? "\n": "", info->i_name);
+			util->flag |= SML_ERR;
 			ls_error(ft_strchr(info->i_name, '/') + 1);
 			ft_lstdelfst(plst, &ls_del_node);
 		}

@@ -6,78 +6,50 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 15:36:07 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/29 16:22:07 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/18 17:41:51 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	get_util(int flag, t_pcmp cmp, t_util *util)
+void	fetch_info_supp(t_info *info, int flag, char *lscol)
 {
-	util->cmp = cmp;
-	util->flag = flag;
-	if (!(flag & NO_STAT))
-		util->getstat = NULL;
+	t_stat	*stat;
+	char	*new;
+
+	stat = info->i_stat;
+	if (flag & OPT_BLK)
+		info->i_blocks = ft_ntoa_base((uintmax_t)stat->st_blocks, 10);
 	else
-		util->getstat = &lstat;
-}
-
-t_info	*get_linfo(char *path, t_dirent *tdir, t_util *util)
-{
-	t_info	*out;
-	t_stat	*stat;
-	int		flag;
-
-	flag = util->flag;
-	(out = ft_memalloc(sizeof(t_info))) ? : exit(2);
-	if (!(stat = ft_memalloc(sizeof(t_stat))))
-		exit (2);
-	(*(util->getstat))(path, stat);
-	out->i_perm = get_type_n_rights(path, stat->st_mode);
-	out->i_nlink = ft_ntoa_base((uintmax_t)stat->st_nlink, 10);
-	out->i_usr = get_usr((flag & OPT_GRP) ? NULL : stat);
-	out->i_grp = get_grp(stat);
-	out->i_size = get_size(stat, flag);
-	out->i_date = get_date(stat, flag);
-	out->i_blocks = get_blocks((flag & OPT_BLK) ? stat : NULL);
-	out->i_stat = stat;
-	out->i_link = get_link((*(out->i_perm) == 'l') ? path : NULL);
-	out->i_name = (tdir) ? ft_strdup(tdir->d_name) : ft_strdup(path);
-	out->i_len = (tdir) ? tdir->d_namlen : ft_strlen(path);
-	return (out);
-}
-
-t_info	*get_info(char *path, t_dirent *tdir, t_util *util)
-{
-	t_info	*out;
-	t_stat	*stat;
-	t_fstat	fstat;
-
-	(out = ft_memalloc(sizeof(t_info))) ? : exit (2);
-	out->i_name = (tdir) ? ft_strdup(tdir->d_name) : ft_strdup(path);
-	out->i_len = (tdir) ? tdir->d_namlen : ft_strlen(path);
-	out->i_blocks = get_blocks((util->flag & OPT_BLK) ? stat : NULL);
-	return (out);
+		info->i_blocks = NULL;
+	if (flag & (OPT_SUF | OPT_SLH))
+		info->i_suff = get_suff(stat->st_mode, flag);
+	else
+		info->i_suff = 0;
+	info->i_ino = (flag & OPT_INO) ? ft_ntoa((uintmax_t)stat->st_ino) : NULL;
+	info->i_color = (flag & OPT_CLR) ? get_color(stat, lscol) : NULL;
 }
 
 void		get_list(char *path, DIR *dir, t_util *util, t_list **plst)
 {
 	t_list		*new;
 	t_dirent	*tdir;
-	t_info		*(*get)(char *, t_dirent*, t_util*);	
+	t_fetch		fetch;	
 	t_pcmp		cmp;
 	int			flag;
 
 	flag = util->flag;
 	cmp = util->cmp;
-	get = (flag & NO_STAT) ? &get_linfo : &get_info;
+	fetch = util->fetch;
 	while ((tdir = readdir(dir)))
 		if ((flag & OPT_ALL) || (*(tdir->d_name) != '.'))
 		{
 			path = ft_strcat(path, tdir->d_name);
-			if (!(new = ft_lstcreate((*get)(path, tdir, util), sizeof(t_info))))
+			if (!(new = ft_lstcreate((*fetch)(path, tdir, flag), sizeof(t_info))))
 				exit (2);
 			ft_lstsort(plst, new, cmp);
+			if (flag & NO_SUPP)
+				fetch_info_supp((t_info*)(new->content), flag, util->lscol);
 			ls_erase_last_name(path, (size_t)tdir->d_namlen);
 		}
 	closedir(dir);
