@@ -45,7 +45,10 @@ static t_list	**ls_sort_largs(t_list **plst, char **av, t_util *util)
 		else if (errno == EACCES)
 			ls_insert_arg(plst, *av, util);
 		else
+		{
+			flag |= SML_ERR;
 			ls_error(*av);
+		}
 		av++;
 	}
 	return (flst);
