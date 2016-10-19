@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/29 12:57:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/08/24 13:50:03 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 21:39:18 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ const char	*ft_getenv(const char *name)
 	while ((cp = *p) != NULL)
 	{
 		np = name;
-		if (strncmp(cp, np, len) == 61)
+		if (ft_strncmp(cp, np, len) == 61)
 			return (cp + len);
 		else
 			p++;

@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 11:29:46 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/19 20:14:18 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 20:41:14 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void			ls_print(char *path, t_list **plst, t_util *util)
 	pad = get_padding(plst);
 	repad(pad, flag);
 	print = util->print;
-	if (*path && ((flag & (OPT_LNG | OPT_BLK))))
+	if (*path && ((flag & (OPT_LNG | OPT_BLK))) && !(flag & OPT_DIR))
 		ft_printf("total %lld\n", ls_sum_blocks(plst));
 	(*print)(plst, pad);
 	free(pad);

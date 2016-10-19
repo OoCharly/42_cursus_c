@@ -6,7 +6,7 @@
 #    By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/09 15:01:55 by cdesvern          #+#    #+#              #
-#    Updated: 2016/10/19 20:33:35 by cdesvern         ###   ########.fr        #
+#    Updated: 2016/10/19 21:43:04 by cdesvern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,3 +33,5 @@ fclean: clean
 	@/bin/rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re

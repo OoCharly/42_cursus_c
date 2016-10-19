@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:47:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/19 20:12:19 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 21:21:10 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static int		parse_options(char ch, int *flag)
 		*flag |= BY_TIME;
 	else if (ch == 'l')
 		*flag = (*flag | OPT_LNG) & ~OPT_SCOL;
-	else if (ch == 'R' && !(*flag & OPT_DIR))
-		*flag |= OPT_REC;
+	else if (ch == 'R')
+		*flag |= (*flag & OPT_DIR) ? 0 : OPT_REC;
 	else if (ch == 'a')
 		*flag |= OPT_ALL;
 	else if (ch == 'A')
@@ -95,7 +95,6 @@ static int		get_options(int ac, char **av, int *flag)
 {
 	int		i;
 	char	*opt;
-	char	ch;
 
 	i = 1;
 	while (i < ac)
@@ -106,11 +105,13 @@ static int		get_options(int ac, char **av, int *flag)
 				return (i + 1);
 			opt = av[i];
 			while (*++opt)
-				if ((ch = parse_options(*opt, flag)))
+			{
+				if ((parse_options(*opt, flag)))
 				{
-					ls_invalid_opt(ch);
+					ls_invalid_opt(*opt);
 					return (usage());
 				}
+			}
 		}
 		else
 			return (i);

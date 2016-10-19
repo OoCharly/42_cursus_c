@@ -6,13 +6,22 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 16:34:13 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/29 14:45:44 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 21:03:43 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstsort(t_list **alst, t_list *new, int (*f)(void *, void *))
+static void	ft_ftn(t_list *mem, t_list **alst, t_list *new, t_list *cp)
+{
+	if (mem)
+		mem->next = new;
+	else
+		*alst = new;
+	new->next = cp;
+}
+
+void		ft_lstsort(t_list **alst, t_list *new, int (*f)(void *, void *))
 {
 	t_list	*cp;
 	t_list	*mem;
@@ -27,11 +36,7 @@ void	ft_lstsort(t_list **alst, t_list *new, int (*f)(void *, void *))
 	{
 		if (f)
 			if ((*f)(cp->content, new->content) < 0)
-			{
-				(mem) ? (mem->next = new) : (*alst = new);
-				new->next = cp;
-				return ;
-			}
+				return (ft_ftn(mem, alst, new, cp));
 		mem = cp;
 		cp = cp->next;
 	}

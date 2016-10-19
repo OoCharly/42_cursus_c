@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 12:02:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/19 20:31:16 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 21:13:30 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@
 ** BY_STIME		c done
 ** OPT_SCOL		1 ~done
 ** OPT_WTIME	T done
-** SML_ERR	0x010000//  if small error occur
-** MULTIARG	0x080000//  case multiple args
-** PRTD		0x100000//  Printed at least one line
+** SML_ERR		if small error occur
+** MULTIARG		case multiple args
+** PRTD			Printed at least one line
 */
 # define OPT_LNG	0x000001
 # define BY_SIZE	0x000002

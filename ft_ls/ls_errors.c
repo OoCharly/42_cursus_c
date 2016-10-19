@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 14:36:26 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/19 20:22:48 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 21:23:44 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,16 @@ void	ls_error(char *file)
 {
 	write(2, "ft_ls: ", 7);
 	if (!*file)
-		perror("open");
+	{
+		perror("fts_open");
+		exit(1);
+	}
 	else
 		perror(file);
 }
 
 int		usage(void)
 {
-	ft_putendl_fd("usage: ls [1ACFGRSTUacdfgilorstu] [file ...]", 2);
+	ft_putendl_fd("usage: ls [1ACFGRSTUacdfgiloprstu] [file ...]", 2);
 	exit(2);
 }
