@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:37:47 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/18 18:55:03 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 20:05:40 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void		ls_insert_arg(t_list **plst, char *name, t_util *util)
 {
 	t_info	*new;
-	t_stat	*st;
 	t_list	*lstnew;
 	t_fetch	fetch;
 
@@ -24,8 +23,8 @@ static void		ls_insert_arg(t_list **plst, char *name, t_util *util)
 	if (!(lstnew = ft_lstcreate(new, sizeof(t_list))))
 		exit(2);
 	ft_lstsort(plst, lstnew, util->cmp);
-	if(util->flag & NO_SUPP)
-		fetch_info_supp(new, util->flag, util->lscol); 
+	if (util->flag & NO_SUPP)
+		fetch_info_supp(new, util->flag, util->lscol);
 }
 
 static t_list	**ls_sort_largs(t_list **plst, char **av, t_util *util)
@@ -33,7 +32,8 @@ static t_list	**ls_sort_largs(t_list **plst, char **av, t_util *util)
 	DIR		*dir;
 	t_list	**flst;
 
-	(flst = ft_memalloc(sizeof(t_list*))) ? : exit(2);
+	if (!(flst = ft_memalloc(sizeof(t_list*))))
+		exit(2);
 	while (*av)
 	{
 		if (readlink(*av, NULL, 0) > -1)
@@ -46,19 +46,21 @@ static t_list	**ls_sort_largs(t_list **plst, char **av, t_util *util)
 			ls_insert_arg(plst, *av, util);
 		else
 		{
-			flag |= SML_ERR;
+			util->flag |= SML_ERR;
 			ls_error(*av);
 		}
 		av++;
 	}
 	return (flst);
 }
+
 static t_list	**ls_sort_args(t_list **plst, char **av, t_util *util)
 {
 	DIR		*dir;
 	t_list	**flst;
 
-	(flst = ft_memalloc(sizeof(t_list*))) ? : exit(2);
+	if (!(flst = ft_memalloc(sizeof(t_list*))))
+		exit(2);
 	while (*av)
 	{
 		if ((dir = opendir(*av)))
@@ -103,11 +105,10 @@ static void		ls_reargv(char **av)
 	}
 }
 
-t_list			**ls_multi_arg(char *path, char **av, t_util *util)
+t_list			**ls_multi_arg(char **av, t_util *util)
 {
 	t_list	**plst;
 	t_list	**pflst;
-	t_pcmp	cmp;
 
 	if (!(plst = ft_memalloc(sizeof(t_list*))))
 		exit(2);

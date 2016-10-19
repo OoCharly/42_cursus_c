@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/29 16:42:15 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/18 15:56:19 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 19:58:50 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	get_attr(char *path, char *out)
 
 	if (listxattr(path, NULL, 0, XATTR_NOFOLLOW) > 0)
 		*out = '@';
-	else if((acl = acl_get_file(path, ACL_TYPE_EXTENDED)))
+	else if ((acl = acl_get_file(path, ACL_TYPE_EXTENDED)))
 	{
 		*out = '+';
 		acl_free(acl);
@@ -77,12 +77,12 @@ char	*get_type_n_rights(char *path, mode_t mode)
 t_info	*fetch_info_simple(char *path, t_dirent *tdir, int flag)
 {
 	t_info	*out;
-	t_stat	*stat;
-	t_fstat	fstat;
 
-	(out = ft_memalloc(sizeof(t_info))) ? : exit (2);
+	if (!(out = ft_memalloc(sizeof(t_info))))
+		exit(2);
 	out->i_name = (tdir) ? ft_strdup(tdir->d_name) : ft_strdup(path);
 	out->i_len = (tdir) ? tdir->d_namlen : ft_strlen(path);
+	flag = 0;
 	return (out);
 }
 
@@ -91,15 +91,16 @@ t_info	*fetch_info_long(char *path, t_dirent *tdir, int flag)
 	t_info	*out;
 	t_stat	*stat;
 
-	(out = ft_memalloc(sizeof(t_info))) ? : exit(2);
+	if (!(out = ft_memalloc(sizeof(t_info))))
+		exit(2);
 	if (!(stat = ft_memalloc(sizeof(t_stat))))
-		exit (2);
+		exit(2);
 	lstat(path, stat);
 	out->i_perm = get_type_n_rights(path, stat->st_mode);
 	out->i_nlink = ft_ntoa_base((uintmax_t)stat->st_nlink, 10);
-	out->i_usr = get_usr(stat);
-	out->i_grp = get_grp(stat);
-	out->i_size = get_size(stat, flag);
+	out->i_usr = get_usr((flag & OPT_GRP) ? NULL : stat);
+	out->i_grp = get_grp((flag & OPT_USR) ? NULL : stat);
+	out->i_size = get_size(stat);
 	out->i_date = get_date(stat, flag);
 	out->i_stat = stat;
 	out->i_link = get_link((*(out->i_perm) == 'l') ? path : NULL);

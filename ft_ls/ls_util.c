@@ -6,13 +6,13 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/30 14:37:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/18 17:53:39 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 20:22:07 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	ft_append_path(char *path, char *name)
+void		ft_append_path(char *path, char *name)
 {
 	int	len;
 
@@ -22,7 +22,7 @@ void	ft_append_path(char *path, char *name)
 	path[len] = '\0';
 }
 
-void	ls_del_node(void *content, size_t n)
+void		ls_del_node(void *content, size_t n)
 {
 	t_info	*tmp;
 	size_t	norme;
@@ -42,10 +42,14 @@ void	ls_del_node(void *content, size_t n)
 	}
 	free(tmp->i_blocks);
 	free(tmp->i_name);
+	if (tmp->i_color)
+		free(tmp->i_color);
+	if (tmp->i_ino)
+		free(tmp->i_ino);
 	free(content);
 }
 
-char	*get_link(char *path)
+char		*get_link(char *path)
 {
 	char	*link;
 	char	*out;
@@ -68,16 +72,25 @@ char	*get_link(char *path)
 	return (out);
 }
 
-int		usage(void)
-{
-	ft_putendl_fd("usage: ls [1CFGRSTUacdfgilrstu] [file ...]", 2);
-	exit(2);
-}
-
-void	ls_erase_last_name(char *path, size_t len)
+void		ls_erase_last_name(char *path, size_t len)
 {
 	char	*slash;
 
 	slash = ft_strrchr(path, '/');
 	ft_memset(slash + 1, 0, len);
+}
+
+blkcnt_t	ls_sum_blocks(t_list **plst)
+{
+	long long int	out;
+	t_list			*tmp;
+
+	out = 0;
+	tmp = *plst;
+	while (tmp)
+	{
+		out += ((t_info*)tmp->content)->i_stat->st_blocks;
+		tmp = tmp->next;
+	}
+	return (out);
 }

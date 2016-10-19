@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/29 17:20:36 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/18 18:04:26 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 20:03:55 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*fmt_color(char s)
 	return (NULL);
 }
 
-char	*get_suff(mode_t mode, int flag)
+char		*get_suff(mode_t mode, int flag)
 {
 	if (S_ISDIR(mode))
 		return ("/");
@@ -82,12 +82,13 @@ char	*get_suff(mode_t mode, int flag)
 	return ("");
 }
 
-char	*get_color(t_stat *stat, char *lscol)
+char		*get_color(t_stat *stat, char *lscol)
 {
 	char	*out;
 	int		i;
 
-	(out = ft_memalloc(sizeof(char) * 12)) ? : exit(2);
+	if (!(out = ft_memalloc(sizeof(char) * 12)))
+		exit(2);
 	i = get_color_offset(stat->st_mode);
 	if (i == -1)
 		return (out);
@@ -98,5 +99,5 @@ char	*get_color(t_stat *stat, char *lscol)
 	ft_strcat(out, fmt_color(ft_tolower(*(lscol + i + 1))));
 	out[ft_strlen(out) - 2]++;
 	ft_strcat(out, "m");
-	return(out);
+	return (out);
 }

@@ -6,13 +6,13 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 15:47:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/18 18:51:10 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 20:12:19 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_pcmp	get_cmpfunction(int flag)
+t_pcmp			get_cmpfunction(int flag)
 {
 	if (flag & NO_SORT)
 		return (NULL);
@@ -33,30 +33,12 @@ t_pcmp	get_cmpfunction(int flag)
 		return ((flag & OPT_REV) ? &ls_by_rname : &ls_by_name);
 }
 
-static int		parse_options(char ch, int *flag)
+static int		parse_options2(char ch, int *flag)
 {
-	if (ch == 't')
-		*flag |= BY_TIME;
-	else if (ch == 'l')
-		*flag = (*flag | OPT_LNG) & ~OPT_SCOL;
-	else if (ch == 'R' && !(*flag & OPT_DIR))
-		*flag |= OPT_REC;
-	else if (ch == 'a')
-		*flag |= OPT_ALL;
-	else if (ch == 'r')
-		*flag |= OPT_REV;
-	else if (ch == 'd')
-		*flag = (*flag | OPT_DIR) & ~OPT_REC;
-	else if (ch == 'S')
-		*flag |= BY_SIZE;
-	else if (ch == '1')
-		*flag = (*flag | OPT_SCOL) & (~OPT_LNG);
-	else if (ch == 's')
-		*flag |= OPT_BLK;
-	else if (ch == 'f')
-		*flag |= NO_SORT;
-	else if (ch == 'g')
+	if (ch == 'g')
 		*flag |= (OPT_GRP | OPT_LNG);
+	else if (ch == 'o')
+		*flag |= (OPT_USR | OPT_LNG);
 	else if (ch == 'i')
 		*flag |= (OPT_INO);
 	else if (ch == 'p')
@@ -80,6 +62,35 @@ static int		parse_options(char ch, int *flag)
 	return (0);
 }
 
+static int		parse_options(char ch, int *flag)
+{
+	if (ch == 't')
+		*flag |= BY_TIME;
+	else if (ch == 'l')
+		*flag = (*flag | OPT_LNG) & ~OPT_SCOL;
+	else if (ch == 'R' && !(*flag & OPT_DIR))
+		*flag |= OPT_REC;
+	else if (ch == 'a')
+		*flag |= OPT_ALL;
+	else if (ch == 'A')
+		*flag |= OPT_AAL;
+	else if (ch == 'r')
+		*flag |= OPT_REV;
+	else if (ch == 'd')
+		*flag = (*flag | OPT_DIR) & ~OPT_REC;
+	else if (ch == 'S')
+		*flag |= BY_SIZE;
+	else if (ch == '1')
+		*flag = (*flag | OPT_SCOL) & (~OPT_LNG);
+	else if (ch == 's')
+		*flag |= OPT_BLK;
+	else if (ch == 'f')
+		*flag |= (NO_SORT | OPT_ALL);
+	else
+		return (parse_options2(ch, flag));
+	return (0);
+}
+
 static int		get_options(int ac, char **av, int *flag)
 {
 	int		i;
@@ -97,9 +108,7 @@ static int		get_options(int ac, char **av, int *flag)
 			while (*++opt)
 				if ((ch = parse_options(*opt, flag)))
 				{
-					ft_putstr_fd("ls: illegal option -- ", 2);
-					ft_putchar_fd(ch, 2);
-					ft_putendl("");
+					ls_invalid_opt(ch);
 					return (usage());
 				}
 		}

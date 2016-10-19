@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 12:26:11 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/18 17:32:14 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/19 19:57:05 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ls_preprint(char *path, int flag)
 {
+	if (flag & OPT_DIR)
+		return ;
 	if (flag & PRTD)
 		ft_putendl("");
 	if (flag & (MULTIARG | PRTD))
@@ -26,7 +28,6 @@ DIR		*ls_next_dir(char *path, t_list *lst, t_util *util)
 {
 	DIR		*ret;
 	t_info	*info;
-	char	*slash;
 
 	info = (t_info*)((lst)->content);
 	if (!ft_strcmp(info->i_name, ".") || !ft_strcmp(info->i_name, ".."))
@@ -59,7 +60,8 @@ void	ft_ls(char *path, DIR *dir, t_util *util)
 	t_list		*tmp;
 
 	ls_preprint(path, util->flag);
-	(plst = ft_memalloc(sizeof(t_list*))) ? : exit(2);
+	if (!(plst = ft_memalloc(sizeof(t_list*))))
+		exit(2);
 	get_list(path, dir, util, plst);
 	ls_print(path, plst, util);
 	tmp = *plst;
