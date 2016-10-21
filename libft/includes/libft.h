@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/09/13 16:29:09 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/21 14:32:34 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ char					*ft_strnchr(const char *s, int c, size_t n);
 char					*ft_strrchr(const char *s, int c);
 char					*ft_strnrchr(const char *s, int c, size_t n);
 char					**ft_strsplit(char const *s, char c);
+char					**ft_strsplitspace(char const *s);
 char					*ft_strsub(char const *s, unsigned int start,
 									size_t len);
 char					*ft_strtrim(char const *s);

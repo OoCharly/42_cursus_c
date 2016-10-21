@@ -31,7 +31,7 @@ SRCS = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	ft_strnoccur.c ft_lstsumsize.c ft_nsize_base.c ft_wchar_to_string.c\
 	ft_wstring_to_string.c ft_capitalize.c ft_strfjoin.c ft_del_node.c\
 	ft_lstdelfst.c ft_char_to_string.c ft_wstrlen.c ft_getenv.c ft_strfcat.c\
-	ft_lstsort.c ft_umax.c
+	ft_lstsort.c ft_umax.c ft_strsplitspace.c
 
 OBJS = $(subst .c,.o,$(SRCS))
 

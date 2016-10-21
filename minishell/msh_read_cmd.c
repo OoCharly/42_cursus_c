@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memdel.c                                        :+:      :+:    :+:   */
+/*   msh_read_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/25 15:37:48 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/21 12:15:40 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/10/21 12:43:36 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/10/21 15:26:56 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_memdel(void **ap)
+char	*msh_read_cmd(void)
 {
-	if (*ap)
-	{
-		free(*ap);
-		*ap = NULL;
-	}
+	char	*line;
+
+	get_next_line(0, &line);
+	return (line);
 }
