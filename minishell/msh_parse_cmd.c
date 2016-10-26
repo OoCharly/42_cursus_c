@@ -6,17 +6,27 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 12:43:35 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/21 16:30:30 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/26 12:27:40 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**msh_parse(char *cmd)
+t_list	**msh_parse(char *cmd)
 {
+	char	**scargs;
 	char	**args;
+	t_list	**lcmd;
 
-	args = ft_strsplitspace(cmd);
-	return (args);
+	if (!(lcmd = ft_memalloc(sizeof(t_list*))))
+		exit(2);
+	scargs = ft_strsplit(cmd, ';');
+	while (*scargs)
+	{
+		args = ft_strsplitspace(*scargs);
+		ft_lstadd_end(lcmd, ft_lstcreate(args, sizeof(args)));
+		scargs++;
+	}
+	return (lcmd);
 }
 

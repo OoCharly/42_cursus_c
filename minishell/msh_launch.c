@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 12:43:34 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/21 18:19:21 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/26 13:21:20 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,19 @@ int	msh_launch(char **args)
 	pid_t	pid;
 	int		status;
 
-	status = 1;
-	pid = fork();
-	if (pid == -1)
-		exit(1);
-		//status = ft_puterror("minishell", ERR_FORKFAIL);
-	else if (!pid)
+	if (check_builtins(args))
 	{
-		if (execve(args[0], args, environ) == -1)
-			exit(EXIT_FAILURE);
+		pid = fork();
+		if (pid == -1)
+			exit(1);
+		//status = msh_puterror("minishell", ERR_FORKFAIL);
+		else if (!pid)
+		{
+			if (execve(args[0], args, environ) == -1)
+				exit(EXIT_FAILURE);
+		}
+		else
+			waitpid(pid, &status, 0);
+		return (1);
 	}
-	else
-		waitpid(pid, &status, 0);
-	ft_putendl("end");
-	return (status);
 }

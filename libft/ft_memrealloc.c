@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memrealloc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/21 16:30:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/26 15:02:17 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/10/26 15:31:07 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/10/26 15:58:37 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft.h"
-# include "get_next_line.h"
-# include <unistd.h>
-# include <sys/wait.h>
-
-# include <errno.h>
-# include <stdio.h>
-
-typedef struct	s_config
+void	*ft_memrealloc(void *old, size_t size)
 {
-	char		**env;
-}				t_config;
+	t_byte	*b;
+	size_t	i;
 
-int		msh_launch(char **args);
-t_list	**msh_parse(char *cmd);
-char	*msh_read_cmd(void);
-
-#endif
+	if (!(b = (t_byte*)ft_memalloc(t_byte) * size))
+		return (NULL);
+	i = 0;
+	while (old[i] && (i < size))
+	{
+		b[i] = old[i];
+		i++;
+	}
+	free(old);
+	old = NULL;
+	return (b);
+}

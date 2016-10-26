@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   msh_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/21 16:30:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/26 15:02:17 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/10/26 17:07:06 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/10/26 17:43:01 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include "libft.h"
-# include "get_next_line.h"
-# include <unistd.h>
-# include <sys/wait.h>
-
-# include <errno.h>
-# include <stdio.h>
-
-typedef struct	s_config
+char	**func(void)
 {
-	char		**env;
-}				t_config;
+	char	*func_name[6];
 
-int		msh_launch(char **args);
-t_list	**msh_parse(char *cmd);
-char	*msh_read_cmd(void);
+	func_name = {"cd", "echo", "setenv", "unsetenv", "env", "exit"};
+	return (func_name);
+}
 
-#endif
+char	**pfunc(void)
+{
+	t_bin	pfunc[6];
+
+	pfunc = {&msh_cd, &msh_echo, &msh_setenv, &msh_unsetenv, &msh_env,
+			&msh_exit};
+	return (pfunc);
+}
+
+

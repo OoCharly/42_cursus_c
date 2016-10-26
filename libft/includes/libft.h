@@ -6,7 +6,7 @@
 /*   By: cdesvern <cdesvern@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 19:02:41 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/21 14:32:34 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/26 18:11:16 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char					*ft_ntoa_base(uintmax_t nb, unsigned int base);
 */
 void					ft_bzero(void *s, size_t n);
 void					*ft_memalloc(size_t size);
+void					*ft_memrealloc(void *old, size_t size);
 void					*ft_memccpy(void *dst, const void *src, int c,
 									size_t n);
 void					*ft_memchr(const void *s, int c, size_t n);
@@ -140,5 +141,5 @@ int						ft_nsize_base(uintmax_t nb, int base);
 /*
 ** env
 */
-const char				*ft_getenv(const char *name);
+const char				*ft_getenv(const char *name, const char **env);
 #endif

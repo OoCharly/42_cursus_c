@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   msh_error.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/21 16:30:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/26 15:02:17 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/10/26 12:44:00 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/10/26 13:04:24 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include "libft.h"
-# include "get_next_line.h"
-# include <unistd.h>
-# include <sys/wait.h>
-
-# include <errno.h>
-# include <stdio.h>
-
-typedef struct	s_config
+void	msh_error(char *path)
 {
-	char		**env;
-}				t_config;
+	char	*exe;
 
-int		msh_launch(char **args);
-t_list	**msh_parse(char *cmd);
-char	*msh_read_cmd(void);
-
-#endif
+	exe = path + (ft_strrchr(path, '/') - path);
+	if (acces(path, F_OK))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(exe, 2);
+		ft_putendl(": command not found");
+	}
+	else if(access(path, x_OK))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putendl(": Permission denied");
+	}
+	return ;
+}
