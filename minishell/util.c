@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 14:13:08 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/26 16:44:18 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/10/27 17:28:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,18 @@ int		msh_asize(char **array)
 	return (out);
 }
 
-void	msh_env(const char **env)
+void	msh_env(int ac, char **args, t_config *config)
 {
-	while (*env)
-		ft_putendl(*env++);
+	int	opts;
+
+	if (ac == 1)
+	{
+		while (*env)
+			ft_putendl(*env++);
+		return ;
+	}
+
+
 }
 
 char	**msh_addenv(char **env, char *name, char *val, int	ssize)
