@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 12:43:36 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/27 17:56:44 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/01 17:05:17 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*msh_read_cmd(void)
 {
 	char	*line;
 
-	if (get_next_line(0, &line) >= 0)
+	if (cmd_line_parser(0, &line) >= 0)
 		return (line);
 	else
 		msh_exit();

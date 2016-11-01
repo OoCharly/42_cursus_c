@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_line_parser.c                                  :+:      :+:    :+:   */
+/*   msh_entry_parser.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/27 17:29:18 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/01 16:29:22 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/11/01 17:03:13 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/11/01 17:42:16 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static char	*clp_getline(int fd, char *buff, char **out)
 	{
 		if (buff[i] == '\\')
 			i = clp_ignore(fd, buff, out, i);
-		else if (buff[i] == '"')
+		else if (buff[i] == '"' || buff[i] == '\'')
 			i = clp_nextquote(fd, buff, out, i);
 		else if (buff[i] == 0)
 		{
@@ -91,7 +91,8 @@ static char	*clp_getline(int fd, char *buff, char **out)
 			*out = ft_strjoin(*out, buff);
 			if (cp)
 				free(cp);
-			read(fd, buff, CLP_BUFFSIZE);
+			ret = read(fd, buff, CLP_BUFFSIZE);
+			buff[ret] = 0;
 			i = 0;
 		}
 		else
