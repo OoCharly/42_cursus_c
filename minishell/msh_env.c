@@ -6,114 +6,91 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 17:21:11 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/27 15:07:00 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/08 18:50:38 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	msh_env(const char **env)
+int		msh_env(int	ac, char **args, char **env)
 {
-	while (*env)
-		ft_putendl(*env++);
-}
-
-char	**msh_addenv(char **env, char *name, char *val, int	ssize)
-{
-	int		size;
-	char	**cp;
-	char	**out;
-
-	cp = env;
-	size = 0;
-	while (*cp++)
-		size++;
-	if (!(out = ft_memalloc(sizeof(char*) * (size + 2))))
-		return (NULL);
-	cp = env;
-	size = 0;
-	while (*cp)
-		out[size++] = *cp++;
-	if (!(out[size] = ft_memalloc(sizeof(char) * (ssize + 2))))
-		return (NULL);
-	t_strcat(ft_strcat(ft_strcat(out[size], name), "="), val);
-	return (out);
-}
-
-char	*msh_inarray(const char *name, const char **env)
-{
-	const char			*np;
-	const char			*cp;
-	int					len;
-
-	if (!(np = name) || !env)
-		return (NULL);
-	while (*np && *np != '=')
-		np++;
-	len = (int)(np - name) + 1;
-	while ((cp = *env) != NULL)
+	if (ac == 1)
 	{
-		np = name;
-		if (ft_strncmp(cp, np, len) == 61)
-			return (cp + len);
-		else
-			env++;
+		while (*env)
+			ft_putendl(*env++);
+		return (0);
 	}
-	return (NULL);
+	while (args[i])
+	{
+		if (*args[i] == '-')
+	}
+}
+
+char	**msh_addenv(char **env, char *name, char *val)
+{
+	char	*elem;
+	int		len;
+
+	len = ft_strlen(name) + ft_strlen(val) + 2;
+	if (!(elem = ft_memalloc(sizeof(char) * len)))
+		return (NULL);
+	ft_strcat(ft_strcat(ft_strcat(elem, name), "="), val);
+	return (msh_array_add_elem(env, elem));
 }
 
 int		msh_setenv(int ac, char **args, t_config *conf)
 {
-	int		i;
+	int		len;
 	char	*str;
+	char	*cp;
+	char	**out;
 
-	if (ac == 1)
+	if (ac < 2 || ac > 3)
+		return ((ac == 1) ? msh_env(conf->env) : MSH_ARGS_MANY);
+	if (!*(cp = args[1]))
+		return (4);
+	while (*cp)
+		if (!ft_isalnum(*cp) && *cp != '_')
+			return (MSH_ENV_NALNUM);
+	len = ft_strlen(args[1]) + ft_strlen(args[2]);
+	if ((out = msh_inarray(args[1], conf->env)))
 	{
-		msh_env(env);
-		return (0);
-	}
-	if (ac > 3)
-		return (1);
-	i = ft_strlen(args[1]) + ft_strlen(args[2]);
-	if (msh_getenv(args[1]))
-	{
-		if(!(str = ft_memalloc(sizof(char) * (i + 2))))
+		if(!(str = ft_memalloc(sizeof(char) * (len + 2))))
 			return (2);
 		ft_strcat(ft_strcat(ft_strcat(str, args[1]), "="), args[2]);
-		while (!ft_strncmp(*env, args[1], ft_strlen(args[1])))
-			env++;
-		free(*env);
-		*env = str;
+		free(*out);
+		*out = str;
 	}
-	else
-		env = msh_addenv(env, args[1], args[2], i);
+	else if(!(conf->env = msh_addenv(conf->env, args[1], args[2])))
+			return (2);
 	return (0);
 }
 
 int		msh_unsetenv(int ac, char **args, t_config *conf)
 {
-	char	*targets[ac];
 	char	**cp;
-	char	**new;
-	
-	if (ac < 2)
-		return (1);
-	cp = targets;
-	while (*args)
-		if ((*cp = msh_getenv(*args++)))
-			cp++;
-	*targets = NULL;
-	ac = arsize(conf->env) - arsize(targets);
-	cp = conf->env;
-	if (!(new = ft_memalloc(conf->env, sizeof(char*) * (size_t)ac)))
-		return (2);
-	while (*cp)
+	char	**out;
+	char	**env;
+	char	*targets[ac];
+
+	if (ac == 1)
+		return (MSH_ARGS_FEW);
+	cp = args;
+	env = conf->env;
+	while (*(++cp))
+		if (msh_inarray(*cp, env))
+			*out++ = *cp;
+	*out = NULL;
+	if (!(out = ft_memalloc(sizeof(char*) * (msh_array_size(env) -
+										msh_array_size(targets)))))
+		return (9);
+	cp = out;
+	while (*env)
 	{
-		if (!msh_inarray(*cp, targets))
-			*new++ = *cp;
-		cp++;
+		if (!msh_inarray(*env, targets))
+			*cp++ = *env;
+		env++;
 	}
-	free(conf->env);
-	conf->env = new;
+	msh_array_free(targets);
 	return (0);
 }

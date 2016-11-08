@@ -6,14 +6,12 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 17:03:13 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/01 17:42:16 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/08 16:38:14 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-#define CLP_FLUSH 2
-#define CLP_BUFFSIZE 42
 
 static int	clp_ignore(int fd, char *buff, char **out, int *i)
 {
@@ -118,22 +116,4 @@ int		msh_cmd_parser(int fd, char **line)
 	}
 	ret = clp_getline(fd, buff, line);
 	return (ret);
-}
-
-int	main()
-{
-	char	**line;
-	int		ret;
-
-	*line = NULL;
-	ret = msh_cmd_parser(0, line);
-	if (ret == 2)
-	{
-		ft_putendl_fd(*line, 0);
-	}
-	else if (ret == 1)
-	{
-		printf(">%s\n", *line);
-	}
-	return (0);
 }

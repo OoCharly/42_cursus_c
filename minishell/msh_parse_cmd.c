@@ -6,11 +6,20 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 12:43:35 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/01 18:00:58 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/08 16:13:22 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	clean_args(char **args)
+{
+	while (*args)
+	{
+		msh_strstrip(*args);
+		args++;
+	}
+}
 
 t_list	**msh_parse(char *cmd)
 {
@@ -20,10 +29,11 @@ t_list	**msh_parse(char *cmd)
 
 	if (!(lcmd = ft_memalloc(sizeof(t_list*))))
 		exit(2);
-	scargs = ft_strsplit(cmd, ';');
+	scargs = msh_strsplit(cmd, ';');
 	while (*scargs)
 	{
-		args = ft_strsplitspace(*scargs);
+		args = msh_strspacesplit(*scargs);
+		clean_args(args);
 		ft_lstadd_end(lcmd, ft_lstcreate(args, sizeof(args)));
 		scargs++;
 	}
