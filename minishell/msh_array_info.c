@@ -1,36 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_launch.c                                       :+:      :+:    :+:   */
+/*   msh_array_info.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/21 12:43:34 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/09 15:54:14 by cdesvern         ###   ########.fr       */
+/*   Created: 2016/11/09 12:02:20 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/11/09 12:03:11 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	msh_launch(char **args, char **env)
+char	**msh_inarray(char *name, char **array)
 {
-	extern char	**environ;
-	pid_t	pid;
-	int		status;
-
-	if (check_builtins(args))
+	if (!name || !array)
+		return (NULL);
+	while (*array)
 	{
-		pid = fork();
-		if (pid == -1)
-			exit(1);
-		//status = msh_puterror("minishell", ERR_FORKFAIL);
-		else if (!pid)
-		{
-			if (execve(args[0], args, environ) == -1)
-				exit(EXIT_FAILURE);
-		}
-		else
-			waitpid(pid, &status, 0);
-		return (1);
+		if (ft_strcmp(*array, name) == 61)
+			return (array);
+		++array;
 	}
+	return (NULL);
+}
+
+int		msh_array_size(char **array)
+{
+	int	out;
+
+	out = 0;
+	while (*array)
+	{
+		out++;
+		array++;
+	}
+	return (out);
+}
+
+int		msh_print_array(char **array)
+{
+	while (*array)
+		ft_putendl(*array++);
+	return (0);
 }

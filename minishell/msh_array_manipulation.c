@@ -6,37 +6,11 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 16:42:56 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/08 18:23:52 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/09 15:50:32 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**msh_inarray(char *name, char **array)
-{
-	if (!name || !array)
-		return (NULL);
-	while (*array)
-	{
-		if (ft_strcmp(*array, name) == 61)
-			return (array);
-		++array;
-	}
-	return (NULL);
-}
-
-int		msh_array_size(char **array)
-{
-	int	out;
-
-	out = 0;
-	while (*array)
-	{
-		out++;
-		array++;
-	}
-	return (out);
-}
 
 void	msh_array_free(char **array)
 {
@@ -63,13 +37,20 @@ char	**msh_array_add_elem(char **array, char *elem)
 	len = ft_strlen(elem);
 	if (!(*cp = ft_memalloc(sizeof(char) * len)))
 		return (NULL);
-	free(array - size);
+	free(array - size + 1);
 	return (out);
 }
 
-int		msh_print_array(char **array)
+char	**msh_arraydup(char **array)
 {
+	char	**out;
+	int		size;
+
+	size = msh_array_size(array);
+	if (!(out = ft_memalloc(sizeof(char*) * size)))
+		return (NULL);
 	while (*array)
-		ft_putendl(*array++);
-	return (0);
+		*out++ = ft_strdup(*array++);
+	*out = NULL;
+	return (out - size + 1);
 }
