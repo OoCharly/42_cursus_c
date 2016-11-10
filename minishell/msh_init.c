@@ -6,40 +6,58 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 17:07:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/27 15:06:52 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/10 16:43:00 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**func(void)
+int		msh_exec_access(char *dir, char *file)
 {
-	char	*func_name[6];
-
-	func_name = {"cd", "echo", "setenv", "unsetenv", "env", "exit"};
-	return (func_name);
+	if (access(dir, F_OK))
+		return (MSH_NOFILE);
+	if (access(dir, X_OK|R_OK))
 }
 
-char	**pfunc(void)
-{
-	t_bin	pfunc[6];
-
-	pfunc = {&msh_cd, &msh_echo, &msh_setenv, &msh_unsetenv, &msh_env,
-			&msh_exit};
-	return (pfunc);
-}
-
-t_bin	*get_builtin(char *name, t_config *config)
+int		msh_search_exec(char **name, char **path)
 {
 	char	**cp;
-	int		i;
+	char	*tmp;
+	int		err;
 
+	cp = path;
+	err = MSH_NOFILE;
+	while (*cp)
+	{
+		if (!(tmp = ft_strnew(ft_strlen(*name) + ft_strlen(*cp) + 2)))
+			return (MSH_ERR_MEM);
+		ft_strcat(ft_strcat(ft_strcat(tmp, *cp),
+					(*cp[ft_strlen(*cp) - 1] == '/') ? "" : "/"), *name);
+		if (!(err = msh_exec_access(*cp, tmp)))
+				break ;
+		free (tmp);
+		cp++;
+	}
+	free (*name);
+	msh_array_free(path);
+	*name = (err) ? NULL : tmp;
+	return (err);
+}
+
+t_bin	*msh_get_builtin(char *name, t_config *config)
+{
+	int		i;
+	char	*bin[6];
+	t_bin	pbin[6];
+
+	bin = {"cd", "echo", "setenv", "unsetenv", "env", "exit"};
+	pbin = {&msh_cd, &msh_echo, &msh_setenv, &msh_unsetenv, &msh_env,
+			&msh_exit};
 	i = 0;
-	cp = config->pbin;
 	while (i < 6)
 	{
 		if (!(ft_strcmp(name, cp[i])))
-			return ((config->pbin)[i]);
+			return (pbin[i]);
 		i++;
 	}
 	return (NULL);

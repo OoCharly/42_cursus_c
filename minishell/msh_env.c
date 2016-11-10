@@ -6,45 +6,11 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 17:21:11 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/09 18:00:52 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/10 16:43:00 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*          TENTATIVE -S (LONG ET CHIANT)
-**			static int	msh_env_set(char *arg, char **env)
-**			{
-**			char	*elem;
-**
-**			if (*arg == '#')
-**			return (0);
-**			msh_strstrip
-**			if (!(elem = ft_strdup(arg
-*/
-static int	msh_env_del(char **env, char *name)
-{
-	
-}
-static int	msh_env_set(char ***env, char *str, char *sep)
-{
-	char	**pos;
-	char	*var;
-	int		out;
-
-	if (!(var = ft_strndup(str, sep - str + 1)))
-		return (MSH_ERR_MEM);
-	if (!(pos = msh_inarray(var, *env)))
-	{
-		msh_array_free(*env);
-		if (!(*env = msh_array_add_elem(*env, elem)))
-			return (NULL);
-		return (0);
-	}
-	free(*pos);
-	*pos = ft_strdup(str);
-	return (0);
-}
 
 static int	msh_env_opt(char **args, int *i, char ***env)
 {

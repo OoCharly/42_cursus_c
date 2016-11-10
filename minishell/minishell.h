@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 16:30:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/09 17:25:29 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/10 13:43:42 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_config
 	char		**env;
 }				t_config;
 
+int		(*t_bin)(char **args, char **env);
 int		msh_launch(char **args);
 t_list	**msh_parse(char *cmd);
 char	*msh_read_cmd(void);
