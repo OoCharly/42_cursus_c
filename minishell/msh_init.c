@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 17:07:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/10 16:43:00 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/12 16:01:10 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 
 int		msh_exec_access(char *dir, char *file)
 {
-	if (access(dir, F_OK))
+	if (access(dir, F_OK | X_OK))
 		return (MSH_NOFILE);
-	if (access(dir, X_OK|R_OK))
+	if (access(dir, R_OK))
+		return (MSH_NOPERM);
+	if (accesss(file, R_OK | X_OK))
+		return (MSH_NOPERM);
+	return (0);
 }
 
-int		msh_search_exec(char **name, char **path)
+int		msh_search_exec(char **name, char *path)
 {
 	char	**cp;
 	char	*tmp;
 	int		err;
 
-	cp = path;
+	if (!(cp = msh_strsplit(path, ':')))
+		return (MSH_ERR_MEM);
 	err = MSH_NOFILE;
 	while (*cp)
 	{

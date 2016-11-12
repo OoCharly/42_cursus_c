@@ -6,13 +6,15 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 12:43:34 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/10 13:44:23 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/12 16:39:06 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	msh_launch(char **args, char **env)
+int	msh_find_exec
+
+int	msh_launch(char *path, char **args, char **env)
 {
 	pid_t	pid;
 	int		status;
