@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/09 12:24:36 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/09 17:28:20 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/14 13:40:11 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		msh_setenv(int ac, char **args, t_config *conf)
 	char	*cp;
 	char	**out;
 
-	if (ac < 2 || ac > 3)
+	if (ac != 3)
 		return ((ac == 1) ? msh_env(conf->env) : MSH_ARGS_MANY);
 	if (!*(cp = args[1]))
 		return (4);

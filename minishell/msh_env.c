@@ -6,13 +6,13 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 17:21:11 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/10 16:43:00 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/14 13:25:05 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	msh_env_opt(char **args, int *i, char ***env)
+static int	msh_env_opt(char **args, int *i, t_config *conf)
 {
 	char	*cp;
 	int		out;
@@ -23,7 +23,7 @@ static int	msh_env_opt(char **args, int *i, char ***env)
 	{
 		if (*cp == 'u')
 		{
-			out = msh_env_del(env, args[*(i + 1)]);
+			out = msh_unsetenv(2, args[*(i + 1)], conf);
 			*i++;
 		}
 		else if (*cp == 'i')
@@ -43,26 +43,28 @@ static int	msh_env_opt(char **args, int *i, char ***env)
 
 int		msh_env(int	ac, char **args, t_config *conf)
 {
-	char	**envex;
-	int		i;
-	char	*sep;
+	t_config	*confex;
+	int			i;
+	char		*sep;
+	int			err;
 
 	i = 1;
-	if (!(envex = msh_arraydup(conf->env)))
+	if (!(confex = ft_memalloc(sizeof(t_config))) && 
+			!(confex->env = msh_arraydup(conf->env)))
 		return (MSH_ERR_MEM);
 	if (ac == 1)
-		return (msh_print_array(envex));	
+		return (msh_print_array(confex->env));	
 	while (*args[i] = '-')
 	{
 		if (!args[i][1])
 		{
-			msh_array_free(envex);
-			envex = ft_memalloc(sizeof(char*));
+			msh_array_free(confex->env);
+			confex->env = ft_memalloc(sizeof(char*));
 		}
 		else
-			msh_env_opt(args, &i, envex);
+			msh_env_opt(args, &i, confex);
 	}
-	while ((sep = ft_strchr(args[i], "=")) && envex)
-		msh_env_set(&envex, args[i], sep);
-	return ((envex) ? msh_launch(args[i], envex) : MSH_ERR_MEM);
+	while ((sep = ft_strchr(args[i], "=")) && confex->env)
+		msh_setenv(2, args[i++], confex);
+	return ((envex) ? msh_exec(args[i], envex) : MSH_ERR_MEM);
 }

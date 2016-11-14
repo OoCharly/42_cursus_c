@@ -6,13 +6,23 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 11:36:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/10 16:43:00 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/14 18:16:17 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	msh_loop()
+t_config	*msh_config(char **env)
+{
+	t_config	*conf;
+
+	if (!(conf = ft_memalloc(sizeof(t_config))) &&
+			!(conf->env = msh_arraydup(env)))
+		return (NULL);
+	return (conf);
+}
+
+void	msh_loop(t_config *conf)
 {
 	int		status;
 	char	*cmd;
@@ -28,7 +38,7 @@ void	msh_loop()
 		tmp = *lcmd;
 		while (tmp)
 		{
-			status = msh_launch(tmp->content);
+			status = msh_exec(tmp->content, conf);
 			tmp = tmp->next;
 		}
 	}
@@ -37,7 +47,10 @@ void	msh_loop()
 
 int		main(int ac, char **av, char **env)
 {
-	//msh_config();
-	msh_loop();
+	t_config	*conf;
+
+	if (!(conf = msh_config(env)))
+		return (MSH_ERR_MEM);
+	msh_loop(conf);
 	return (EXIT_SUCCESS);
 }

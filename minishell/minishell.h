@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 16:30:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/10 13:43:42 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/14 18:23:48 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,24 @@
 # include "get_next_line.h"
 # include <unistd.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 # include <errno.h>
 # include <stdio.h>
 
+# define MSH_NOFILE		21
+# define MSH_NODIR		22
+# define MSH_NOPERM		23
+# define MSH_PATH_TLONG	24
+
+# define MSH_HOME_NOSET	31
+# define MSH_OPWD_NOSET	32
+
 # define CLP_BUFFSIZE	42
 
 # define MSH_ERR_MEM	9
+# define MSH_UNAVAIL	8
+# define MSH_UNKNOW		7
 
 # define CLP_FLUSH		2
 
@@ -47,5 +58,6 @@ char	**msh_inarray(char *str, char **array);
 int		msh_array_size(char **array);
 char	**msh_array_add_elem(char **array, char *elem);
 void	msh_array_free(char **array);
-
+char	**msh_arraydup(char **array);
+int		msh_exec(char **args, t_config *conf);
 #endif
