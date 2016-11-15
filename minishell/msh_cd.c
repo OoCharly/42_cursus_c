@@ -6,21 +6,31 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 13:56:16 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/14 18:39:08 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/15 18:20:14 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-static char	**msh_prep_cmd(char *exec, char *env, char *val)
+
+static int	msh_upwd(char *old, t_config *conf)
 {
 	char	*cmd[4];
+	int		err;
+	char	*pwd;
 
-	cmd[0] = exec;
-	cmd[1] = env;
-	cmd[2] = val;
+	*cmd = "cd";
+	cmd[1] = "OLDPWD";
+	cmd[2] = old;
 	cmd[3] = NULL;
-	return (cmd);
+	err = msh_setenv(3, cmd, conf);
+	if (err)
+		return (err);
+	cmd[1] = "PWD";
+	cmd[2] = getcwd(NULL, _POSIX_PATH_MAX);
+	return (msh_setenv(3, cmd, conf));
+	free(cmd[2]);
 }
+
 static int	msh_cd_access(char *path)
 {
 	struct stat *st;
@@ -45,7 +55,7 @@ static int	msh_cd_path(char *arg, t_config *conf, char **path)
 	{
 		if (arg[1] == '/' || !arg[1])
 		{
-			if (!(*path = ft_strjoin(ft_strdup(ft_getenv("HOME", conf->env)),
+			if (!(*path = ft_strjoin(ft_getenv("HOME", conf->env),
 					arg + 1)))
 				return (MSH_HOME_NOSET);
 		}
@@ -57,34 +67,31 @@ static int	msh_cd_path(char *arg, t_config *conf, char **path)
 		return (MSH_OPWD_NOSET);
 	else if (arg[0] == '/' && !(*path = ft_strdup(arg)))
 		return (MSH_ERR_MEM);
-	return ((getcwd(*path, _POSIX_PATH_MAX)) ? 0 : MSH_ERR_MEM);
+	if (*path || ((*path = getcwd(NULL, _POSIX_PATH_MAX)) &&
+				(*path = ft_strfjoin(ft_strfjoin(*path, "/", 1), arg, 1))))
+		return (0);
+	else
+		return (MSH_ERR_MEM);
+
 }
 
 int	msh_go(char *path, t_config *conf)
 {
 	int		err;
 	char	*tmp;
-	char	**cmd;
-	
+	char	*cmd;
+
 	err = 0;
 	if (ft_strlen(path) > _POSIX_PATH_MAX)
 		return (MSH_PATH_TLONG);
 	if ((err = msh_cd_access(path)))
 		return (err);
-	if (!getcwd(tmp, _POSIX_PATH_MAX))
+	if (!(tmp = getcwd(NULL, _POSIX_PATH_MAX)))
 		return (MSH_ERR_MEM);
 	if (chdir(path))
 		err = MSH_UNKNOW;
 	if (!err)
-	{
-		cmd = msh_prep_cmd("cd", "OLDPWD", tmp);
-		err = msh_setenv(3, cmd, conf);
-		if (!err)
-		{
-			cmd = msh_prep_cmd("cd", "PWD", path);
-			err = msh_setenv(3, cmd, conf);
-		}
-	}
+		err = msh_upwd(tmp, conf);
 	free(tmp);
 	return (err);
 }
@@ -95,6 +102,7 @@ int	msh_cd(int	ac, char **args, t_config *conf)
 	int		err;
 
 	err = MSH_ARGS_MANY;
+	path = NULL;
 	if (ac == 1 && !(err = msh_cd_path("~", conf, &path)))
 		err = msh_go(path, conf);
 	else if (ac == 2 && !(err = msh_cd_path(args[1], conf, &path)))

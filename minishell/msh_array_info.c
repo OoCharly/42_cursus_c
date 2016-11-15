@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/09 12:02:20 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/09 12:03:11 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/15 17:51:11 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**msh_inarray(char *name, char **array)
 	{
 		if (ft_strcmp(*array, name) == 61)
 			return (array);
-		++array;
+		array++;
 	}
 	return (NULL);
 }

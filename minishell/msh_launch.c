@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 12:43:34 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/14 12:42:32 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/15 16:39:34 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@ int	msh_exec(char **args, t_config *conf)
 	int		err;
 
 	exec = ft_strdup(args[0]);
-	if ((bin = msh_get_builtin(args[0])))
+	ft_putendl("	msh_exec start");
+	ft_putstr("	arg[0] -> ");
+	ft_putendl(exec);
+	ft_putstr("	trying");
+	if (write(1, "\tbuiltin", 8) && (bin = msh_get_builtin(args[0])) && write(1, "\n", 1))
 		err = (*bin)(msh_array_size(args), args, conf);
-	else if ((err = msh_search_exec(&exec, ft_getenv(PATH, conf->env))))
+	else if (write(1, "\texecutable", 11) && (err = msh_search_exec(&exec, ft_getenv("PATH", conf->env))) && write(1, "\n", 1))
 		return (msh_error(err));
 	else
 		err = msh_launch(exec, args, conf->env);
@@ -43,7 +47,7 @@ int	msh_launch(char *exec, char **args, char **env)
 		if (execve(exec, args, env) == -1)
 		{
 			exit(EXIT_FAILURE);
-			msh_shell_free(exec, args, env);
+			//msh_shell_free(exec, args, env);
 		}
 	}
 	else

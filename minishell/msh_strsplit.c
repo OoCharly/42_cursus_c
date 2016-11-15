@@ -6,11 +6,11 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/09 12:00:20 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/10 13:39:31 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/15 17:51:13 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "minishell.h"
 
 static char	*next_word(char *str, char c)
 {
@@ -23,7 +23,7 @@ static char	*next_word(char *str, char c)
 				return (str);
 			else
 				str++;
-		else if (*str == '"' || *str == ''')
+		else if (*str == '"' || *str == '\'')
 		{
 			quote = *str++;
 			while (*str != quote)
@@ -37,7 +37,7 @@ static char	*next_word(char *str, char c)
 		else
 			str++;
 	}
-	return ((*str) ? str + 1 : str);
+	return (str);
 }
 
 static int	get_size(char *str, char c)
@@ -78,6 +78,7 @@ char		**msh_strsplit(char *str, char c)
 		if (!(out[i] = ft_strndup(str, cp - str)))
 			return (NULL);
 		i++;
+		str = cp;
 	}
 	out[i] = NULL;
 	return (out);
@@ -93,7 +94,7 @@ void		msh_strstrip(char *str)
 	{
 		if (*str == '\\')
 			ft_memmove(str, str + 1, ft_strlen(str + 1));
-		else if (*str == ''' || *str == '"')
+		else if (*str == '\'' || *str == '"')
 		{
 			quote = *str++;
 			while (*str != quote)

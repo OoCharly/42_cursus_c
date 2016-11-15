@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 11:36:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/14 18:16:17 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/15 16:36:57 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ t_config	*msh_config(char **env)
 {
 	t_config	*conf;
 
-	if (!(conf = ft_memalloc(sizeof(t_config))) &&
-			!(conf->env = msh_arraydup(env)))
-		return (NULL);
-	return (conf);
+	if ((conf = ft_memalloc(sizeof(t_config))) &&
+			(conf->env = msh_arraydup(env)))
+		return (conf);
+	return (NULL);
 }
 
 void	msh_loop(t_config *conf)
@@ -30,7 +30,7 @@ void	msh_loop(t_config *conf)
 	t_list	*tmp;
 
 	status = 1;
-	while (status)
+	while (1)
 	{
 		ft_putstr("$>");
 		cmd = msh_read_cmd();
@@ -38,6 +38,7 @@ void	msh_loop(t_config *conf)
 		tmp = *lcmd;
 		while (tmp)
 		{
+			ft_putendl("exec start");
 			status = msh_exec(tmp->content, conf);
 			tmp = tmp->next;
 		}

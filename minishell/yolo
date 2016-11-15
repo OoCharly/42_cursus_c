@@ -1,0 +1,544 @@
+/*                                                        :::      ::::::::   */
+/*   msh_parse_cmd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/21 12:43:35 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/11/08 16:13:22 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	clean_args(char **args)
+{
+	while (*args)
+	{
+		msh_strstrip(*args);
+		args++;
+	}
+}
+
+t_list	**msh_parse(char *cmd)
+{
+	char	**scargs;
+	char	**args;
+	t_list	**lcmd;
+
+	if (!(lcmd = ft_memalloc(sizeof(t_list*))))
+		exit(2);
+	scargs = msh_strsplit(cmd, ';');
+	while (*scargs)
+	{
+		args = msh_strspacesplit(*scargs);
+		clean_args(args);
+		ft_lstadd_end(lcmd, ft_lstcreate(args, sizeof(args)));
+		scargs++;
+	}
+	return (lcmd);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_read_cmd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/21 12:43:36 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/11/15 13:45:52 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+char	*msh_read_cmd(void)
+{
+	char	**line;
+
+	*line = NULL;
+	if (msh_cmd_parser(0, line) >= 0)
+		return (*line);
+	else
+		return (NULL);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_setenv.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/09 12:24:36 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/11/15 13:49:24 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int		msh_setenv(int ac, char **args, t_config *conf)
+{
+	int		len;
+	char	*str;
+	char	*cp;
+	char	**out;
+
+	if (ac != 3)
+		return ((ac == 1) ? msh_print_array(conf->env) : MSH_ARGS_MANY);
+	if (!*(cp = args[1]))
+		return (4);
+	while (*cp)
+		if (!ft_isalnum(*cp) && *cp != '_')
+			return (MSH_ENV_NALNUM);
+	len = ft_strlen(args[1]) + ft_strlen(args[2]);
+	if ((out = msh_inarray(args[1], conf->env)))
+	{
+		if(!(str = ft_memalloc(sizeof(char) * (len + 2))))
+			return (MSH_ERR_MEM);
+		ft_strcat(ft_strcat(ft_strcat(str, args[1]), "="), args[2]);
+		free(*out);
+		*out = str;
+	}
+	else if(!(conf->env = msh_addenv(conf->env, args[1], args[2])))
+--
+	out = 0;
+	while (*str)
+	{
+		while (*str == c)
+			str++;
+		if (!*str)
+			return out;
+		out++;
+		str = next_word(str, c);
+	}
+	return (out);
+}
+
+char		**msh_strsplit(char *str, char c)
+{
+	int		nwords;
+	int		i;
+	char	**out;
+	char	*cp;
+
+	nwords = get_size(str, c);
+	if (!(out = ft_memalloc(sizeof(char*) * (nwords + 1))))
+		return (NULL);
+	i = 0;
+	while (i < nwords)
+	{
+		while (*str == c)
+			str++;
+		if (!*str)
+			break ;
+		cp = next_word(str, c);
+		if (!(out[i] = ft_strndup(str, cp - str)))
+			return (NULL);
+		i++;
+	}
+	out[i] = NULL;
+	return (out);
+}
+
+void		msh_strstrip(char *str)
+{
+	int		len;
+	char	quote;
+
+	len = ft_strlen(str);
+	while (*str)
+	{
+		if (*str == '\\')
+			ft_memmove(str, str + 1, ft_strlen(str + 1));
+		else if (*str == ''' || *str == '"')
+		{
+			quote = *str++;
+			while (*str != quote)
+			{
+				if (*str == '\\')
+					ft_memmove(str, str + 1, ft_strlen(str + 1));
+				str++;
+			}
+		}
+		str++;
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   util.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/25 14:13:08 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/10/27 17:28:28 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int		msh_asize(char **array)
+{
+	int	out;
+
+	out = 0;
+	while (*array++)
+		out++;
+	return (out);
+}
+
+void	msh_env(int ac, char **args, t_config *config)
+{
+	int	opts;
+
+	if (ac == 1)
+	{
+		while (*env)
+			ft_putendl(*env++);
+		return ;
+	}
+
+
+}
+
+char	**msh_addenv(char **env, char *name, char *val, int	ssize)
+--
+{
+	int		size;
+	char	**cp;
+	char	**out;
+
+	cp = env;
+	size = 0;
+	while (*cp++)
+		size++;
+	if (!(out = ft_memalloc(sizeof(char*) * (size + 2))))
+		return (NULL);
+	cp = env;
+	size = 0;
+	while (*cp)
+		out[size++] = *cp++;
+	if (!(out[size] = ft_memalloc(sizeof(char) * (ssize + 2))))
+		return (NULL);
+	t_strcat(ft_strcat(ft_strcat(out[size], name), "="), val);
+	return (out);
+}
+
+char	*msh_inarray(const char *name, const char **env)
+{
+	const char			*np;
+	const char			*cp;
+	int					len;
+
+	if (!(np = name) || !env)
+		return (NULL);
+	while (*np && *np != '=')
+		np++;
+	len = (int)(np - name) + 1;
+	while ((cp = *env) != NULL)
+	{
+		np = name;
+		if (ft_strncmp(cp, np, len) == 61)
+			return (cp + len);
+		else
+			env++;
+	}
+	return (NULL);
+}
+
+int		msh_setenv(int ac, char **args, t_config *conf)
+{
+	int		i;
+	char	*str;
+
+	if (ac == 1)
+	{
+		msh_env(env);
+		return (0);
+	}
+	if (ac > 3)
+		return (1);
+	i = ft_strlen(args[1]) + ft_strlen(args[2]);
+	if (msh_getenv(args[1]))
+	{
+		if(!(str = ft_memalloc(sizof(char) * (i + 2))))
+			return (2);
+		ft_strcat(ft_strcat(ft_strcat(str, args[1]), "="), args[2]);
+		while (!ft_strncmp(*env, args[1], ft_strlen(args[1])))
+			env++;
+		free(*env);
+		*env = str;
+	}
+	else
+		env = msh_addenv(env, args[1], args[2], i);
+/*                                                        :::      ::::::::   */
+/*   msh_parse_cmd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/21 12:43:35 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/11/08 16:13:22 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	clean_args(char **args)
+{
+	while (*args)
+	{
+		msh_strstrip(*args);
+		args++;
+	}
+}
+
+t_list	**msh_parse(char *cmd)
+{
+	char	**scargs;
+	char	**args;
+	t_list	**lcmd;
+
+	if (!(lcmd = ft_memalloc(sizeof(t_list*))))
+		exit(2);
+	scargs = msh_strsplit(cmd, ';');
+	while (*scargs)
+	{
+		args = msh_strspacesplit(*scargs);
+		clean_args(args);
+		ft_lstadd_end(lcmd, ft_lstcreate(args, sizeof(args)));
+		scargs++;
+	}
+	return (lcmd);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_read_cmd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/21 12:43:36 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/11/15 13:45:52 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+char	*msh_read_cmd(void)
+{
+	char	**line;
+
+	*line = NULL;
+	if (msh_cmd_parser(0, line) >= 0)
+		return (*line);
+	else
+		return (NULL);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_setenv.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/09 12:24:36 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/11/15 13:49:24 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int		msh_setenv(int ac, char **args, t_config *conf)
+{
+	int		len;
+	char	*str;
+	char	*cp;
+	char	**out;
+
+	if (ac != 3)
+		return ((ac == 1) ? msh_print_array(conf->env) : MSH_ARGS_MANY);
+	if (!*(cp = args[1]))
+		return (4);
+	while (*cp)
+		if (!ft_isalnum(*cp) && *cp != '_')
+			return (MSH_ENV_NALNUM);
+	len = ft_strlen(args[1]) + ft_strlen(args[2]);
+	if ((out = msh_inarray(args[1], conf->env)))
+	{
+		if(!(str = ft_memalloc(sizeof(char) * (len + 2))))
+			return (MSH_ERR_MEM);
+		ft_strcat(ft_strcat(ft_strcat(str, args[1]), "="), args[2]);
+		free(*out);
+		*out = str;
+	}
+	else if(!(conf->env = msh_addenv(conf->env, args[1], args[2])))
+--
+	out = 0;
+	while (*str)
+	{
+		while (*str == c)
+			str++;
+		if (!*str)
+			return out;
+		out++;
+		str = next_word(str, c);
+	}
+	return (out);
+}
+
+char		**msh_strsplit(char *str, char c)
+{
+	int		nwords;
+	int		i;
+	char	**out;
+	char	*cp;
+
+	nwords = get_size(str, c);
+	if (!(out = ft_memalloc(sizeof(char*) * (nwords + 1))))
+		return (NULL);
+	i = 0;
+	while (i < nwords)
+	{
+		while (*str == c)
+			str++;
+		if (!*str)
+			break ;
+		cp = next_word(str, c);
+		if (!(out[i] = ft_strndup(str, cp - str)))
+			return (NULL);
+		i++;
+	}
+	out[i] = NULL;
+	return (out);
+}
+
+void		msh_strstrip(char *str)
+{
+	int		len;
+	char	quote;
+
+	len = ft_strlen(str);
+	while (*str)
+	{
+		if (*str == '\\')
+			ft_memmove(str, str + 1, ft_strlen(str + 1));
+		else if (*str == ''' || *str == '"')
+		{
+			quote = *str++;
+			while (*str != quote)
+			{
+				if (*str == '\\')
+					ft_memmove(str, str + 1, ft_strlen(str + 1));
+				str++;
+			}
+		}
+		str++;
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   util.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/25 14:13:08 by cdesvern          #+#    #+#             */
+/*   Updated: 2016/10/27 17:28:28 by cdesvern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int		msh_asize(char **array)
+{
+	int	out;
+
+	out = 0;
+	while (*array++)
+		out++;
+	return (out);
+}
+
+void	msh_env(int ac, char **args, t_config *config)
+{
+	int	opts;
+
+	if (ac == 1)
+	{
+		while (*env)
+			ft_putendl(*env++);
+		return ;
+	}
+
+
+}
+
+char	**msh_addenv(char **env, char *name, char *val, int	ssize)
+--
+{
+	int		size;
+	char	**cp;
+	char	**out;
+
+	cp = env;
+	size = 0;
+	while (*cp++)
+		size++;
+	if (!(out = ft_memalloc(sizeof(char*) * (size + 2))))
+		return (NULL);
+	cp = env;
+	size = 0;
+	while (*cp)
+		out[size++] = *cp++;
+	if (!(out[size] = ft_memalloc(sizeof(char) * (ssize + 2))))
+		return (NULL);
+	t_strcat(ft_strcat(ft_strcat(out[size], name), "="), val);
+	return (out);
+}
+
+char	*msh_inarray(const char *name, const char **env)
+{
+	const char			*np;
+	const char			*cp;
+	int					len;
+
+	if (!(np = name) || !env)
+		return (NULL);
+	while (*np && *np != '=')
+		np++;
+	len = (int)(np - name) + 1;
+	while ((cp = *env) != NULL)
+	{
+		np = name;
+		if (ft_strncmp(cp, np, len) == 61)
+			return (cp + len);
+		else
+			env++;
+	}
+	return (NULL);
+}
+
+int		msh_setenv(int ac, char **args, t_config *conf)
+{
+	int		i;
+	char	*str;
+
+	if (ac == 1)
+	{
+		msh_env(env);
+		return (0);
+	}
+	if (ac > 3)
+		return (1);
+	i = ft_strlen(args[1]) + ft_strlen(args[2]);
+	if (msh_getenv(args[1]))
+	{
+		if(!(str = ft_memalloc(sizof(char) * (i + 2))))
+			return (2);
+		ft_strcat(ft_strcat(ft_strcat(str, args[1]), "="), args[2]);
+		while (!ft_strncmp(*env, args[1], ft_strlen(args[1])))
+			env++;
+		free(*env);
+		*env = str;
+	}
+	else
+		env = msh_addenv(env, args[1], args[2], i);

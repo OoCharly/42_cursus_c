@@ -6,18 +6,18 @@
 /*   By: cdesvern <cdesvern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/29 12:57:17 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/26 15:11:13 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/15 13:38:35 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-const char	*ft_getenv(const char *name, const char	**env)
+char	*ft_getenv(const char *name, char **env)
 {
-	const char			*np;
-	const char			**p;
-	const char			*cp;
-	int					len;
+	const char		*np;
+	char			**p;
+	char			*cp;
+	int				len;
 
 	if (!(np = name) || !env)
 		return (NULL);

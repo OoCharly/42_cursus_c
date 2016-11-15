@@ -6,28 +6,16 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 12:44:00 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/10/26 13:04:24 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/15 16:40:57 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	msh_error(char *path)
+int	msh_error(int err)
 {
-	char	*exe;
-
-	exe = path + (ft_strrchr(path, '/') - path);
-	if (acces(path, F_OK))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(exe, 2);
-		ft_putendl(": command not found");
-	}
-	else if(access(path, x_OK))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putendl(": Permission denied");
-	}
-	return ;
+	ft_putstr("error -> ");
+	ft_putnbr(err);
+	ft_putendl("");
+	return (err);
 }

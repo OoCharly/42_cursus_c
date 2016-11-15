@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 12:43:35 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/08 16:13:22 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/15 16:01:17 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ t_list	**msh_parse(char *cmd)
 	{
 		args = msh_strspacesplit(*scargs);
 		clean_args(args);
-		ft_lstadd_end(lcmd, ft_lstcreate(args, sizeof(args)));
+		if (!*args)
+			*lcmd = NULL;
+		else
+			ft_lstadd_end(lcmd, ft_lstcreate(args, sizeof(args)));
 		scargs++;
 	}
 	return (lcmd);
