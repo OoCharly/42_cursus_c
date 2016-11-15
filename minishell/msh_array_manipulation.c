@@ -16,6 +16,8 @@ void	msh_array_free(char **array)
 {
 	char	**cp;
 
+	if (!array)
+		return ;
 	cp = array;
 	while (*cp)
 		free(*cp++);
