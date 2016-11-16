@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 11:36:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/15 16:36:57 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/16 14:14:47 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	msh_loop(t_config *conf)
 		tmp = *lcmd;
 		while (tmp)
 		{
-			ft_putendl("exec start");
 			status = msh_exec(tmp->content, conf);
 			tmp = tmp->next;
 		}

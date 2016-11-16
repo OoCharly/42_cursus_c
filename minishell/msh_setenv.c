@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/09 12:24:36 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/15 17:50:39 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/16 18:27:41 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**msh_addenv(char **env, char *name, char *val)
 	if (!(out[i] = ft_memalloc(sizeof(char) * (size + 2))))
 		return (NULL);
 	ft_strcat(ft_strcat(ft_strcat(out[i], name), "="), val);
-	msh_array_free(env);
+	free(env);
 	return (out);
 }
 
@@ -72,49 +72,5 @@ int		msh_setenv(int ac, char **args, t_config *conf)
 	}
 	else if(!(conf->env = msh_addenv(conf->env, args[1], args[2])))
 			return (MSH_ERR_MEM);
-	return (0);
-}
-
-static int		msh_todel(char **args, char **env)
-{
-	int		del;
-	char	**tmp;
-
-	del = 0;
-	while (*(++args))
-		if ((tmp = msh_inarray(*args, env)))
-		{
-			free(*tmp);
-			*tmp = NULL;
-			del++;
-		}
-	return (del);
-}
-
-int		msh_unsetenv(int ac, char **args, t_config *conf)
-{
-	int		i;
-	int		del;
-	char	**tmp;
-	char	**out;
-	
-	if (ac < 2)
-		return (MSH_ARGS_FEW);
-	tmp = conf->env;
-	if (!((i = msh_array_size(tmp)) && (del = msh_todel(args, conf->env)) &&
-				((out = ft_memalloc(sizeof(char*) * (i - del + 1))))))
-		return ((del) ? MSH_ERR_MEM : 0);
-	i = 0;
-	del++;
-	while (del)
-	{
-		if (*tmp)
-			out[i++] = *tmp;
-		else
-			del--;
-		tmp++;
-	}
-	free(conf->env);
-	conf->env = out;
 	return (0);
 }

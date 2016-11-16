@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 17:07:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/15 17:16:15 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/16 15:18:20 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ int		msh_search_exec(char **name, char *path)
 	char	*tmp;
 	int		err;
 
+	err = MSH_CMD_NFOUND;
+	if (!path)
+		return (err);
 	if (!(cp = msh_strsplit(path, ':')))
 		return (MSH_ERR_MEM);
-	err = MSH_NOFILE;
-	ft_putendl("\nPATH----------------------------------");
-	msh_print_array(cp);
-	ft_putendl("--------------------------------------");
 	while (*cp)
 	{
 		if (!(tmp = ft_strnew(ft_strlen(*name) + ft_strlen(*cp) + 2)))

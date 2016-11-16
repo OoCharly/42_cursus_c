@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 12:43:34 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/15 16:39:34 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/16 15:17:52 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,17 @@ int	msh_exec(char **args, t_config *conf)
 	int		err;
 
 	exec = ft_strdup(args[0]);
-	ft_putendl("	msh_exec start");
-	ft_putstr("	arg[0] -> ");
-	ft_putendl(exec);
-	ft_putstr("	trying");
-	if (write(1, "\tbuiltin", 8) && (bin = msh_get_builtin(args[0])) && write(1, "\n", 1))
+	if (**args == '/')
+	{
+		if ((err = msh_exec_access(".", args[0])))
+			return msh_error(NULL, args[0], err);
+		return (err = msh_launch(args[0], args, conf->env));
+	}
+	if ((bin = msh_get_builtin(args[0])))
 		err = (*bin)(msh_array_size(args), args, conf);
-	else if (write(1, "\texecutable", 11) && (err = msh_search_exec(&exec, ft_getenv("PATH", conf->env))) && write(1, "\n", 1))
-		return (msh_error(err));
+	else if ((err = msh_search_exec(&exec, ft_getenv("PATH", conf->env))))
+		return (msh_error(NULL, args[0], (err == MSH_NOFILE) ? MSH_CMD_NFOUND :
+					err));
 	else
 		err = msh_launch(exec, args, conf->env);
 	return (err);
