@@ -96,7 +96,6 @@ void		msh_strstrip(char *str)
 		{
 			quote = *str;
 			ft_memmove(str, str + 1, ft_strlen(str + 1) + 1);
-			ft_putendl(str);
 			while (*str != quote)
 			{
 				if (*str == '\\')

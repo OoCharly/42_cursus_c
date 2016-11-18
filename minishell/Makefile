@@ -24,7 +24,7 @@ all: $(NAME)
 
 $(NAME):
 	@make -C $(D_LIB)
-	@clang $(FLAGS) -I $(D_INCLUDES) -L $(D_LIB) -lft -o $(NAME) $(SRCS)
+	@clang $(FLAGS) -I $(D_INCLUDES) -L $(D_LIB) -o $(NAME) $(SRCS) -lft
 
 clean:
 	@make clean -C $(D_LIB)

@@ -31,6 +31,7 @@ int		msh_cd_access(char *path)
 			if (!S_ISDIR(st->st_mode))
 				err = MSH_NODIR;
 		}
+		err = MSH_NODIR;
 	}
 	free(st);
 	if (!err && access(path, X_OK))
