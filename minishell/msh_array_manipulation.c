@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 16:42:56 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/15 17:51:01 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 18:04:00 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,26 @@ void	msh_array_free(char **array)
 		return ;
 	cp = array;
 	while (*cp)
-		free(*cp++);
+	{
+		free(*cp);
+		*cp++ = NULL;
+	}
+	free(array);
+}
+
+void	msh_lstarray_free(void *array, size_t n)
+{
+	char	**cp;
+
+	n = 0;
+	if (!array)
+		return ;
+	cp = (char**)array;
+	while (*cp)
+	{
+		free(*cp);
+		*cp++ = NULL;
+	}
 	free(array);
 }
 
@@ -34,10 +53,11 @@ char	**msh_array_add_elem(char **array, char *elem)
 	size = msh_array_size(array);
 	if (!(out = ft_memalloc(sizeof(char*) * (size + 2))))
 		return (NULL);
+	cp = out;
 	while (*array)
 		*cp++ = *array++;
 	len = ft_strlen(elem);
-	if (!(*cp = ft_memalloc(sizeof(char) * len)))
+	if (!(*cp = ft_strdup(elem)))
 		return (NULL);
 	free(array - size + 1);
 	return (out);

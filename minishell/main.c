@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 11:36:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/16 14:14:47 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 17:54:59 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_config	*msh_config(char **env)
 	return (NULL);
 }
 
-void	msh_loop(t_config *conf)
+void		msh_loop(t_config *conf)
 {
 	int		status;
 	char	*cmd;
@@ -41,16 +41,19 @@ void	msh_loop(t_config *conf)
 			status = msh_exec(tmp->content, conf);
 			tmp = tmp->next;
 		}
+		ft_lstdel(lcmd, &msh_lstarray_free);
 	}
-
 }
 
-int		main(int ac, char **av, char **env)
+int			main(int ac, char **av, char **env)
 {
 	t_config	*conf;
 
-	if (!(conf = msh_config(env)))
-		return (MSH_ERR_MEM);
-	msh_loop(conf);
-	return (EXIT_SUCCESS);
+	if (ac && av)
+	{
+		if (!(conf = msh_config(env)))
+			return (MSH_ERR_MEM);
+		msh_loop(conf);
+		return (EXIT_SUCCESS);
+	}
 }

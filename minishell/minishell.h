@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 16:30:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/16 18:30:34 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 17:44:39 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 
 # include <errno.h>
 # include <stdio.h>
-
-# define ENVF_i			1
-# define ENVF_u			2
 
 # define CLP_BUFFSIZE	42
 # define CLP_FLUSH		2
@@ -77,30 +74,31 @@ typedef struct	s_config
 
 typedef int		(*t_bin)(int, char**, t_config*);
 
-int		msh_launch(char *exec, char **args, char **env);
-t_list	**msh_parse(char *cmd);
-int		msh_cmd_parser(int fd, char **line);
-char	*msh_read_cmd(void);
-void	msh_strstrip(char *str);
-char	**msh_strsplit(char *str, char c);
-char	**msh_strspacesplit(char *str);
-char	**msh_inarray(char *str, char **array);
-int		msh_array_size(char **array);
-char	**msh_array_add_elem(char **array, char *elem);
-void	msh_array_free(char **array);
-char	**msh_arraydup(char **array);
-int		msh_exec(char **args, t_config *conf);
-int		msh_unsetenv(int ac, char **args, t_config *conf);
-int		msh_setenv(int ac, char **args, t_config *conf);
-int		msh_print_array(char **array);
-int		msh_env(int	ac, char **args, t_config *conf);
-int	msh_exit(int ac, char **args, t_config *conf);
-int	msh_cd(int	ac, char **args, t_config *conf);
-int	msh_echo(int ac, char **args, t_config *conf);
-t_bin	msh_get_builtin(char *name);
-int		msh_search_exec(char **name, char *path);
-int		msh_error(char *exec, char *name, int err);
-int		msh_exec_access(char *dir, char *file);
-int		msh_export(int ac, char **args, t_config *conf);
+int				msh_launch(char *exec, char **args, char **env);
+t_list			**msh_parse(char *cmd);
+int				msh_cmd_parser(int fd, char **line);
+char			*msh_read_cmd(void);
+void			msh_strstrip(char *str);
+char			**msh_strsplit(char *str, char c);
+char			**msh_strspacesplit(char *str);
+char			**msh_inarray(char *str, char **array);
+int				msh_array_size(char **array);
+char			**msh_array_add_elem(char **array, char *elem);
+void			msh_array_free(char **array);
+char			**msh_arraydup(char **array);
+int				msh_exec(char **args, t_config *conf);
+int				msh_unsetenv(int ac, char **args, t_config *conf);
+int				msh_setenv(int ac, char **args, t_config *conf);
+int				msh_print_array(char **array);
+int				msh_env(int	ac, char **args, t_config *conf);
+int				msh_exit(int ac, char **args, t_config *conf);
+int				msh_cd(int	ac, char **args, t_config *conf);
+int				msh_echo(int ac, char **args, t_config *conf);
+t_bin			msh_get_builtin(char *name);
+int				msh_search_exec(char **name, char *path);
+int				msh_error(char *exec, char *name, int err);
+int				msh_exec_access(char *dir, char *file);
+int				msh_export(int ac, char **args, t_config *conf);
+void			msh_lstarray_free(void *array, size_t n);
 
 #endif

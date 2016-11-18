@@ -6,11 +6,12 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 17:21:11 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/16 18:33:51 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 17:24:58 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 static int	msh_env_usage(char *str, int err)
 {
 	msh_error("env", str, err);
@@ -79,7 +80,7 @@ static int	msh_env_opt(char **args, int *i, t_config *conf)
 	return (0);
 }
 
-int		msh_env(int	ac, char **args, t_config *conf)
+int			msh_env(int ac, char **args, t_config *conf)
 {
 	t_config	*confex;
 	int			i;
@@ -100,7 +101,7 @@ int		msh_env(int	ac, char **args, t_config *conf)
 		if (err)
 			return (err);
 	}
-	while (args[i] && (sep = ft_strchr(args[i], '=')))
+	while (ac && args[i] && (sep = ft_strchr(args[i], '=')))
 		msh_export(2, args + i++ - 1, confex);
 	(args[i]) ? msh_exec(args + i, confex) : msh_print_array(confex->env);
 	msh_array_free(confex->env);

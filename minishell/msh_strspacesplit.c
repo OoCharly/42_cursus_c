@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 16:09:57 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/10 13:39:37 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 16:58:07 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*next_word(char *str)
 {
 	char	quote;
 
-	while(!ft_isspace(*str) && *str)
+	while (!ft_isspace(*str) && *str)
 	{
 		if (*str == '\\')
 			if (!*(++str))
@@ -50,7 +50,7 @@ static int	get_size(char *str)
 		while (ft_isspace(*str))
 			str++;
 		if (!*str)
-			return out;
+			return (out);
 		out++;
 		str = next_word(str);
 	}

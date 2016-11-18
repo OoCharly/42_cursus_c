@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/09 12:00:20 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/15 17:51:13 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 18:24:20 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*next_word(char *str, char c)
 {
 	char	quote;
 
-	while(*str != c && *str)
+	while (*str != c && *str)
 	{
 		if (*str == '\\')
 			if (!*(++str))
@@ -50,7 +50,7 @@ static int	get_size(char *str, char c)
 		while (*str == c)
 			str++;
 		if (!*str)
-			return out;
+			return (out);
 		out++;
 		str = next_word(str, c);
 	}
@@ -86,23 +86,24 @@ char		**msh_strsplit(char *str, char c)
 
 void		msh_strstrip(char *str)
 {
-	int		len;
 	char	quote;
 
-	len = ft_strlen(str);
 	while (*str)
 	{
 		if (*str == '\\')
-			ft_memmove(str, str + 1, ft_strlen(str + 1));
+			ft_memmove(str, str + 1, ft_strlen(str + 1) + 1);
 		else if (*str == '\'' || *str == '"')
 		{
-			quote = *str++;
+			quote = *str;
+			ft_memmove(str, str + 1, ft_strlen(str + 1) + 1);
+			ft_putendl(str);
 			while (*str != quote)
 			{
 				if (*str == '\\')
-					ft_memmove(str, str + 1, ft_strlen(str + 1));
+					ft_memmove(str, str + 1, ft_strlen(str + 1) + 1);
 				str++;
 			}
+			ft_memmove(str, str + 1, ft_strlen(str + 1) + 1);
 		}
 		str++;
 	}

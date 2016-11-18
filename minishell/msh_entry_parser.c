@@ -6,12 +6,11 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 17:03:13 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/15 14:22:08 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 16:48:31 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static int	clp_ignore(int fd, char *buff, char **out, int *i)
 {
@@ -62,7 +61,7 @@ static int	clp_nextquote(int fd, char *buff, char **out, int *i)
 	return (0);
 }
 
-static char	*clp_buildline(int fd, char *buff, char	**out, int i)
+static char	*clp_buildline(char *buff, char **out, int i)
 {
 	buff[i] = 0;
 	*out = ft_strfjoin(*out, buff, 1);
@@ -95,15 +94,14 @@ static int	clp_getline(int fd, char *buff, char **out)
 		}
 		else
 			i++;
-	clp_buildline(fd, buff, out, i);
+	clp_buildline(buff, out, i);
 	return (1);
 }
 
-int		msh_cmd_parser(int fd, char **line)
+int			msh_cmd_parser(int fd, char **line)
 {
 	static char	buff[CLP_BUFFSIZE + 1];
 	int			ret;
-	char		**out;
 
 	if (!line || fd < 0)
 		return (-1);

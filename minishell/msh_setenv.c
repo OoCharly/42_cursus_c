@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/09 12:24:36 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/16 18:27:41 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 16:59:47 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		msh_env_valid(char *arg)
 	}
 	return (0);
 }
+
 char	**msh_addenv(char **env, char *name, char *val)
 {
 	int		size;
@@ -64,13 +65,13 @@ int		msh_setenv(int ac, char **args, t_config *conf)
 	len = ft_strlen(args[1]) + ft_strlen(args[2]);
 	if ((out = msh_inarray(args[1], conf->env)))
 	{
-		if(!(str = ft_memalloc(sizeof(char) * (len + 2))))
+		if (!(str = ft_memalloc(sizeof(char) * (len + 2))))
 			return (MSH_ERR_MEM);
 		ft_strcat(ft_strcat(ft_strcat(str, args[1]), "="), args[2]);
 		free(*out);
 		*out = str;
 	}
-	else if(!(conf->env = msh_addenv(conf->env, args[1], args[2])))
-			return (MSH_ERR_MEM);
+	else if (!(conf->env = msh_addenv(conf->env, args[1], args[2])))
+		return (MSH_ERR_MEM);
 	return (0);
 }
