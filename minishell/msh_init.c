@@ -6,11 +6,37 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 17:07:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/16 15:18:20 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 19:17:45 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		msh_cd_access(char *path)
+{
+	struct stat *st;
+	int			err;
+
+	err = 0;
+	if (access(path, F_OK))
+		return (MSH_NOFILE);
+	if (!(st = ft_memalloc(sizeof(*st))))
+		return (MSH_ERR_MEM);
+	lstat(path, st);
+	if (!S_ISDIR(st->st_mode))
+	{
+		if (S_ISLNK(st->st_mode))
+		{
+			stat(path, st);
+			if (!S_ISDIR(st->st_mode))
+				err = MSH_NODIR;
+		}
+	}
+	free(st);
+	if (!err && access(path, X_OK))
+		return (MSH_NOPERM);
+	return (err);
+}
 
 int		msh_exec_access(char *dir, char *file)
 {

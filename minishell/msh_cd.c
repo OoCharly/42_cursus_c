@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 13:56:16 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/18 18:42:07 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 19:31:30 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,23 @@ static int	msh_upwd(char *old, char*path, t_config *conf)
 	return (msh_setenv(3, cmd, conf));
 }
 
-static int	msh_cd_access(char *path)
+static char	*msh_get_dir(char *arg, t_config *conf)
 {
-	struct stat *st;
-	int			err;
+	char	*tmp;
+	char	*prev;
+	int		i;
 
-	err = 0;
-	if (access(path, F_OK))
-		return (MSH_NOFILE);
-	if (!(st = ft_memalloc(sizeof(*st))))
-		return (MSH_ERR_MEM);
-	lstat(path, st);
-	if (!S_ISDIR(st->st_mode))
+	i = 1;
+	if (!(tmp = ft_strdup(ft_getenv("PWD", conf->env))))
+		tmp = getcwd(tmp, _POSIX_PATH_MAX);
+	if (*(arg + 1) == '.')
 	{
-		if (S_ISLNK(st->st_mode))
-		{
-			stat(path, st);
-			if (!S_ISDIR(st->st_mode))
-				err = MSH_NODIR;
-		}
+		prev = ft_strrchr(tmp, '/');
+		*prev = 0;
+		i++;
 	}
-	free(st);
-	if (!err && access(path, X_OK))
-		return (MSH_NOPERM);
-	return (err);
+	return (ft_strfjoin(ft_strfjoin(tmp, (*(arg + i) == '/') ? "" : "/", 1),
+				arg + i, 1));
 }
 
 static int	msh_cd_path(char *arg, t_config *conf, char **path)
@@ -71,16 +64,18 @@ static int	msh_cd_path(char *arg, t_config *conf, char **path)
 		return (MSH_OPWD_NOSET);
 	else if (arg[0] == '/' && !(*path = ft_strdup(arg)))
 		return (MSH_ERR_MEM);
+	else if ((arg[0] == '.') && !(*path = msh_get_dir(arg, conf)))
+		return (MSH_ERR_MEM);
 	if (*path)
 		return (0);
-	if (*path || ((*path = getcwd(NULL, _POSIX_PATH_MAX)) &&
+	if (((*path = getcwd(NULL, _POSIX_PATH_MAX)) &&
 				(*path = ft_strfjoin(ft_strfjoin(*path, "/", 1), arg, 1))))
 		return (0);
 	else
 		return (MSH_ERR_MEM);
 }
 
-int			msh_go(char *path, t_config *conf)
+static int	msh_go(char *path, t_config *conf)
 {
 	int		err;
 	char	*tmp;

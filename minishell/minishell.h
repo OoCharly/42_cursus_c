@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 16:30:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/18 17:44:39 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/18 19:19:28 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ int				msh_error(char *exec, char *name, int err);
 int				msh_exec_access(char *dir, char *file);
 int				msh_export(int ac, char **args, t_config *conf);
 void			msh_lstarray_free(void *array, size_t n);
+int				msh_cd_access(char *path);
 
 #endif
