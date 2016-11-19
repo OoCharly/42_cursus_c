@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 12:43:34 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/18 16:54:39 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/19 15:47:34 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	msh_exec(char **args, t_config *conf)
 					err));
 	else
 		err = msh_launch(exec, args, conf->env);
+	if (exec)
+		free(exec);
 	return (err);
 }
 

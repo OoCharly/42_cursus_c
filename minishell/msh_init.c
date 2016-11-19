@@ -6,13 +6,19 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 17:07:06 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/18 19:17:45 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/19 15:48:09 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		msh_cd_access(char *path)
+static int	ft_free(char *str)
+{
+	free(str);
+	return (1);
+}
+
+int			msh_cd_access(char *path)
 {
 	struct stat *st;
 	int			err;
@@ -25,13 +31,15 @@ int		msh_cd_access(char *path)
 	lstat(path, st);
 	if (!S_ISDIR(st->st_mode))
 	{
+		err = MSH_NODIR;
 		if (S_ISLNK(st->st_mode))
 		{
 			stat(path, st);
 			if (!S_ISDIR(st->st_mode))
 				err = MSH_NODIR;
+			else
+				err = 0;
 		}
-		err = MSH_NODIR;
 	}
 	free(st);
 	if (!err && access(path, X_OK))
@@ -39,7 +47,7 @@ int		msh_cd_access(char *path)
 	return (err);
 }
 
-int		msh_exec_access(char *dir, char *file)
+int			msh_exec_access(char *dir, char *file)
 {
 	if (access(dir, F_OK | X_OK))
 		return (MSH_NOFILE);
@@ -52,17 +60,18 @@ int		msh_exec_access(char *dir, char *file)
 	return (0);
 }
 
-int		msh_search_exec(char **name, char *path)
+int			msh_search_exec(char **name, char *path)
 {
 	char	**cp;
+	char	**tpath;
 	char	*tmp;
 	int		err;
 
 	err = MSH_CMD_NFOUND;
-	if (!path)
+	if ((!path && ft_free(*name)) || (!(cp = msh_strsplit(path, ':')) &&
+				(err = MSH_ERR_MEM)))
 		return (err);
-	if (!(cp = msh_strsplit(path, ':')))
-		return (MSH_ERR_MEM);
+	tpath = cp;
 	while (*cp)
 	{
 		if (!(tmp = ft_strnew(ft_strlen(*name) + ft_strlen(*cp) + 2)))
@@ -74,12 +83,13 @@ int		msh_search_exec(char **name, char *path)
 		free(tmp);
 		cp++;
 	}
+	msh_array_free(tpath);
 	free(*name);
 	*name = (err) ? NULL : tmp;
 	return (err);
 }
 
-t_bin	msh_get_builtin(char *name)
+t_bin		msh_get_builtin(char *name)
 {
 	int				i;
 	static char		*b[] = {"cd", "echo", "setenv", "unsetenv", "env", "exit"};

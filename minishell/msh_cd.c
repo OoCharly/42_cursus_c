@@ -6,13 +6,13 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 13:56:16 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/18 19:31:30 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/19 14:45:22 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	msh_upwd(char *old, char*path, t_config *conf)
+static int	msh_upwd(char *old, t_config *conf)
 {
 	char	*cmd[4];
 	int		err;
@@ -25,8 +25,10 @@ static int	msh_upwd(char *old, char*path, t_config *conf)
 	if (err)
 		return (err);
 	cmd[1] = "PWD";
-	cmd[2] = path;
-	return (msh_setenv(3, cmd, conf));
+	cmd[2] = getcwd(NULL, _POSIX_PATH_MAX);
+	err = msh_setenv(3, cmd, conf);
+	free(cmd[2]);
+	return (err);
 }
 
 static char	*msh_get_dir(char *arg, t_config *conf)
@@ -56,7 +58,7 @@ static int	msh_cd_path(char *arg, t_config *conf, char **path)
 	{
 		if (!(tmp = ft_strdup(ft_getenv("HOME", conf->env))))
 			return (MSH_HOME_NOSET);
-		if (!(*path = ft_strjoin(ft_getenv("HOME", conf->env), arg + 1)))
+		if (!(*path = ft_strfjoin(tmp, arg + 1, 1)))
 			return (MSH_ERR_MEM);
 	}
 	else if (arg[0] == '-' && !arg[1] &&
@@ -66,9 +68,7 @@ static int	msh_cd_path(char *arg, t_config *conf, char **path)
 		return (MSH_ERR_MEM);
 	else if ((arg[0] == '.') && !(*path = msh_get_dir(arg, conf)))
 		return (MSH_ERR_MEM);
-	if (*path)
-		return (0);
-	if (((*path = getcwd(NULL, _POSIX_PATH_MAX)) &&
+	if (*path || ((*path = getcwd(NULL, _POSIX_PATH_MAX)) &&
 				(*path = ft_strfjoin(ft_strfjoin(*path, "/", 1), arg, 1))))
 		return (0);
 	else
@@ -91,7 +91,7 @@ static int	msh_go(char *path, t_config *conf)
 	if (chdir(path))
 		err = MSH_UNKNOW;
 	if (!err)
-		err = msh_upwd(tmp, path, conf);
+		err = msh_upwd(tmp, conf);
 	free(tmp);
 	return (err);
 }

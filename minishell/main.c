@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 11:36:54 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/18 17:54:59 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/19 15:31:18 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void		msh_loop(t_config *conf)
 	{
 		ft_putstr("$>");
 		cmd = msh_read_cmd();
-		lcmd = msh_parse(cmd);
+		if (!(lcmd = ft_memalloc(sizeof(t_list*))))
+			exit(msh_error(NULL, NULL, MSH_ERR_MEM));
+		lcmd = msh_parse(cmd, conf, lcmd);
 		tmp = *lcmd;
 		while (tmp)
 		{
@@ -42,6 +44,7 @@ void		msh_loop(t_config *conf)
 			tmp = tmp->next;
 		}
 		ft_lstdel(lcmd, &msh_lstarray_free);
+		free(lcmd);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/21 16:30:53 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/18 19:19:28 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/19 15:31:32 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
-
-# include <errno.h>
-# include <stdio.h>
 
 # define CLP_BUFFSIZE	42
 # define CLP_FLUSH		2
@@ -61,7 +58,7 @@
 # define MSG_UNAVAIL	"Option currently unavailable."
 # define MSG_UNKNOW		"Unknown Error."
 
-# define MSG_ARGS_FEW	"Too few argument."
+# define MSG_ARGS_FEW	"Too few arguments."
 # define MSG_ARGS_MANY	"Too many arguments."
 
 # define MSG_ENV_NALNUM	"Variable name must contain alphanumeric characters."
@@ -75,7 +72,7 @@ typedef struct	s_config
 typedef int		(*t_bin)(int, char**, t_config*);
 
 int				msh_launch(char *exec, char **args, char **env);
-t_list			**msh_parse(char *cmd);
+t_list			**msh_parse(char *cmd, t_config *conf, t_list **lcmd);
 int				msh_cmd_parser(int fd, char **line);
 char			*msh_read_cmd(void);
 void			msh_strstrip(char *str);
@@ -101,5 +98,4 @@ int				msh_exec_access(char *dir, char *file);
 int				msh_export(int ac, char **args, t_config *conf);
 void			msh_lstarray_free(void *array, size_t n);
 int				msh_cd_access(char *path);
-
 #endif

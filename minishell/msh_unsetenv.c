@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/16 18:05:19 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/18 16:57:42 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/19 15:24:55 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ int			msh_unsetenv(int ac, char **args, t_config *conf)
 	char	**out;
 
 	if (ac < 2)
-		return (MSH_ARGS_FEW);
+		return (msh_error("unsetenv", NULL, MSH_ARGS_FEW));
 	tmp = conf->env;
 	if (!(i = msh_array_size(tmp)) ||
 			!(ac = msh_todel(args, conf->env)) ||
 			!(out = ft_memalloc(sizeof(char*) * (i - ac + 1))))
-		return ((ac) ? MSH_ERR_MEM : 0);
+		return ((ac) ? msh_error(NULL, NULL, MSH_ERR_MEM) : 0);
 	i = 0;
 	ac++;
 	while (ac)

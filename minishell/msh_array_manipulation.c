@@ -6,7 +6,7 @@
 /*   By: cdesvern <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 16:42:56 by cdesvern          #+#    #+#             */
-/*   Updated: 2016/11/18 18:04:00 by cdesvern         ###   ########.fr       */
+/*   Updated: 2016/11/19 15:21:09 by cdesvern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ char	**msh_array_add_elem(char **array, char *elem)
 	int		len;
 	char	**out;
 	char	**cp;
+	char	**start;
 
+	start = array;
 	size = msh_array_size(array);
 	if (!(out = ft_memalloc(sizeof(char*) * (size + 2))))
 		return (NULL);
@@ -59,7 +61,7 @@ char	**msh_array_add_elem(char **array, char *elem)
 	len = ft_strlen(elem);
 	if (!(*cp = ft_strdup(elem)))
 		return (NULL);
-	free(array - size + 1);
+	free(array);
 	return (out);
 }
 
